@@ -134,6 +134,24 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchWeaponUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""675ca3e0-4cd3-49b5-8fcd-028fc061c65f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SwitchWeaponDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""1fdb0379-3707-44cf-9d33-74599beff538"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -508,6 +526,50 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
                     ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0fe0329b-751c-452d-b19a-504f012f098d"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SwitchWeaponUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2acaebed-f345-4e97-a827-5674e377939b"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""SwitchWeaponUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""613da384-fb8a-41b8-985b-a7469312a635"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""SwitchWeaponDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1bb662a4-670a-44c2-b54f-05eea06dd749"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""SwitchWeaponDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1107,6 +1169,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Melee = m_Player.FindAction("Melee", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
+        m_Player_SwitchWeaponUp = m_Player.FindAction("SwitchWeaponUp", throwIfNotFound: true);
+        m_Player_SwitchWeaponDown = m_Player.FindAction("SwitchWeaponDown", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1198,6 +1262,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Melee;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_Reload;
+    private readonly InputAction m_Player_SwitchWeaponUp;
+    private readonly InputAction m_Player_SwitchWeaponDown;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
@@ -1214,6 +1280,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @Melee => m_Wrapper.m_Player_Melee;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
+        public InputAction @SwitchWeaponUp => m_Wrapper.m_Player_SwitchWeaponUp;
+        public InputAction @SwitchWeaponDown => m_Wrapper.m_Player_SwitchWeaponDown;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1259,6 +1327,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
+            @SwitchWeaponUp.started += instance.OnSwitchWeaponUp;
+            @SwitchWeaponUp.performed += instance.OnSwitchWeaponUp;
+            @SwitchWeaponUp.canceled += instance.OnSwitchWeaponUp;
+            @SwitchWeaponDown.started += instance.OnSwitchWeaponDown;
+            @SwitchWeaponDown.performed += instance.OnSwitchWeaponDown;
+            @SwitchWeaponDown.canceled += instance.OnSwitchWeaponDown;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1299,6 +1373,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
+            @SwitchWeaponUp.started -= instance.OnSwitchWeaponUp;
+            @SwitchWeaponUp.performed -= instance.OnSwitchWeaponUp;
+            @SwitchWeaponUp.canceled -= instance.OnSwitchWeaponUp;
+            @SwitchWeaponDown.started -= instance.OnSwitchWeaponDown;
+            @SwitchWeaponDown.performed -= instance.OnSwitchWeaponDown;
+            @SwitchWeaponDown.canceled -= instance.OnSwitchWeaponDown;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1493,6 +1573,8 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnMelee(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnSwitchWeaponUp(InputAction.CallbackContext context);
+        void OnSwitchWeaponDown(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

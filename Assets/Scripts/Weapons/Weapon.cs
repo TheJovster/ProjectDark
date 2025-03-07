@@ -23,6 +23,7 @@ public class Weapon : MonoBehaviour
 
     [SerializeField]private int _currentAmmoInMag;
     [SerializeField] private int _maxAmmoInMag;
+    private bool _isEmpty;
     
     [Header("Weapon Behavior Properties")] 
     [SerializeField] private bool _hasSelectFire = false;
@@ -46,11 +47,17 @@ public class Weapon : MonoBehaviour
     
     private void Start()
     {
+        SetCurrentAmmoInMag();
+    }
+
+    public void SetCurrentAmmoInMag()
+    {
         _currentAmmoInMag = _maxAmmoInMag;
     }
 
     private void Update()
     {
+        _isEmpty = _currentAmmoInMag == 0;
         _timeSinceLastShot += Time.deltaTime;
         if (_timeSinceLastShot >= 10.0f)
         {
@@ -62,20 +69,28 @@ public class Weapon : MonoBehaviour
     {
         if (_currentAmmoInMag > 0 && _timeSinceLastShot >= _rateOfFire)
         {
-            PlayerProjectile projectileInstance = Instantiate(_projectilePrefab, _muzzlePoint.position, _muzzlePoint.rotation);
+            PlayerProjectile projectileInstance =
+                Instantiate(_projectilePrefab, _muzzlePoint.position, _muzzlePoint.rotation);
             projectileInstance.SetDamage(_weaponDamage);
             projectileInstance.SetRotation(_muzzlePoint.forward);
             _timeSinceLastShot = 0.0f;
             _currentAmmoInMag--;
         }
-        else return;
+
+        if (_isEmpty && _ammoInventory.ReturnCurrentAmmoAmount(_weaponInventory.CurrentWeapon.CurrentWeaponType) > 0)
+        {
+            Reload();
+        }
     }
 
     public void Reload() //I guess I can just have this as an anim event;
     {
         int amountToReduce = _weaponInventory.CurrentWeapon.GetMaxAmmoInMag() - 
                              _weaponInventory.CurrentWeapon.GetCurrentAmmoInMag();
-        
+        if (_ammoInventory.ReturnCurrentAmmoAmount(_weaponInventory.CurrentWeapon.CurrentWeaponType) <= 0)
+        {
+            return;
+        }
         _currentAmmoInMag = _maxAmmoInMag; 
         _ammoInventory.ReduceAmmoAmount(_weaponInventory.CurrentWeapon.CurrentWeaponType, amountToReduce);
         //edgecases

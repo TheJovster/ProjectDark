@@ -35,4 +35,24 @@ public class AmmoInventory : MonoBehaviour
             //TODO Add edgecases
         }   
     }
+
+    public int ReturnCurrentAmmoAmount(Weapon.WeaponType type)
+    {
+        switch(type)
+        {
+            case Weapon.WeaponType.Revolver:
+                return _revolverAmmoAmount;
+                break;
+            case Weapon.WeaponType.Pistol:
+                return _pistolAmmoAmount;
+                break;
+            case Weapon.WeaponType.AssaultRifle:
+                return _assaultRifleAmmoAmount;
+                break;
+            case Weapon.WeaponType.Shotgun:
+                return _shotgunAmmoAmount;
+                break;
+            default: return 0;
+        }
+    }
 }

@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
 		TogglePauseMenu();
 		TryFireWeapon();
 		TryReloadWeapon();
+		TrySwitchWeapon();
 		_moveDirection.y = _gravityGrounded;
 
 		_characterController.Move(_moveDirection);
@@ -154,6 +155,18 @@ public class PlayerController : MonoBehaviour
 		if (_input.Player.Reload.WasPressedThisFrame())
 		{
 			_weaponInventory.CurrentWeapon.Reload();
+		}
+	}
+
+	private void TrySwitchWeapon()
+	{
+		if (_input.Player.SwitchWeaponUp.WasPressedThisFrame())
+		{
+			_weaponInventory.IncrementWeaponIndex();
+		}
+		if (_input.Player.SwitchWeaponDown.WasPressedThisFrame())
+		{
+			_weaponInventory.DecrementWeaponIndex();
 		}
 	}
 	
