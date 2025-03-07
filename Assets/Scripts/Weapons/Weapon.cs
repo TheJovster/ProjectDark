@@ -35,6 +35,7 @@ public class Weapon : MonoBehaviour
     
     #region Properties
     public bool IsSemi => _isSemi;
+    public WeaponType CurrentWeaponType => _weaponType;
     #endregion
     
     private void Awake()
@@ -72,7 +73,23 @@ public class Weapon : MonoBehaviour
 
     public void Reload() //I guess I can just have this as an anim event;
     {
+        int amountToReduce = _weaponInventory.CurrentWeapon.GetMaxAmmoInMag() - 
+                             _weaponInventory.CurrentWeapon.GetCurrentAmmoInMag();
+        
         _currentAmmoInMag = _maxAmmoInMag; 
+        _ammoInventory.ReduceAmmoAmount(_weaponInventory.CurrentWeapon.CurrentWeaponType, amountToReduce);
         //edgecases
+    }
+    
+    //getter functions
+
+    public int GetCurrentAmmoInMag()
+    {
+        return _currentAmmoInMag;
+    }
+
+    public int GetMaxAmmoInMag()
+    {
+        return _maxAmmoInMag;
     }
 }
