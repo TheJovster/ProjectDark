@@ -57,7 +57,7 @@ public class FaderController : MonoBehaviour
     }
     
     // Utility method that returns after completing both fade operations
-    public IEnumerator FadeInAndOut(float displayDuration = 0.5f)
+    public IEnumerator FadeInAndOut(float displayDuration = 2.0f)
     {
         yield return FadeIn();
         yield return new WaitForSeconds(displayDuration);

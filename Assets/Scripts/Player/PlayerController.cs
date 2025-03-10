@@ -55,20 +55,26 @@ public class PlayerController : MonoBehaviour
 
 	private void Update()
 	{
-		CheckForSprinting();
+		if (GameManager.Instance.IsPlaying)
+		{
+			CheckForSprinting();
+			_currentMoveSpeed = _isSprinting ? _sprintSpeed : _walkSpeed;
+			Move();
+			LookUp();
+			RotatePlayer();
+			TogglePauseMenu();
+			TryFireWeapon();
+			TryReloadWeapon();
+			TrySwitchWeapon();
 		
-		_currentMoveSpeed = _isSprinting ? _sprintSpeed : _walkSpeed;
-		Move();
-		LookUp();
-		RotatePlayer();
-		TogglePauseMenu();
-		TryFireWeapon();
-		TryReloadWeapon();
-		TrySwitchWeapon();
-		
-		_moveDirection.y = _gravityGrounded;
+			_moveDirection.y = _gravityGrounded;
 
-		_characterController.Move(_moveDirection);
+			_characterController.Move(_moveDirection);
+		}
+		else if (!GameManager.Instance.IsPlaying)
+		{
+			_moveDirection.y = 0;
+		}
 	}
 
 	private void Move()

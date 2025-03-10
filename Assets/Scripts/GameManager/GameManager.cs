@@ -34,11 +34,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Camera menuCamera;
 
     private AudioListener menuCameraListener;
+    private bool isPlaying = false;
     
     #region Properties
 
     public GameState CurrentGameState => currentGameState;
     public FaderController Fader => fader;
+    public bool IsPlaying => isPlaying;
     
     #endregion
     
@@ -84,30 +86,42 @@ public class GameManager : MonoBehaviour
         {
             case GameState.MainMenu:
                 mainMenuPanel.SetActive(true);
-                Time.timeScale = 1f;
+                isPlaying = false;
                 ShowCursor();
                 break;
             case GameState.Loading:
                 loadingScreenPanel.SetActive(true);
-                Time.timeScale = 1f;
+                isPlaying = false;
                 HideCursor();
                 break;
             case GameState.Playing:
                 Time.timeScale = 1f;
+                isPlaying = true;
                 playerHUD.SetActive(true);
                 HideCursor();
                 break;
             case GameState.GameOver:
                 gameOverPanel.SetActive(true);
-                Time.timeScale = 1f;
+                isPlaying = false;
                 ShowCursor();
                 break;
             case GameState.Paused: 
-                pausePanel.SetActive(true); 
-                Time.timeScale = 0f;
+                pausePanel.SetActive(true);
+                isPlaying = false;
                 break;
             
         }
+    }
+
+    public void StartNewGame()
+    {
+        StartCoroutine(StartNewGameRoutine());
+    }
+
+    public IEnumerator StartNewGameRoutine()
+    {
+        LoadLevel(0);
+        yield return null;
     }
 
     public void LoadLevel(int levelIndex)
@@ -117,13 +131,12 @@ public class GameManager : MonoBehaviour
             Debug.LogError($"Invalid level index: {levelIndex}");
             return;
         }
-
         StartCoroutine(LoadLevelAddressable(levelIndex));
     }
 
      private IEnumerator LoadLevelAddressable(int levelIndex)
-     { 
-         fader.FadeIn();
+     {
+         yield return fader.FadeIn();
          SetGameState(GameState.Loading);
         
         // Find the correct level reference
@@ -135,18 +148,13 @@ public class GameManager : MonoBehaviour
                 levelToLoad = level;
                 break;
             }
-
-            fader.FadeOut();
         }
-        
         if (levelToLoad == null)
         {
             Debug.LogError($"No configured level with index {levelIndex}");
             yield break;
         }
-
-
-
+        
         // Cleanup
         if (currentLevelInstance != null)
         {
@@ -218,8 +226,7 @@ public class GameManager : MonoBehaviour
         // Instantiate the objects now that they're loaded
         // Give the UI a moment to show 100% progress
         loadingProgressBar.value = 1.0f;
-        yield return fader.FadeIn();
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(fader.FadeDuration * 1.5f);
         
         
         GameObject levelPrefab = levelLoadHandle.Result;
