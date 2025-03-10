@@ -21,7 +21,7 @@ MonoBehaviour:
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 568ff64370258d04498239a5754c96d8
-    m_Address: Assets/Resources_moved/Level2.prefab
+    m_Address: Level2
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
