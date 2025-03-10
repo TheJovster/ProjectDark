@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: HUD
+  m_EditorClassIdentifier: 
+  m_GroupName: HUD
+  m_GUID: ccf5cbacff9952844a33f9c08459f0c1
+  m_SerializeEntries:
+  - m_GUID: e91388a14b7dd6b42bd3bb7efd7819f4
+    m_Address: Assets/AssetStore/Synty/InterfaceSciFiSoldierHUD/Animation/Controllers/AC_HUD_SciFi_Reticle_HexagonSegments.controller
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 4e22268284241b249be879b60e4fcc0e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: e8a987d8c9b1f5a438f696e58207094d, type: 2}
+    - {fileID: 11400000, guid: 348031aa0a9079944b51d9608ae2e82c, type: 2}

@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject loadingScreenPanel;
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private GameObject pausePanel;
+    [SerializeField] private GameObject playerHUD;
     [SerializeField] private Slider loadingProgressBar;
     [SerializeField] private Camera menuCamera;
     
@@ -73,6 +74,7 @@ public class GameManager : MonoBehaviour
         loadingScreenPanel.SetActive(false);
         gameOverPanel.SetActive(false);
         pausePanel.SetActive(false);
+        playerHUD.SetActive(false);
 
         switch (currentGameState)
         {
@@ -88,6 +90,7 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Playing:
                 Time.timeScale = 1f;
+                playerHUD.SetActive(true);
                 HideCursor();
                 break;
             case GameState.GameOver:
