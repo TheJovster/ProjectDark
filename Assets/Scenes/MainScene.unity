@@ -691,13 +691,14 @@ GameObject:
   - component: {fileID: 435876598}
   - component: {fileID: 435876600}
   - component: {fileID: 435876599}
+  - component: {fileID: 435876601}
   m_Layer: 5
   m_Name: Fader
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &435876598
 RectTransform:
   m_ObjectHideFlags: 0
@@ -755,6 +756,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 435876597}
   m_CullTransparentMesh: 1
+--- !u!225 &435876601
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 435876597}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &503106758
 GameObject:
   m_ObjectHideFlags: 0
@@ -1701,6 +1714,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1033423510}
   - component: {fileID: 1033423511}
+  - component: {fileID: 1033423512}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1744,6 +1758,7 @@ MonoBehaviour:
     levelIndex: 1
     displayName: The Arcology
   playerAddressableKey: Player
+  fader: {fileID: 1033423512}
   mainMenuPanel: {fileID: 1228835384}
   loadingScreenPanel: {fileID: 503106758}
   gameOverPanel: {fileID: 1275492108}
@@ -1751,6 +1766,20 @@ MonoBehaviour:
   playerHUD: {fileID: 1614762887}
   loadingProgressBar: {fileID: 1414558618}
   menuCamera: {fileID: 1909920556}
+--- !u!114 &1033423512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033423509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 403a27a3c6d12aa4c9d571cec6c6bccf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 435876601}
+  fadeDuration: 2
 --- !u!1 &1113682052
 GameObject:
   m_ObjectHideFlags: 0
@@ -2827,7 +2856,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1614762888
 RectTransform:
   m_ObjectHideFlags: 0

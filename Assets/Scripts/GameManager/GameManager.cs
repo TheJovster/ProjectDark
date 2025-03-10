@@ -22,8 +22,9 @@ public class GameManager : MonoBehaviour
     [Header("Level References")]
     [SerializeField] private AddressableLevel[] levels;
     [SerializeField] private string playerAddressableKey = "Player";
-    
+
     [Header("UI Elements")] 
+    [SerializeField] private FaderController fader;
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private GameObject loadingScreenPanel;
     [SerializeField] private GameObject gameOverPanel;
@@ -31,10 +32,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject playerHUD;
     [SerializeField] private Slider loadingProgressBar;
     [SerializeField] private Camera menuCamera;
+
+    private AudioListener menuCameraListener;
     
     #region Properties
 
     public GameState CurrentGameState => currentGameState;
+    public FaderController Fader => fader;
     
     #endregion
     
@@ -58,8 +62,8 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-
         SetGameState(GameState.MainMenu);
+        menuCameraListener = menuCamera.gameObject.GetComponent<AudioListener>();
     }
     
     public void SetGameState(GameState newGameState)
@@ -102,6 +106,7 @@ public class GameManager : MonoBehaviour
                 pausePanel.SetActive(true); 
                 Time.timeScale = 0f;
                 break;
+            
         }
     }
 
@@ -113,12 +118,13 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        StartCoroutine(LoadLevelAddressableAsync(levelIndex));
+        StartCoroutine(LoadLevelAddressable(levelIndex));
     }
 
-     private IEnumerator LoadLevelAddressableAsync(int levelIndex)
-    {
-        SetGameState(GameState.Loading);
+     private IEnumerator LoadLevelAddressable(int levelIndex)
+     { 
+         fader.FadeIn();
+         SetGameState(GameState.Loading);
         
         // Find the correct level reference
         AddressableLevel levelToLoad = null;
@@ -129,6 +135,8 @@ public class GameManager : MonoBehaviour
                 levelToLoad = level;
                 break;
             }
+
+            fader.FadeOut();
         }
         
         if (levelToLoad == null)
@@ -136,6 +144,8 @@ public class GameManager : MonoBehaviour
             Debug.LogError($"No configured level with index {levelIndex}");
             yield break;
         }
+
+
 
         // Cleanup
         if (currentLevelInstance != null)
@@ -188,7 +198,6 @@ public class GameManager : MonoBehaviour
             
             // Update Progress Bar
             loadingProgressBar.value = totalProgress;
-            
             yield return null;
         }
         
@@ -209,7 +218,9 @@ public class GameManager : MonoBehaviour
         // Instantiate the objects now that they're loaded
         // Give the UI a moment to show 100% progress
         loadingProgressBar.value = 1.0f;
+        yield return fader.FadeIn();
         yield return new WaitForSeconds(0.5f);
+        
         
         GameObject levelPrefab = levelLoadHandle.Result;
         GameObject playerPrefab = playerLoadHandle.Result;
@@ -226,30 +237,50 @@ public class GameManager : MonoBehaviour
         }
         
         // Disable Audio Listener on Main Menu Camera and set game state to Playing
-        menuCamera.GetComponent<AudioListener>().enabled = false;
+        menuCameraListener.enabled = false;
         SetGameState(GameState.Playing);
         
         Addressables.Release(levelLoadHandle);
         Addressables.Release(playerLoadHandle);
+
+        yield return fader.FadeOut();
+
+    }
+    public void ReturnToMainMenu()
+    {
+        StartCoroutine(ReturnToMainMenuRoutine());
         
     }
     
-    public void ReturnToMainMenu()
+    
+    private IEnumerator ReturnToMainMenuRoutine()
     {
-        // Destroy current level
-        if (currentLevelInstance != null)
+        // Fade to black
+        currentGameState = GameState.Playing;
+        yield return fader.FadeIn();
+    
+        // Destroy level and player
+        if (currentLevelInstance)
         {
             Destroy(currentLevelInstance);
+            currentLevelInstance = null;
         }
-        // Destroy current player instance
-        if (playerInstance != null)
+    
+        if (playerInstance)
         {
             Destroy(playerInstance);
+            playerInstance = null;
         }
-        // Activate the Audio Listener on the MainMenuCamera
-        menuCamera.GetComponent<AudioListener>().enabled = true;
-        // Set to main menu state
+    
+        // Enable menu camera audio
+        menuCameraListener.enabled = true;
+    
+        // Set game state
         SetGameState(GameState.MainMenu);
+    
+        // Fade back in to show menu
+        yield return fader.FadeOut();
+        yield return null;
     }
     
     public void PauseGame()
