@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: c64b398ffa2e80a46871c3a1ffe69404
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 28006
+  packageName: FPS Mesh Tool
+  packageVersion: 1.4.0
+  assetPath: Assets/CBG/FPSMeshTool/Materials/InvisibleMaterial.mat
+  uploadId: 704894

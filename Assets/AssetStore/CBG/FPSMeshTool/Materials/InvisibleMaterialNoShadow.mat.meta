@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2101e589ab760a4418a66f20bd0d4d94
+timeCreated: 1541487255
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 28006
+  packageName: FPS Mesh Tool
+  packageVersion: 1.4.0
+  assetPath: Assets/CBG/FPSMeshTool/Materials/InvisibleMaterialNoShadow.mat
+  uploadId: 704894

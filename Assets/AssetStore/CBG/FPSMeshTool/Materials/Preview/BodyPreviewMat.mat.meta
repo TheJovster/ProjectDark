@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 7dacb64e71920f34da246a4ae79255e3
+NativeFormatImporter:
+  userData: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 28006
+  packageName: FPS Mesh Tool
+  packageVersion: 1.4.0
+  assetPath: Assets/CBG/FPSMeshTool/Materials/Preview/BodyPreviewMat.mat
+  uploadId: 704894

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ad42fa96fb4ff7c4388192f323c04be8
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 28006
+  packageName: FPS Mesh Tool
+  packageVersion: 1.4.0
+  assetPath: Assets/CBG/FPSMeshTool/Shaders/URPInvisibleShadowCaster.shader
+  uploadId: 704894

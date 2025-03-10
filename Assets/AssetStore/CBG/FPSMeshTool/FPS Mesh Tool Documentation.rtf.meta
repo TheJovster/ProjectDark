@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3bb19e8bc0ebbf6429103bab1a7ee202
+timeCreated: 1555902454
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 28006
+  packageName: FPS Mesh Tool
+  packageVersion: 1.4.0
+  assetPath: Assets/CBG/FPSMeshTool/FPS Mesh Tool Documentation.rtf
+  uploadId: 704894

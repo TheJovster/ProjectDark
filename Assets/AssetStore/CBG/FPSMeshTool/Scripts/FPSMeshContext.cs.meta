@@ -1,0 +1,10 @@
+﻿fileFormatVersion: 2
+guid: 60382cc0e77240c4b9ea2ff5cf4b9ca5
+timeCreated: 1675242258
+AssetOrigin:
+  serializedVersion: 1
+  productId: 28006
+  packageName: FPS Mesh Tool
+  packageVersion: 1.4.0
+  assetPath: Assets/CBG/FPSMeshTool/Scripts/FPSMeshContext.cs
+  uploadId: 704894

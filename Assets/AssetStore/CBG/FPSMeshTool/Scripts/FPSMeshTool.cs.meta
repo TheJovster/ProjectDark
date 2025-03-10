@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: d9d37eeba147bdc4789dd867c604f340
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 28006
+  packageName: FPS Mesh Tool
+  packageVersion: 1.4.0
+  assetPath: Assets/CBG/FPSMeshTool/Scripts/FPSMeshTool.cs
+  uploadId: 704894
