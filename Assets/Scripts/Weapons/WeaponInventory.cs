@@ -15,7 +15,6 @@ public class WeaponInventory : MonoBehaviour
     private void Awake()
     {
         PopulateWeaponsList();
-
     }
 
     private void PopulateWeaponsList()

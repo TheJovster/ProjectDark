@@ -1,20 +1,28 @@
-
-using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
+    [System.Serializable]
+    public class AddressableLevel
+    {
+        public string addressableKey;
+        public int levelIndex;
+        public string displayName;
+    }
+    
     public static GameManager Instance { get; private set; }
     [SerializeField]private GameState currentGameState;
     
-    [SerializeField] private GameObject player;
     private GameObject playerInstance;
-    [Header("Level Prefabs")]
-    [SerializeField] private GameObject[] levelPrefabs;
-    private GameObject currentLevelInstance = null;
-
+    private GameObject currentLevelInstance;
+    
+    [Header("Level References")]
+    [SerializeField] private AddressableLevel[] levels;
+    [SerializeField] private string playerAddressableKey = "Player";
+    
     [Header("UI Elements")] 
     [SerializeField] private GameObject mainMenuPanel;
     [SerializeField] private GameObject loadingScreenPanel;
@@ -56,10 +64,10 @@ public class GameManager : MonoBehaviour
     public void SetGameState(GameState newGameState)
     {
         currentGameState = newGameState;
-        UpdateUIBasedOnGameState();
+        UpdateUI();
     }
 
-    private void UpdateUIBasedOnGameState() //name is horrible - need to fix it
+    private void UpdateUI()
     {
         mainMenuPanel.SetActive(false);
         loadingScreenPanel.SetActive(false);
@@ -96,36 +104,131 @@ public class GameManager : MonoBehaviour
 
     public void LoadLevel(int levelIndex)
     {
-        if (levelIndex < 0 || levelIndex >= levelPrefabs.Length)
+        if (levelIndex < 0 || levelIndex >= levels.Length)
         {
             Debug.LogError($"Invalid level index: {levelIndex}");
             return;
         }
 
-        StartCoroutine(LoadLevelAsync(levelIndex));
+        StartCoroutine(LoadLevelAddressableAsync(levelIndex));
     }
 
-    private IEnumerator LoadLevelAsync(int levelIndex)
+     private IEnumerator LoadLevelAddressableAsync(int levelIndex)
     {
         SetGameState(GameState.Loading);
+        
+        // Find the correct level reference
+        AddressableLevel levelToLoad = null;
+        foreach (var level in levels)
+        {
+            if (level.levelIndex == levelIndex)
+            {
+                levelToLoad = level;
+                break;
+            }
+        }
+        
+        if (levelToLoad == null)
+        {
+            Debug.LogError($"No configured level with index {levelIndex}");
+            yield break;
+        }
 
+        // Cleanup
         if (currentLevelInstance != null)
         {
             Destroy(currentLevelInstance);
+            currentLevelInstance = null;
         }
-
-        float loadingProgress = 0f;
-        while (loadingProgress < 1.0f)
+        
+        if (playerInstance != null)
         {
-            loadingProgress += Time.deltaTime;
-            loadingProgressBar.value = loadingProgress;
+            Destroy(playerInstance);
+            playerInstance = null;
+        }
+        
+        // Start the loading operations
+        AsyncOperationHandle<GameObject> levelLoadHandle = 
+            Addressables.LoadAssetAsync<GameObject>(levelToLoad.addressableKey);
+        AsyncOperationHandle<GameObject> playerLoadHandle = 
+            Addressables.LoadAssetAsync<GameObject>(playerAddressableKey);
+        
+        // Track loading progress
+        float totalProgress = 0f;
+        bool levelLoaded = false;
+        bool playerLoaded = false;
+        
+        while (!levelLoaded || !playerLoaded)
+        {
+            // Update level load progress
+            if (!levelLoaded)
+            {
+                if (levelLoadHandle.IsDone)
+                {
+                    levelLoaded = true;
+                }
+            }
+            
+            // Update player load progress
+            if (!playerLoaded)
+            {
+                if (playerLoadHandle.IsDone)
+                {
+                    playerLoaded = true;
+                }
+            }
+            
+            // Calculate combined progress
+            float levelProgress = levelLoaded ? 0.6f : levelLoadHandle.PercentComplete * 0.6f;
+            float playerProgress = playerLoaded ? 0.4f : playerLoadHandle.PercentComplete * 0.4f;
+            totalProgress = levelProgress + playerProgress;
+            
+            // Update Progress Bar
+            loadingProgressBar.value = totalProgress;
+            
             yield return null;
         }
-
-        currentLevelInstance = Instantiate(levelPrefabs[levelIndex]);
-        playerInstance = Instantiate(player);
-        menuCamera.GetComponent<AudioListener>().enabled = false; //this does not work properly I think - need to be careful with this one
+        
+        // if error loading
+        if (levelLoadHandle.Status != AsyncOperationStatus.Succeeded || 
+            playerLoadHandle.Status != AsyncOperationStatus.Succeeded)
+        {
+            Debug.LogError("Failed to load one or more assets!");
+            
+            //Release handles
+            Addressables.Release(levelLoadHandle);
+            Addressables.Release(playerLoadHandle);
+            
+            ReturnToMainMenu();
+            yield break;
+        }
+        
+        // Instantiate the objects now that they're loaded
+        // Give the UI a moment to show 100% progress
+        loadingProgressBar.value = 1.0f;
+        yield return new WaitForSeconds(0.5f);
+        
+        GameObject levelPrefab = levelLoadHandle.Result;
+        GameObject playerPrefab = playerLoadHandle.Result;
+        
+        currentLevelInstance = Instantiate(levelPrefab);
+        playerInstance = Instantiate(playerPrefab);
+        
+        // Add the LevelIdentifier component if it doesn't exist
+        LevelIdentifier levelId = currentLevelInstance.GetComponent<LevelIdentifier>();
+        if (levelId == null)
+        {
+            levelId = currentLevelInstance.AddComponent<LevelIdentifier>();
+            levelId.SetLevelInfo(levelToLoad.displayName, levelToLoad.levelIndex);
+        }
+        
+        // Disable Audio Listener on Main Menu Camera and set game state to Playing
+        menuCamera.GetComponent<AudioListener>().enabled = false;
         SetGameState(GameState.Playing);
+        
+        Addressables.Release(levelLoadHandle);
+        Addressables.Release(playerLoadHandle);
+        
     }
     
     public void ReturnToMainMenu()
@@ -135,13 +238,14 @@ public class GameManager : MonoBehaviour
         {
             Destroy(currentLevelInstance);
         }
-
-        // Set to main menu state
+        // Destroy current player instance
         if (playerInstance != null)
         {
             Destroy(playerInstance);
         }
+        // Activate the Audio Listener on the MainMenuCamera
         menuCamera.GetComponent<AudioListener>().enabled = true;
+        // Set to main menu state
         SetGameState(GameState.MainMenu);
     }
     

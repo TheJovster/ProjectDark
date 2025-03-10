@@ -65,6 +65,7 @@ public class PlayerController : MonoBehaviour
 		TryFireWeapon();
 		TryReloadWeapon();
 		TrySwitchWeapon();
+		
 		_moveDirection.y = _gravityGrounded;
 
 		_characterController.Move(_moveDirection);

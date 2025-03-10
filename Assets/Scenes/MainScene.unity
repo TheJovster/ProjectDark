@@ -1089,9 +1089,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGameState: 0
-  player: {fileID: 9074778794591022342, guid: bd40ef2092763764ab9b464c417ccb8a, type: 3}
-  levelPrefabs:
-  - {fileID: 2806497139812903254, guid: 09a4d3a8b8ba8a14aacb1c0592604fc4, type: 3}
+  levels:
+  - addressableKey: Level1
+    levelIndex: 0
+    displayName: The Slums
+  - addressableKey: Level2
+    levelIndex: 1
+    displayName: The Arcology
+  playerAddressableKey: Player
+  playerAssetReference:
+    m_AssetGUID: bd40ef2092763764ab9b464c417ccb8a
+    m_SubObjectName: 
+    m_SubObjectGUID: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
   mainMenuPanel: {fileID: 1228835384}
   loadingScreenPanel: {fileID: 503106758}
   gameOverPanel: {fileID: 1275492108}
