@@ -222,12 +222,10 @@ public class GameManager : MonoBehaviour
             ReturnToMainMenu();
             yield break;
         }
-        
+        yield return fader.FadeOut();
         // Instantiate the objects now that they're loaded
         // Give the UI a moment to show 100% progress
         loadingProgressBar.value = 1.0f;
-        yield return new WaitForSeconds(fader.FadeDuration * 1.5f);
-        
         
         GameObject levelPrefab = levelLoadHandle.Result;
         GameObject playerPrefab = playerLoadHandle.Result;
@@ -250,7 +248,7 @@ public class GameManager : MonoBehaviour
         Addressables.Release(levelLoadHandle);
         Addressables.Release(playerLoadHandle);
 
-        yield return fader.FadeOut();
+        
 
     }
     public void ReturnToMainMenu()
