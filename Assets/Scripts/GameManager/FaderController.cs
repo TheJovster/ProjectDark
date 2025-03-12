@@ -10,6 +10,7 @@ public class FaderController : MonoBehaviour
     #region Properties
     
     public float FadeDuration => fadeDuration;
+    public float CurrentAlpha => canvasGroup.alpha;
 
     #endregion
     
@@ -60,7 +61,7 @@ public class FaderController : MonoBehaviour
     public IEnumerator FadeInAndOut(float displayDuration = 2.0f)
     {
         yield return FadeIn();
-        yield return new WaitForSeconds(displayDuration);
+        //yield return new WaitForSeconds(displayDuration);
         yield return FadeOut();
     }
 }

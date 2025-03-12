@@ -62,12 +62,20 @@ public class PlayerController : MonoBehaviour
 			Move();
 			LookUp();
 			RotatePlayer();
-			TogglePauseMenu();
+
 			TryFireWeapon();
 			TryReloadWeapon();
 			TrySwitchWeapon();
-		
-			_moveDirection.y = _gravityGrounded;
+
+			if (_characterController.isGrounded)
+			{
+				_moveDirection.y = _gravityGrounded;
+			}
+			else if (!_characterController.isGrounded)
+			{
+				_moveDirection.y += _gravityValue * Time.deltaTime;
+			}
+
 
 			_characterController.Move(_moveDirection);
 		}
@@ -75,6 +83,7 @@ public class PlayerController : MonoBehaviour
 		{
 			_moveDirection.y = 0;
 		}
+		TogglePauseMenu();
 	}
 
 	private void Move()

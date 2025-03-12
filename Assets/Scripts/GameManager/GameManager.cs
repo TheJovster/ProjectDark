@@ -1,28 +1,18 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
-    [System.Serializable]
-    public class AddressableLevel
-    {
-        public string addressableKey;
-        public int levelIndex;
-        public string displayName;
-    }
-    
     public static GameManager Instance { get; private set; }
     [SerializeField]private GameState currentGameState;
+
+    [SerializeField] private GameObject playerPrefab;
+    [Header("Level Prefabs")]
+    [SerializeField] private GameObject[] levelPrefabs;
     
     private GameObject playerInstance;
     private GameObject currentLevelInstance;
     
-    [Header("Level References")]
-    [SerializeField] private AddressableLevel[] levels;
-    [SerializeField] private string playerAddressableKey = "Player";
-
     [Header("UI Elements")] 
     [SerializeField] private FaderController fader;
     [SerializeField] private GameObject mainMenuPanel;
@@ -55,6 +45,9 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
+        Application.runInBackground = true;
+        
         if (Instance == null)
         {
             Instance = this;
@@ -126,135 +119,81 @@ public class GameManager : MonoBehaviour
 
     public void LoadLevel(int levelIndex)
     {
-        if (levelIndex < 0 || levelIndex >= levels.Length)
+        if (levelIndex < 0 || levelIndex >= levelPrefabs.Length)
         {
             Debug.LogError($"Invalid level index: {levelIndex}");
             return;
         }
-        StartCoroutine(LoadLevelAddressable(levelIndex));
+        StartCoroutine(LoadLevelAsync(levelIndex));
     }
 
-     private IEnumerator LoadLevelAddressable(int levelIndex)
-     {
-         yield return fader.FadeIn();
-         SetGameState(GameState.Loading);
-        
-        // Find the correct level reference
-        AddressableLevel levelToLoad = null;
-        foreach (var level in levels)
+     
+    private IEnumerator LoadLevelAsync(int levelIndex)
+    {
+        // If not already faded in, fade to black
+        if (fader && fader.CurrentAlpha < 0.99f)
         {
-            if (level.levelIndex == levelIndex)
-            {
-                levelToLoad = level;
-                break;
-            }
+            yield return fader.FadeIn();
         }
-        if (levelToLoad == null)
+        // Set loading state
+        loadingProgressBar.value = 0.0f;
+        SetGameState(GameState.Loading);
+        if (fader && fader.CurrentAlpha >= 0.99f)
         {
-            Debug.LogError($"No configured level with index {levelIndex}");
-            yield break;
+            yield return fader.FadeOut();
         }
         
-        // Cleanup
-        if (currentLevelInstance != null)
+        // Clean up existing level/player
+        if (currentLevelInstance != null) 
         {
             Destroy(currentLevelInstance);
             currentLevelInstance = null;
         }
         
-        if (playerInstance != null)
+        if (playerInstance != null) 
         {
             Destroy(playerInstance);
             playerInstance = null;
         }
         
-        // Start the loading operations
-        AsyncOperationHandle<GameObject> levelLoadHandle = 
-            Addressables.LoadAssetAsync<GameObject>(levelToLoad.addressableKey);
-        AsyncOperationHandle<GameObject> playerLoadHandle = 
-            Addressables.LoadAssetAsync<GameObject>(playerAddressableKey);
+        // Simulate loading time with progress bar - I need to figure out how to do proepr content loading without relying on addressables. 
+        float loadTime = 5.0f; 
+        float elapsedTime = 0f;
         
-        // Track loading progress
-        float totalProgress = 0f;
-        bool levelLoaded = false;
-        bool playerLoaded = false;
-        
-        while (!levelLoaded || !playerLoaded)
+        while (elapsedTime < loadTime)
         {
-            // Update level load progress
-            if (!levelLoaded)
-            {
-                if (levelLoadHandle.IsDone)
-                {
-                    levelLoaded = true;
-                }
-            }
+            elapsedTime += Time.deltaTime;
+            float progress = elapsedTime / loadTime;
             
-            // Update player load progress
-            if (!playerLoaded)
-            {
-                if (playerLoadHandle.IsDone)
-                {
-                    playerLoaded = true;
-                }
-            }
+            loadingProgressBar.value = progress;
             
-            // Calculate combined progress
-            float levelProgress = levelLoaded ? 0.6f : levelLoadHandle.PercentComplete * 0.6f;
-            float playerProgress = playerLoaded ? 0.4f : playerLoadHandle.PercentComplete * 0.4f;
-            totalProgress = levelProgress + playerProgress;
-            
-            // Update Progress Bar
-            loadingProgressBar.value = totalProgress;
             yield return null;
         }
         
-        // if error loading
-        if (levelLoadHandle.Status != AsyncOperationStatus.Succeeded || 
-            playerLoadHandle.Status != AsyncOperationStatus.Succeeded)
-        {
-            Debug.LogError("Failed to load one or more assets!");
-            
-            //Release handles
-            Addressables.Release(levelLoadHandle);
-            Addressables.Release(playerLoadHandle);
-            
-            ReturnToMainMenu();
-            yield break;
-        }
-        yield return fader.FadeOut();
-        // Instantiate the objects now that they're loaded
-        // Give the UI a moment to show 100% progress
         loadingProgressBar.value = 1.0f;
         
-        GameObject levelPrefab = levelLoadHandle.Result;
-        GameObject playerPrefab = playerLoadHandle.Result;
+        yield return new WaitForSeconds(0.2f);
         
-        currentLevelInstance = Instantiate(levelPrefab);
+        currentLevelInstance = Instantiate(levelPrefabs[levelIndex]);
         playerInstance = Instantiate(playerPrefab);
         
-        // Add the LevelIdentifier component if it doesn't exist
-        LevelIdentifier levelId = currentLevelInstance.GetComponent<LevelIdentifier>();
-        if (levelId == null)
+        if (menuCamera && menuCamera.GetComponent<AudioListener>())
+            menuCamera.GetComponent<AudioListener>().enabled = false;
+        
+        // Fade back in to reveal the level
+        if (fader && fader.CurrentAlpha < 0.99f)
         {
-            levelId = currentLevelInstance.AddComponent<LevelIdentifier>();
-            levelId.SetLevelInfo(levelToLoad.displayName, levelToLoad.levelIndex);
+            yield return fader.FadeIn();
         }
-        
-        // Disable Audio Listener on Main Menu Camera and set game state to Playing
-        menuCameraListener.enabled = false;
         SetGameState(GameState.Playing);
-        
-        Addressables.Release(levelLoadHandle);
-        Addressables.Release(playerLoadHandle);
-
-        
-
+        if (fader.CurrentAlpha >= 0.99f)
+        {
+            yield return fader.FadeOut();
+        }
     }
     public void ReturnToMainMenu()
     {
         StartCoroutine(ReturnToMainMenuRoutine());
-        
     }
     
     
@@ -332,6 +271,9 @@ public class GameManager : MonoBehaviour
     public void QuitApplication()
     {
         Application.Quit();
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
     }
     
     //general game UI
@@ -348,3 +290,5 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 }
+
+
