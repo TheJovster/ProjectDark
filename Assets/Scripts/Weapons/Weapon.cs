@@ -14,7 +14,8 @@ public class Weapon : MonoBehaviour
         AssaultRifle,
     }
 
-    [Header("Weapon Properties")]
+    [Header("Weapon Properties")] 
+    [SerializeField] private string _weaponName;
     [SerializeField] private WeaponType _weaponType;
     [SerializeField] private Transform _muzzlePoint;
     private WeaponInventory _weaponInventory;
@@ -36,6 +37,7 @@ public class Weapon : MonoBehaviour
     
     #region Properties
     public bool IsSemi => _isSemi;
+    public string WeapoonName => _weaponName;
     public WeaponType CurrentWeaponType => _weaponType;
     #endregion
     

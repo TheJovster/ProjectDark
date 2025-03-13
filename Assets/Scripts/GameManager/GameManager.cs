@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Slider loadingProgressBar;
     [SerializeField] private Camera menuCamera;
 
+    [Header("Loading Simulation")] //TODO: expand this so the loading is actual, not simulated;
+    [SerializeField, Range(1f, 120f)] private float loadingTime = 10.0f;
+
     private AudioListener menuCameraListener;
     private bool isPlaying = false;
     
@@ -157,9 +160,22 @@ public class GameManager : MonoBehaviour
         }
         
         // Simulate loading time with progress bar - I need to figure out how to do proepr content loading without relying on addressables. 
-        float loadTime = 5.0f; 
+        float loadTime = loadingTime; //naming issue - fix later
         float elapsedTime = 0f;
-        
+        if (menuCamera && menuCamera.GetComponent<AudioListener>())
+        {
+            menuCamera.GetComponent<AudioListener>().enabled = false;
+        }
+        currentLevelInstance = Instantiate(levelPrefabs[levelIndex]);
+        playerInstance = Instantiate(playerPrefab);
+        //enemies 
+        //sounds
+
+        if (currentLevelInstance != null &&
+            playerInstance != null)
+        {
+            
+        }
         while (elapsedTime < loadTime)
         {
             elapsedTime += Time.deltaTime;
@@ -173,12 +189,6 @@ public class GameManager : MonoBehaviour
         loadingProgressBar.value = 1.0f;
         
         yield return new WaitForSeconds(0.2f);
-        
-        currentLevelInstance = Instantiate(levelPrefabs[levelIndex]);
-        playerInstance = Instantiate(playerPrefab);
-        
-        if (menuCamera && menuCamera.GetComponent<AudioListener>())
-            menuCamera.GetComponent<AudioListener>().enabled = false;
         
         // Fade back in to reveal the level
         if (fader && fader.CurrentAlpha < 0.99f)
@@ -271,9 +281,9 @@ public class GameManager : MonoBehaviour
     public void QuitApplication()
     {
         Application.Quit();
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-        #endif
+#endif
     }
     
     //general game UI
