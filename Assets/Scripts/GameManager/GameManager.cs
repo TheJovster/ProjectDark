@@ -133,6 +133,11 @@ public class GameManager : MonoBehaviour
      
     private IEnumerator LoadLevelAsync(int levelIndex)
     {
+        if (playerInstance != null &&
+            currentLevelInstance != null)
+        {
+            SaveSystem.Instance.SaveGame();
+        }
         // If not already faded in, fade to black
         if (fader && fader.CurrentAlpha < 0.99f)
         {
@@ -141,11 +146,11 @@ public class GameManager : MonoBehaviour
         // Set loading state
         loadingProgressBar.value = 0.0f;
         SetGameState(GameState.Loading);
+
         if (fader && fader.CurrentAlpha >= 0.99f)
         {
             yield return fader.FadeOut();
         }
-        
         // Clean up existing level/player
         if (currentLevelInstance != null) 
         {
@@ -166,16 +171,11 @@ public class GameManager : MonoBehaviour
         {
             menuCamera.GetComponent<AudioListener>().enabled = false;
         }
+        //sounds
         currentLevelInstance = Instantiate(levelPrefabs[levelIndex]);
         playerInstance = Instantiate(playerPrefab);
         //enemies 
-        //sounds
-
-        if (currentLevelInstance != null &&
-            playerInstance != null)
-        {
-            
-        }
+        
         while (elapsedTime < loadTime)
         {
             elapsedTime += Time.deltaTime;
@@ -196,10 +196,18 @@ public class GameManager : MonoBehaviour
             yield return fader.FadeIn();
         }
         SetGameState(GameState.Playing);
+        
+        if (currentLevelInstance != null &&
+            playerInstance != null)
+        {
+            SaveSystem.Instance.LoadGame();
+        }
+        
         if (fader.CurrentAlpha >= 0.99f)
         {
             yield return fader.FadeOut();
         }
+
     }
     public void ReturnToMainMenu()
     {

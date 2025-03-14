@@ -18,9 +18,14 @@ public class Weapon : MonoBehaviour
     [SerializeField] private string _weaponName;
     [SerializeField] private WeaponType _weaponType;
     [SerializeField] private Transform _muzzlePoint;
+    [SerializeField] private Animator _weaponAnimator;
+    [SerializeField] private AnimatorOverrideController _animatorOverrideController;
     private WeaponInventory _weaponInventory;
     private AmmoInventory _ammoInventory;
     [SerializeField] private PlayerProjectile _projectilePrefab;
+    private bool _canFire = true;
+    private bool _isFiring = false;
+    [SerializeField] private Transform _barrels;
 
     [SerializeField]private int _currentAmmoInMag;
     [SerializeField] private int _maxAmmoInMag;
@@ -37,7 +42,10 @@ public class Weapon : MonoBehaviour
     
     #region Properties
     public bool IsSemi => _isSemi;
+    public bool CanFire => _canFire;
     public string WeapoonName => _weaponName;
+    public Animator WeaponAnimator => _weaponAnimator;
+    public AnimatorOverrideController AnimatorOverrideController => _animatorOverrideController;
     public WeaponType CurrentWeaponType => _weaponType;
     #endregion
     
@@ -65,10 +73,17 @@ public class Weapon : MonoBehaviour
         {
             _timeSinceLastShot = 10.0f;
         }
+
+        _canFire = _timeSinceLastShot >= _rateOfFire &&
+                   _currentAmmoInMag > 0;
     }
 
     public void Fire()
     {
+        if (_weaponName == "Minigun") //this is a lot of ducttape
+        {
+            _barrels.Rotate(Vector3.forward * (720.0f * Time.deltaTime));
+        }
         if (_currentAmmoInMag > 0 && _timeSinceLastShot >= _rateOfFire)
         {
             PlayerProjectile projectileInstance =
@@ -109,4 +124,13 @@ public class Weapon : MonoBehaviour
     {
         return _maxAmmoInMag;
     }
+    
+    //setters
+    
+    //animator setters
+    public void DisableAnimator()
+    {
+        _weaponAnimator.enabled = false;
+    }
+    
 }

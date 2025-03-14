@@ -162,7 +162,17 @@ public class PlayerController : MonoBehaviour
 		if (_weaponInventory.CurrentWeapon.IsSemi && _input.Player.Shoot.WasPressedThisFrame())
 		{
 			_weaponInventory.CurrentWeapon.Fire();
+			//anim setter goes here.
 		}
+		else if (!_weaponInventory.CurrentWeapon.IsSemi && _input.Player.Shoot.IsPressed())
+		{
+			_weaponInventory.CurrentWeapon.Fire();
+		}
+		else if (!_weaponInventory.CurrentWeapon.IsSemi && _input.Player.Shoot.WasReleasedThisFrame())
+		{
+			
+		}
+		
 	}
 
 	private void TryReloadWeapon()

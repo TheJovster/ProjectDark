@@ -6,7 +6,7 @@ public class WeaponInventory : MonoBehaviour
     private Weapon _currentWeapon;
     [SerializeField] private List<Weapon> _weapons;
     [SerializeField] private Transform _weaponContainer;
-    private int _currentWeaponIndex = 0;
+    [SerializeField] private int _currentWeaponIndex = 0;
     
     #region Properties
     public Weapon CurrentWeapon => _currentWeapon;
@@ -36,9 +36,9 @@ public class WeaponInventory : MonoBehaviour
     {
         int oldIndex = _currentWeaponIndex;
         --_currentWeaponIndex;
-        if (_currentWeaponIndex <= 0)
+        if (_currentWeaponIndex < 0)
         {
-            _currentWeaponIndex = 0;
+            _currentWeaponIndex = _weapons.Count - 1;
         }
         SwitchWeapon(oldIndex, _currentWeaponIndex);
     }
@@ -49,7 +49,7 @@ public class WeaponInventory : MonoBehaviour
         _currentWeaponIndex++;
         if (_currentWeaponIndex >= _weapons.Count)
         {
-            _currentWeaponIndex = _weapons.Count;
+            _currentWeaponIndex = 0;
         }
         SwitchWeapon(oldIndex, _currentWeaponIndex);
     }
@@ -58,6 +58,9 @@ public class WeaponInventory : MonoBehaviour
     {
         _weapons[oldIndex].gameObject.SetActive(false);
         _weapons[newIndex].gameObject.SetActive(true);
+        
         _currentWeapon = _weapons[newIndex];
+
     }
+
 }

@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4149560383648977997}
   - component: {fileID: 2055352537291397193}
+  - component: {fileID: 7654370619435187162}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -77,8 +78,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52929caad355b8c47b3e43c94f70120f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponName: Pistol
   _weaponType: 1
   _muzzlePoint: {fileID: 7620293913504214614}
+  _weaponAnimator: {fileID: 7654370619435187162}
+  _animatorOverrideController: {fileID: 0}
   _projectilePrefab: {fileID: 6031244269927499314, guid: b3861136c2c60b3488f52ec5271c8c02, type: 3}
   _currentAmmoInMag: 0
   _maxAmmoInMag: 12
@@ -88,6 +92,28 @@ MonoBehaviour:
   _weaponRecoilAmplitude: 0
   _weaponRecoilForce: 0
   _weaponDamage: 7
+--- !u!95 &7654370619435187162
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5313906849068004499}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &2480748710816696627
 PrefabInstance:
   m_ObjectHideFlags: 0

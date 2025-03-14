@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Serialization;
 
 [Serializable]
@@ -67,7 +68,7 @@ public class GameProgressionData
 {
 	public int CurrentLevelIndex = 0;
 	public List<int> CompletedLevels = new List<int>();
-	//add play time?
+	public float PlayTime = 0.0f;
 	//add kill count?
 	public string LastPlayedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 }
@@ -87,23 +88,27 @@ public class SaveSystem : MonoBehaviour
 {
 	public static SaveSystem Instance;
 
-	[Header("Save Configuration")]
-	[SerializeField] private string _saveFileName = "savegame.json";
+	[Header("Save Configuration")] [SerializeField]
+	private string _saveFileName = "savegame.json";
+
 	private SaveData _saveData = new SaveData();
-    
+
 	private string _saveFilePath => Path.Combine(Application.persistentDataPath, _saveFileName);
-	
+
 	#region Properties
-	
+
 	public SaveData SaveData => _saveData;
-	
+
 	#endregion
-	
+
 	public event Action<SaveData> OnSaveCompleted;
+
 	public event Action<SaveData> OnLoadCompleted;
+
 	//debug events - I think it's safer is I use loggers for now.
 	public event Action<string> OnSaveError;
 	public event Action<string> OnLoadError;
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -121,12 +126,29 @@ public class SaveSystem : MonoBehaviour
 	{
 		if (GameManager.Instance.IsPlaying && GameManager.Instance.CurrentGameState != GameManager.GameState.Paused)
 		{
-			
+			_saveData.GameProgressionData.PlayTime += Time.deltaTime;
 		}
 	}
 
 	public SaveData GetSaveData()
 	{
 		return _saveData;
+	}
+
+	public void NewGame()
+	{
+		//more to do
+		//will have to contiinue later - I am really tired.
+		SaveGame();
+	}
+
+	public void SaveGame()
+	{
+		Debug.Log("Saving game...");
+	}
+
+	public void LoadGame()
+	{
+		Debug.Log("Loading game...");
 	}
 }
