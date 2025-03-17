@@ -246,11 +246,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6b59fb6f7f72e747a2e0f1e8a31b56d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _jumpForce: 5
+  _numberOfJumps: 2
   _currentMoveSpeed: 0
-  _walkSpeed: 4
-  _sprintSpeed: 8
+  _walkSpeed: 16
+  _sprintSpeed: 24
   _gravityGrounded: -2
   _gravityValue: -9.81
+  _fallMultiplier: 2.5
   _camera: {fileID: 7227263887555804188}
   _cameraSensitivity: 30
   _inverseCamera: 0

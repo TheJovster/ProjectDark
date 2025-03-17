@@ -39,6 +39,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float _weaponRecoilAmplitude;
     [SerializeField] private float _weaponRecoilForce;
     [SerializeField] private int _weaponDamage = 10;
+    private Vector3 _originalPosition;
     
     #region Properties
     public bool IsSemi => _isSemi;
@@ -63,6 +64,11 @@ public class Weapon : MonoBehaviour
     public void SetCurrentAmmoInMag()
     {
         _currentAmmoInMag = _maxAmmoInMag;
+    }
+
+    public void SetOriginalPosition()
+    {
+        _originalPosition = transform.localPosition;
     }
 
     private void Update()
@@ -98,6 +104,11 @@ public class Weapon : MonoBehaviour
         {
             Reload();
         }
+    }
+
+    public void WeaponSway()
+    {
+        
     }
 
     public void Reload() //I guess I can just have this as an anim event;

@@ -13,7 +13,12 @@ public class PlayerController : MonoBehaviour
 	private float _mouseYDelta;
 
 	private bool _isSprinting = false;
-
+	private bool _canJump = true;
+	[SerializeField, Range(0.0f, 5.0f)] private float _jumpForce = 1.0f;
+	[SerializeField] private int _numberOfJumps = 2; //this is used to control the air jump
+	private const int MAX_NUMBER_OF_JUMPS = 2; //necessary?
+	private Vector3 _verticalVelocity;
+	
 	private Vector3 _moveDirection;
 	
 	#region Properties
@@ -23,11 +28,14 @@ public class PlayerController : MonoBehaviour
 
 	[Header("Movement and Gravity")]
 	[SerializeField] private float _currentMoveSpeed;
-	[SerializeField, Range(1.0f, 12.0f)] private float _walkSpeed = 4.0f;
-	[SerializeField, Range(4.0f, 24.0f)] private float _sprintSpeed = 8.0f;
+	[SerializeField, Range(4.0f, 36.0f)] private float _walkSpeed = 4.0f;
+	[SerializeField, Range(16.0f, 72.0f)] private float _sprintSpeed = 8.0f;
+	[SerializeField] private float _walkFraction = 0.5f;
+	[SerializeField] private float _sprintFraction = 0.5f;
 	[SerializeField] private float _gravityGrounded = -2.0f;
 	[SerializeField] private float _gravityValue = -9.81f;
-
+	[SerializeField] private float _fallMultiplier = 2.5f;
+	
 	[Header("Camera Control")] [SerializeField]
 	private Camera _camera;
 	[SerializeField] private float _cameraSensitivity = 30.0f;
@@ -57,6 +65,11 @@ public class PlayerController : MonoBehaviour
 	{
 		if (GameManager.Instance.IsPlaying)
 		{
+			_canJump = _numberOfJumps > 0;
+			if (_characterController.isGrounded)
+			{
+				_numberOfJumps = MAX_NUMBER_OF_JUMPS;
+			}
 			CheckForSprinting();
 			_currentMoveSpeed = _isSprinting ? _sprintSpeed : _walkSpeed;
 			Move();
@@ -67,21 +80,31 @@ public class PlayerController : MonoBehaviour
 			TryReloadWeapon();
 			TrySwitchWeapon();
 
-			if (_characterController.isGrounded)
+			if (_characterController.isGrounded && _verticalVelocity.y < 0)
 			{
-				_moveDirection.y = _gravityGrounded;
+				_verticalVelocity.y = _gravityGrounded;
 			}
-			else if (!_characterController.isGrounded)
+			else
 			{
-				_moveDirection.y += _gravityValue * Time.deltaTime;
+				if (_verticalVelocity.y < 0)
+				{
+					_verticalVelocity.y += _gravityValue * _fallMultiplier * Time.deltaTime;
+
+				}
+				else
+				{
+					_verticalVelocity.y += _gravityValue * _fallMultiplier * Time.deltaTime;
+				}
 			}
+			
+			Jump();
 
-
-			_characterController.Move(_moveDirection);
+			Vector3 downwardForce = new Vector3(0.0f, _verticalVelocity.y, 0.0f) * Time.deltaTime;
+			_characterController.Move(downwardForce);
 		}
 		else if (!GameManager.Instance.IsPlaying)
 		{
-			_moveDirection.y = 0;
+			_verticalVelocity.y = 0;
 		}
 		TogglePauseMenu();
 	}
@@ -193,6 +216,18 @@ public class PlayerController : MonoBehaviour
 		if (_input.Player.SwitchWeaponDown.WasPressedThisFrame())
 		{
 			_weaponInventory.DecrementWeaponIndex();
+		}
+	}
+
+	private void Jump()
+	{
+		if (_input.Player.Jump.WasPressedThisFrame())
+		{
+			if (_canJump)
+			{
+				_verticalVelocity.y = Mathf.Sqrt(_jumpForce * -2f * _gravityValue);	
+				_numberOfJumps--;
+			}
 		}
 	}
 	
