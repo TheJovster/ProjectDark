@@ -84,6 +84,7 @@ MonoBehaviour:
   _weaponAnimator: {fileID: 8228059427971246038}
   _animatorOverrideController: {fileID: 0}
   _projectilePrefab: {fileID: 6031244269927499314, guid: b3861136c2c60b3488f52ec5271c8c02, type: 3}
+  _barrels: {fileID: 0}
   _currentAmmoInMag: 0
   _maxAmmoInMag: 6
   _hasSelectFire: 0
@@ -92,6 +93,12 @@ MonoBehaviour:
   _weaponRecoilAmplitude: 0
   _weaponRecoilForce: 0
   _weaponDamage: 15
+  _weaponAudioClips:
+  - {fileID: 8300000, guid: 08f78eba48bb21c44ac5a74ca84efc83, type: 3}
+  - {fileID: 8300000, guid: 3dc7b4438e9f788479f2eba0e75191b1, type: 3}
+  - {fileID: 8300000, guid: e196615aab553a14ab4e1aeb462c195c, type: 3}
+  - {fileID: 8300000, guid: 159aa6b3153429349b06479ba4bcb8fc, type: 3}
+  _muzzleFlash: {fileID: 0}
 --- !u!95 &8228059427971246038
 Animator:
   serializedVersion: 7

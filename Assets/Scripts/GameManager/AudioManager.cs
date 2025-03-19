@@ -13,6 +13,7 @@ public class AudioManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
         else
         {
@@ -32,6 +33,11 @@ public class AudioManager : MonoBehaviour
         _soundtrack.clip = null;
     }
 
+    public void ResumeSoundtrack()
+    {
+        _soundtrack.Play();
+    }
+
     public void PlayEffect(AudioClip clip)
     {
         if (_effects.clip != null)
@@ -40,5 +46,11 @@ public class AudioManager : MonoBehaviour
         }
         _effects.PlayOneShot(clip);
     }
-    
+
+    public void PlayLevelMusic(AudioClip clip)
+    {
+        StopSoundtrack();
+        _soundtrack.clip = clip;
+        _soundtrack.Play();
+    }
 }

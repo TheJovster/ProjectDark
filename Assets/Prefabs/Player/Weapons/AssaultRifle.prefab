@@ -61,6 +61,13 @@ MonoBehaviour:
   _weaponRecoilAmplitude: 0
   _weaponRecoilForce: 0
   _weaponDamage: 30
+  _weaponAudioClips:
+  - {fileID: 8300000, guid: 40551c6406630ab49b2a8ad43cc752a8, type: 3}
+  - {fileID: 8300000, guid: fa50548934648a04885242083eeeee08, type: 3}
+  - {fileID: 8300000, guid: 8115cf92e6bd3df43a1a650fda131536, type: 3}
+  - {fileID: 8300000, guid: 1e0435c5fb435de43bfc28da9b033a82, type: 3}
+  - {fileID: 8300000, guid: 5f36dc1aa05d4354e9bea30e6bb63ffe, type: 3}
+  _muzzleFlash: {fileID: 0}
 --- !u!1 &7552421741977897555
 GameObject:
   m_ObjectHideFlags: 0

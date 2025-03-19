@@ -2178,6 +2178,12 @@ MonoBehaviour:
   loadingProgressBar: {fileID: 1414558618}
   menuCamera: {fileID: 1909920556}
   loadingTime: 1
+  _mainMenuMusic: {fileID: 8300000, guid: 8c20552e4f02b4443a57d5ff31c0af02, type: 3}
+  _loadingScreenMusic: {fileID: 8300000, guid: 7f03d4e6ebb25f34097189acda5847c5, type: 3}
+  _gameOverMusic: {fileID: 0}
+  _levelMusic:
+  - {fileID: 8300000, guid: 3539bc737d850604e9611b0fea876be2, type: 3}
+  - {fileID: 8300000, guid: 06a20364fe3be8948baa9f9d62ebb933, type: 3}
 --- !u!114 &1033423512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3530,7 +3536,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0

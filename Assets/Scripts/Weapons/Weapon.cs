@@ -1,7 +1,3 @@
-using System;
-using System.Reflection;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -40,6 +36,11 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float _weaponRecoilForce;
     [SerializeField] private int _weaponDamage = 10;
     private Vector3 _originalPosition;
+
+    [Header("Audio and VFX")]
+    [Tooltip("Set this to 5")]
+    [SerializeField] private AudioClip[] _weaponAudioClips; 
+    [SerializeField] private ParticleSystem _muzzleFlash;
     
     #region Properties
     public bool IsSemi => _isSemi;
@@ -90,6 +91,7 @@ public class Weapon : MonoBehaviour
         {
             _barrels.Rotate(Vector3.forward * (720.0f * Time.deltaTime));
         }
+        
         if (_currentAmmoInMag > 0 && _timeSinceLastShot >= _rateOfFire)
         {
             PlayerProjectile projectileInstance =
@@ -98,6 +100,10 @@ public class Weapon : MonoBehaviour
             projectileInstance.SetRotation(_muzzlePoint.forward);
             _timeSinceLastShot = 0.0f;
             _currentAmmoInMag--;
+            int audioClipIndex = Random.Range(0, _weaponAudioClips.Length);
+            AudioManager.Instance.PlayEffect(_weaponAudioClips[audioClipIndex]);
+            _muzzleFlash?.Play();
+            Debug.Log(audioClipIndex);
         }
 
         if (_isEmpty && _ammoInventory.ReturnCurrentAmmoAmount(_weaponInventory.CurrentWeapon.CurrentWeaponType) > 0)

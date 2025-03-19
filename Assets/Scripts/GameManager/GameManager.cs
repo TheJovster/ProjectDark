@@ -26,6 +26,12 @@ public class GameManager : MonoBehaviour
     [Header("Loading Simulation")] //TODO: expand this so the loading is actual, not simulated;
     [SerializeField, Range(1f, 120f)] private float loadingTime = 10.0f;
 
+    [Header("Audio Clips")] 
+    [SerializeField] private AudioClip _mainMenuMusic;
+    [SerializeField] private AudioClip _loadingScreenMusic;
+    [SerializeField] private AudioClip _gameOverMusic;
+    [SerializeField] private AudioClip[] _levelMusic;
+    
     private AudioListener menuCameraListener;
     private bool isPlaying = false;
     
@@ -82,11 +88,14 @@ public class GameManager : MonoBehaviour
         {
             case GameState.MainMenu:
                 mainMenuPanel.SetActive(true);
+                AudioManager.Instance.PlaySoundtrack(_mainMenuMusic);
                 isPlaying = false;
                 ShowCursor();
                 break;
             case GameState.Loading:
                 loadingScreenPanel.SetActive(true);
+                AudioManager.Instance.StopSoundtrack();
+                AudioManager.Instance.PlaySoundtrack(_loadingScreenMusic);
                 isPlaying = false;
                 HideCursor();
                 break;
@@ -202,7 +211,7 @@ public class GameManager : MonoBehaviour
         {
             SaveSystem.Instance.LoadGame();
         }
-        
+        AudioManager.Instance.PlayLevelMusic(_levelMusic[levelIndex]);
         if (fader.CurrentAlpha >= 0.99f)
         {
             yield return fader.FadeOut();
