@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7227263887555804188}
   - component: {fileID: 2615336089158881470}
   - component: {fileID: 426077303788454641}
+  - component: {fileID: 5000620678049563041}
   m_Layer: 0
   m_Name: PlayerCamera
   m_TagString: Untagged
@@ -111,13 +112,13 @@ MonoBehaviour:
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras: []
-  m_RendererIndex: -1
+  m_RendererIndex: 0
   m_VolumeLayerMask:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -138,6 +139,22 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &5000620678049563041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2428045005917808723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62c6146d6690f354f8e6f31b8e21e638, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shakeDuration: 0.2
+  _shakeIntensity: 0.2
+  _noiseFrequency: 15
+  _postProcessVolume: {fileID: 0}
 --- !u!1 &3768926325806901751
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,6 +268,8 @@ MonoBehaviour:
   _currentMoveSpeed: 0
   _walkSpeed: 16
   _sprintSpeed: 24
+  _walkFraction: 0.5
+  _sprintFraction: 0.5
   _gravityGrounded: -2
   _gravityValue: -9.81
   _fallMultiplier: 2.5
@@ -298,6 +317,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3261543685367986461}
     m_Modifications:
+    - target: {fileID: 2055352537291397193, guid: 68d473487eb53ae44bee88162ad7dc0e, type: 3}
+      propertyPath: _weaponRecoilForce
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 4149560383648977997, guid: 68d473487eb53ae44bee88162ad7dc0e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -404,6 +427,10 @@ PrefabInstance:
       propertyPath: _projectilePrefab
       value: 
       objectReference: {fileID: 6031244269927499314, guid: b3861136c2c60b3488f52ec5271c8c02, type: 3}
+    - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+      propertyPath: _weaponRecoilForce
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 6980041935456485478, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
       propertyPath: m_Name
       value: AssaultRifle
@@ -470,6 +497,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Minigun
       objectReference: {fileID: 0}
+    - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
+      propertyPath: _weaponRecoilForce
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -491,6 +522,10 @@ PrefabInstance:
     - target: {fileID: 2055352537291397193, guid: d42b5913bdc96a84e832209d081c2e2e, type: 3}
       propertyPath: _weaponAnimator
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2055352537291397193, guid: d42b5913bdc96a84e832209d081c2e2e, type: 3}
+      propertyPath: _weaponRecoilForce
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 4149560383648977997, guid: d42b5913bdc96a84e832209d081c2e2e, type: 3}
       propertyPath: m_LocalPosition.x

@@ -32,7 +32,6 @@ public class Weapon : MonoBehaviour
     [SerializeField] private bool _isSemi = false;
     [SerializeField] private float _rateOfFire;
     private float _timeSinceLastShot = 0.0f;
-    [SerializeField] private float _weaponRecoilAmplitude;
     [SerializeField] private float _weaponRecoilForce;
     [SerializeField] private int _weaponDamage = 10;
     private Vector3 _originalPosition;
@@ -41,6 +40,7 @@ public class Weapon : MonoBehaviour
     [Tooltip("Set this to 5")]
     [SerializeField] private AudioClip[] _weaponAudioClips; 
     [SerializeField] private ParticleSystem _muzzleFlash;
+    private CameraShake _cameraShake;
     
     #region Properties
     public bool IsSemi => _isSemi;
@@ -55,6 +55,7 @@ public class Weapon : MonoBehaviour
     {
         _weaponInventory = GetComponentInParent<WeaponInventory>();
         _ammoInventory = GetComponentInParent<AmmoInventory>();
+        _cameraShake = GetComponentInParent<CameraShake>();
     }
     
     private void Start()
@@ -102,7 +103,7 @@ public class Weapon : MonoBehaviour
             _currentAmmoInMag--;
             int audioClipIndex = Random.Range(0, _weaponAudioClips.Length);
             AudioManager.Instance.PlayEffect(_weaponAudioClips[audioClipIndex]);
-            _muzzleFlash?.Play();
+            _cameraShake.TriggerFireShake(_weaponRecoilForce);
             Debug.Log(audioClipIndex);
         }
 
@@ -111,12 +112,7 @@ public class Weapon : MonoBehaviour
             Reload();
         }
     }
-
-    public void WeaponSway()
-    {
-        
-    }
-
+    
     public void Reload() //I guess I can just have this as an anim event;
     {
         int amountToReduce = _weaponInventory.CurrentWeapon.GetMaxAmmoInMag() - 

@@ -58,8 +58,7 @@ MonoBehaviour:
   _hasSelectFire: 0
   _isSemi: 0
   _rateOfFire: 0.4
-  _weaponRecoilAmplitude: 0
-  _weaponRecoilForce: 0
+  _weaponRecoilForce: 0.5
   _weaponDamage: 30
   _weaponAudioClips:
   - {fileID: 8300000, guid: 40551c6406630ab49b2a8ad43cc752a8, type: 3}

@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour
@@ -66,8 +68,13 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        SetGameState(GameState.MainMenu);
+
         menuCameraListener = menuCamera.gameObject.GetComponent<AudioListener>();
+    }
+
+    private void Start()
+    {
+        SetGameState(GameState.MainMenu);
     }
     
     public void SetGameState(GameState newGameState)
