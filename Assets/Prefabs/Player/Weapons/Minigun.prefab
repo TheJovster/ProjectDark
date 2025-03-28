@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 529853046362904217}
   - component: {fileID: 8139672024244417169}
+  - component: {fileID: 7893564886361146705}
   m_Layer: 0
   m_Name: Minigun
   m_TagString: Untagged
@@ -98,6 +99,36 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 71bf072d25912e9429bc774978b237eb, type: 3}
   - {fileID: 8300000, guid: 44f33c4fdb97c414cb54a165c14f6b33, type: 3}
   _muzzleFlash: {fileID: 0}
+  _recoilDuration: 0.1
+  _returnSpeed: 5
+  _recoilRotation: {x: -10, y: 5, z: 0}
+  _recoilKickback: 0.1
+  _headbobSpeed: 4
+  _headbobAmount: 0.05
+  _headbobSmoothing: 10
+  _enableHeadbob: 1
+--- !u!114 &7893564886361146705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5984748266032679234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dcebd1524beb894ab40a01eb10762ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swayAmount: 0.02
+  _maxSwayAmount: 0.06
+  _swaySmoothing: 8
+  _swayResetSmoothing: 2
+  _rotationSwayMultiplier: 1
+  _maxRotationSway: 5
+  _invertXRotation: 0
+  _invertYRotation: 0
+  _positionSwayMultiplier: 1
+  _swayPositionLimit: {x: 0.1, y: 0.1, z: 0.1}
 --- !u!1001 &7572093564038967266
 PrefabInstance:
   m_ObjectHideFlags: 0

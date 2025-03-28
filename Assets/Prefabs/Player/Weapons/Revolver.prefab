@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 4149560383648977997}
   - component: {fileID: 2055352537291397193}
   - component: {fileID: 8228059427971246038}
+  - component: {fileID: 4743116137529442220}
   m_Layer: 0
   m_Name: Revolver
   m_TagString: Untagged
@@ -98,6 +99,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e196615aab553a14ab4e1aeb462c195c, type: 3}
   - {fileID: 8300000, guid: 159aa6b3153429349b06479ba4bcb8fc, type: 3}
   _muzzleFlash: {fileID: 0}
+  _recoilDuration: 0.1
+  _returnSpeed: 5
+  _recoilRotation: {x: -10, y: 5, z: 0}
+  _recoilKickback: 0.1
+  _headbobSpeed: 4
+  _headbobAmount: 0.05
+  _headbobSmoothing: 10
+  _enableHeadbob: 1
 --- !u!95 &8228059427971246038
 Animator:
   serializedVersion: 7
@@ -120,6 +129,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4743116137529442220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5313906849068004499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dcebd1524beb894ab40a01eb10762ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _swayAmount: 0.02
+  _maxSwayAmount: 0.06
+  _swaySmoothing: 8
+  _swayResetSmoothing: 2
+  _rotationSwayMultiplier: 1
+  _maxRotationSway: 5
+  _invertXRotation: 0
+  _invertYRotation: 0
+  _positionSwayMultiplier: 1
+  _swayPositionLimit: {x: 0.1, y: 0.1, z: 0.1}
 --- !u!1001 &4485453622337085749
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Weapon : MonoBehaviour
 {
@@ -32,15 +33,15 @@ public class Weapon : MonoBehaviour
     [SerializeField] private bool _isSemi = false;
     [SerializeField] private float _rateOfFire;
     private float _timeSinceLastShot = 0.0f;
-    [SerializeField] private float _weaponRecoilForce;
     [SerializeField] private int _weaponDamage = 10;
-    private Vector3 _originalPosition;
+
 
     [Header("Audio and VFX")]
     [Tooltip("Set this to 5")]
     [SerializeField] private AudioClip[] _weaponAudioClips; 
     [SerializeField] private ParticleSystem _muzzleFlash;
-    private CameraShake _cameraShake;
+
+    private WeaponRecoil _weaponRecoil;
     
     #region Properties
     public bool IsSemi => _isSemi;
@@ -55,7 +56,7 @@ public class Weapon : MonoBehaviour
     {
         _weaponInventory = GetComponentInParent<WeaponInventory>();
         _ammoInventory = GetComponentInParent<AmmoInventory>();
-        _cameraShake = GetComponentInParent<CameraShake>();
+        _weaponRecoil = GetComponent<WeaponRecoil>();
     }
     
     private void Start()
@@ -67,11 +68,7 @@ public class Weapon : MonoBehaviour
     {
         _currentAmmoInMag = _maxAmmoInMag;
     }
-
-    public void SetOriginalPosition()
-    {
-        _originalPosition = transform.localPosition;
-    }
+    
 
     private void Update()
     {
@@ -88,7 +85,7 @@ public class Weapon : MonoBehaviour
 
     public void Fire()
     {
-        if (_weaponName == "Minigun") //this is a lot of ducttape
+        if (_weaponName == "Minigun") //this is a lot of ducttape - will fix this with a local animator.
         {
             _barrels.Rotate(Vector3.forward * (720.0f * Time.deltaTime));
         }
@@ -103,8 +100,9 @@ public class Weapon : MonoBehaviour
             _currentAmmoInMag--;
             int audioClipIndex = Random.Range(0, _weaponAudioClips.Length);
             AudioManager.Instance.PlayEffect(_weaponAudioClips[audioClipIndex]);
-            _cameraShake.TriggerFireShake(_weaponRecoilForce);
-            Debug.Log(audioClipIndex);
+            _weaponRecoil.ApplyRecoil();
+            HUDManager.Instance.UpdateAmmoCount(_weaponInventory.CurrentWeapon.GetCurrentAmmoInMag(), 
+                _weaponInventory.CurrentWeapon.GetCurrentAmmoInInventory());
         }
 
         if (_isEmpty && _ammoInventory.ReturnCurrentAmmoAmount(_weaponInventory.CurrentWeapon.CurrentWeaponType) > 0)
@@ -123,6 +121,9 @@ public class Weapon : MonoBehaviour
         }
         _currentAmmoInMag = _maxAmmoInMag; 
         _ammoInventory.ReduceAmmoAmount(_weaponInventory.CurrentWeapon.CurrentWeaponType, amountToReduce);
+        HUDManager.Instance.UpdateAmmoCount(_weaponInventory.CurrentWeapon.GetCurrentAmmoInMag(), 
+            _weaponInventory.CurrentWeapon.GetCurrentAmmoInInventory());
+
         //edgecases
     }
     
@@ -131,6 +132,11 @@ public class Weapon : MonoBehaviour
     public int GetCurrentAmmoInMag()
     {
         return _currentAmmoInMag;
+    }
+
+    public int GetCurrentAmmoInInventory()
+    {
+        return _ammoInventory.ReturnCurrentAmmoAmount(_weaponType);
     }
 
     public int GetMaxAmmoInMag()
@@ -145,5 +151,4 @@ public class Weapon : MonoBehaviour
     {
         _weaponAnimator.enabled = false;
     }
-    
 }

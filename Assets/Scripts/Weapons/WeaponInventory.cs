@@ -59,8 +59,7 @@ public class WeaponInventory : MonoBehaviour
         _weapons[oldIndex].gameObject.SetActive(false);
         _weapons[newIndex].gameObject.SetActive(true);
         _currentWeapon = _weapons[newIndex];
-        _currentWeapon.SetOriginalPosition();
-
+        HUDManager.Instance.UpdateAmmoCount(_currentWeapon.GetCurrentAmmoInMag(), _currentWeapon.GetCurrentAmmoInInventory());
     }
 
 }

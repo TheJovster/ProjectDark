@@ -18,12 +18,18 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private int _numberOfJumps = 2; //this is used to control the air jump
 	private const int MAX_NUMBER_OF_JUMPS = 2; //necessary?
 	private Vector3 _verticalVelocity;
+
+	[SerializeField] private bool _isGrounded;
 	
 	private Vector3 _moveDirection;
 	
 	#region Properties
 
 	public Vector3 MoveDirection => _moveDirection;
+	public bool IsSprinting => _isSprinting;
+	public CharacterController CharacterController => _characterController;
+	public WeaponInventory WeaponInventory => _weaponInventory;
+	
 	#endregion
 
 	[Header("Movement and Gravity")]
@@ -63,6 +69,7 @@ public class PlayerController : MonoBehaviour
 
 	private void Update()
 	{
+		_isGrounded = _characterController.isGrounded;
 		if (GameManager.Instance.IsPlaying)
 		{
 			_canJump = _numberOfJumps > 0;
@@ -195,12 +202,10 @@ public class PlayerController : MonoBehaviour
 		{
 			
 		}
-		
 	}
 
 	private void TryReloadWeapon()
 	{
-		//edgecases and stuff
 		if (_input.Player.Reload.WasPressedThisFrame())
 		{
 			_weaponInventory.CurrentWeapon.Reload();

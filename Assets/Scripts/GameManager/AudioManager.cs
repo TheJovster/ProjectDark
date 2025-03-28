@@ -19,6 +19,16 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        if (_soundtrack != null)
+        {
+            _soundtrack.loop = true;
+        }
+
+        if (_effects != null)
+        {
+            _effects.loop = false;
+        }
     }
 
     public void PlaySoundtrack(AudioClip clip)

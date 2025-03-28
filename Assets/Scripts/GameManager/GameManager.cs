@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] levelPrefabs;
     
     private GameObject playerInstance;
+    private PlayerController _playerController;
     private GameObject currentLevelInstance;
     
     [Header("UI Elements")] 
@@ -180,7 +181,7 @@ public class GameManager : MonoBehaviour
             playerInstance = null;
         }
         
-        // Simulate loading time with progress bar - I need to figure out how to do proepr content loading without relying on addressables. 
+        // Simulate loading time with progress bar - I need to figure out how to do proper content loading without relying on addressables. 
         float loadTime = loadingTime; //naming issue - fix later
         float elapsedTime = 0f;
         if (menuCamera && menuCamera.GetComponent<AudioListener>())
@@ -190,6 +191,9 @@ public class GameManager : MonoBehaviour
         //sounds
         currentLevelInstance = Instantiate(levelPrefabs[levelIndex]);
         playerInstance = Instantiate(playerPrefab);
+        _playerController = playerInstance.GetComponent<PlayerController>();
+        HUDManager.Instance.UpdateAmmoCount(_playerController.WeaponInventory.CurrentWeapon.GetCurrentAmmoInMag(), 
+            _playerController.WeaponInventory.CurrentWeapon.GetCurrentAmmoInInventory());
         //enemies 
         
         while (elapsedTime < loadTime)
