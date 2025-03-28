@@ -385,10 +385,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: cbafebeb001b3ef4f90c7f2cf2f5a931, type: 3}
   - {fileID: 8300000, guid: 557c37353d24f2047a4238b6699ac14e, type: 3}
   _enableFootstepSounds: 1
-  _footstepInterval: 0.5
-  _footstepSpeedTreshold: 0.5
-  _runningFootstepInterval: 0.3
-  _runningSpeedThreshold: 4
+  _footstepInterval: 1.25
+  _footstepSpeedTreshold: 4
+  _runningFootstepInterval: 0.75
+  _runningSpeedThreshold: 20
 --- !u!114 &5953302303216707664
 MonoBehaviour:
   m_ObjectHideFlags: 0
