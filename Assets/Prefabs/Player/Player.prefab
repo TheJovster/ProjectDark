@@ -373,7 +373,8 @@ MonoBehaviour:
   _cameraMinAngle: -60
   _cameraMaxAngle: 60
   _footstepSounds: []
-  _jumpSounds: []
+  _jumpSounds:
+  - {fileID: 0}
 --- !u!114 &5953302303216707664
 MonoBehaviour:
   m_ObjectHideFlags: 0
