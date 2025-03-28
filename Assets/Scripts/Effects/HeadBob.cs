@@ -30,6 +30,9 @@ public class HeadBob : MonoBehaviour
     [SerializeField] private bool _forceActiveBob = false;
     [SerializeField] private bool _debugLogs = false;
     
+    [Header("Audio")]
+    [SerializeField] private AudioClip[] _landingSounds;
+    
     private Transform _playerTransform;
     private CharacterController _characterController;
     private Vector3 _originalLocalPosition;
@@ -122,7 +125,7 @@ public class HeadBob : MonoBehaviour
             {
                 float intensity = Mathf.Clamp01(fallVelocity / _landingBobFraction);
                 float amplitude = _landingBobAmplitude * intensity;
-                
+                AudioManager.Instance.PlayEffect(_landingSounds[RandomLandingSound()]);
                 StopAllCoroutines();
                 StartCoroutine(LandingBobEffect(amplitude, _landingBobDuration));
                 
@@ -134,6 +137,11 @@ public class HeadBob : MonoBehaviour
         }
         
         _wasGrounded = isGrounded;
+    }
+
+    private int RandomLandingSound()
+    {
+        return Random.Range(0, _landingSounds.Length);
     }
     
     private IEnumerator LandingBobEffect(float amplitude, float duration)

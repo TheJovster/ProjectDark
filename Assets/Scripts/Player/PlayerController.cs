@@ -42,13 +42,17 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private float _gravityValue = -9.81f;
 	[SerializeField] private float _fallMultiplier = 2.5f;
 	
-	[Header("Camera Control")] [SerializeField]
-	private Camera _camera;
+	[Header("Camera Control")]
+	[SerializeField] private Camera _camera;
 	[SerializeField] private float _cameraSensitivity = 30.0f;
 	[SerializeField] private bool _inverseCamera = false;
 	[SerializeField] private float _cameraMinAngle = -60.0f;
 	[SerializeField] private float _cameraMaxAngle = 60.0f;
 	private float _currentXRotation = 0.0f;
+
+	[Header("Audio")] 
+	[SerializeField] private AudioClip[] _footstepSounds;
+	[SerializeField] private AudioClip[] _jumpSounds;
 	private void OnEnable()
 	{
 		_input = new InputSystem_Actions();

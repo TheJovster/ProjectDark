@@ -249,6 +249,7 @@ MonoBehaviour:
   _landingBobAmplitude: 7.5
   _landingBobDuration: 0.3
   _landingBobMinVelocity: 0.5
+  _landingBobFraction: 20
   _landingBobCurve:
     serializedVersion: 2
     m_Curve:
@@ -276,6 +277,12 @@ MonoBehaviour:
   _movementAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   _forceActiveBob: 0
   _debugLogs: 0
+  _landingSounds:
+  - {fileID: 8300000, guid: 682430ebd9801a24f86161063b674c25, type: 3}
+  - {fileID: 8300000, guid: 9fc38d3760eef814b9b561143a77851f, type: 3}
+  - {fileID: 8300000, guid: e925eacae2746894d988036e7287c096, type: 3}
+  - {fileID: 8300000, guid: cbafebeb001b3ef4f90c7f2cf2f5a931, type: 3}
+  - {fileID: 8300000, guid: 557c37353d24f2047a4238b6699ac14e, type: 3}
 --- !u!1 &9074778794591022342
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,6 +372,8 @@ MonoBehaviour:
   _inverseCamera: 0
   _cameraMinAngle: -60
   _cameraMaxAngle: 60
+  _footstepSounds: []
+  _jumpSounds: []
 --- !u!114 &5953302303216707664
 MonoBehaviour:
   m_ObjectHideFlags: 0

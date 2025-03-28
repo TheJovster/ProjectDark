@@ -63,4 +63,10 @@ public class AudioManager : MonoBehaviour
         _soundtrack.clip = clip;
         _soundtrack.Play();
     }
+
+    public void PlayFootsteps(AudioClip clip)
+    {
+        
+    }
+    
 }
