@@ -33,8 +33,11 @@ public class HeadBob : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioClip[] _landingSounds;
     
+
+    
     private Transform _playerTransform;
     private CharacterController _characterController;
+    private PlayerController _playerController;
     private Vector3 _originalLocalPosition;
     private Vector3 _previousPosition;
     
@@ -64,6 +67,7 @@ public class HeadBob : MonoBehaviour
     {
         _playerTransform = _velocitySource != null ? _velocitySource : transform.parent;
         _characterController = _playerTransform.GetComponent<CharacterController>();
+        _playerController = _playerTransform.GetComponent<PlayerController>();
         _originalLocalPosition = transform.localPosition;
         _previousPosition = _playerTransform.position;
         
@@ -125,7 +129,7 @@ public class HeadBob : MonoBehaviour
             {
                 float intensity = Mathf.Clamp01(fallVelocity / _landingBobFraction);
                 float amplitude = _landingBobAmplitude * intensity;
-                AudioManager.Instance.PlayEffect(_landingSounds[RandomLandingSound()]);
+                AudioManager.Instance.PlayEffect(_landingSounds[GetRandomLandingSound()]);
                 StopAllCoroutines();
                 StartCoroutine(LandingBobEffect(amplitude, _landingBobDuration));
                 
@@ -139,10 +143,13 @@ public class HeadBob : MonoBehaviour
         _wasGrounded = isGrounded;
     }
 
-    private int RandomLandingSound()
+    private int GetRandomLandingSound()
     {
         return Random.Range(0, _landingSounds.Length);
     }
+
+    
+    
     
     private IEnumerator LandingBobEffect(float amplitude, float duration)
     {

@@ -278,11 +278,11 @@ MonoBehaviour:
   _forceActiveBob: 0
   _debugLogs: 0
   _landingSounds:
-  - {fileID: 8300000, guid: 682430ebd9801a24f86161063b674c25, type: 3}
-  - {fileID: 8300000, guid: 9fc38d3760eef814b9b561143a77851f, type: 3}
-  - {fileID: 8300000, guid: e925eacae2746894d988036e7287c096, type: 3}
-  - {fileID: 8300000, guid: cbafebeb001b3ef4f90c7f2cf2f5a931, type: 3}
-  - {fileID: 8300000, guid: 557c37353d24f2047a4238b6699ac14e, type: 3}
+  - {fileID: 8300000, guid: 622d99393824b344ba9ebf91be0ca4d9, type: 3}
+  - {fileID: 8300000, guid: 779bc12ce9c70134bb3c481bfe60e30c, type: 3}
+  - {fileID: 8300000, guid: 960875a4148c65d47866d30240958c0a, type: 3}
+  - {fileID: 8300000, guid: 5d28efd7f63809e45a8a6354d13b550f, type: 3}
+  - {fileID: 8300000, guid: 17713bcefe977fb419c402b8f65e3f0c, type: 3}
 --- !u!1 &9074778794591022342
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,13 +372,23 @@ MonoBehaviour:
   _inverseCamera: 0
   _cameraMinAngle: -60
   _cameraMaxAngle: 60
-  _footstepSounds: []
   _jumpSounds:
   - {fileID: 8300000, guid: a684ae4f7af324043bf36d8aa5be0ee1, type: 3}
   - {fileID: 8300000, guid: a67d2be585e36eb448c9ba6ff03914a1, type: 3}
   - {fileID: 8300000, guid: 6cb4c8b3746090341877d3232799a44d, type: 3}
   - {fileID: 8300000, guid: c9da5170a8163d041825163deea7cbae, type: 3}
   - {fileID: 8300000, guid: e0052e738ccdee940b4aa75082368bfa, type: 3}
+  _footstepSounds:
+  - {fileID: 8300000, guid: 682430ebd9801a24f86161063b674c25, type: 3}
+  - {fileID: 8300000, guid: d9b6004bcba4c834aaa67e6be05c14f7, type: 3}
+  - {fileID: 8300000, guid: e925eacae2746894d988036e7287c096, type: 3}
+  - {fileID: 8300000, guid: cbafebeb001b3ef4f90c7f2cf2f5a931, type: 3}
+  - {fileID: 8300000, guid: 557c37353d24f2047a4238b6699ac14e, type: 3}
+  _enableFootstepSounds: 1
+  _footstepInterval: 0.5
+  _footstepSpeedTreshold: 0.5
+  _runningFootstepInterval: 0.3
+  _runningSpeedThreshold: 4
 --- !u!114 &5953302303216707664
 MonoBehaviour:
   m_ObjectHideFlags: 0

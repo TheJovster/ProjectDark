@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
  [RequireComponent(typeof(CharacterController))]
@@ -50,9 +51,17 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private float _cameraMaxAngle = 60.0f;
 	private float _currentXRotation = 0.0f;
 
-	[Header("Audio")] 
-	[SerializeField] private AudioClip[] _footstepSounds;
+	[Header("Jump Sounds")] 
 	[SerializeField] private AudioClip[] _jumpSounds;
+	
+	[Header("Footstep Sounds")]
+	[SerializeField] private AudioClip[] _footstepSounds;
+	[SerializeField] private bool _enableFootstepSounds = true;
+	[SerializeField] private float _footstepInterval = 0.5f;
+	[SerializeField] private float _footstepSpeedTreshold = 0.5f;
+	[SerializeField] private float _runningFootstepInterval = 0.3f;
+	[SerializeField] private float _runningSpeedThreshold = 4f;
+	private float _footstepTimer = 0f;
 	private void OnEnable()
 	{
 		_input = new InputSystem_Actions();
@@ -74,6 +83,7 @@ public class PlayerController : MonoBehaviour
 	private void Update()
 	{
 		_isGrounded = _characterController.isGrounded;
+		_footstepTimer += Time.deltaTime;
 		if (GameManager.Instance.IsPlaying)
 		{
 			_canJump = _numberOfJumps > 0;
@@ -112,6 +122,8 @@ public class PlayerController : MonoBehaviour
 
 			Vector3 downwardForce = new Vector3(0.0f, _verticalVelocity.y, 0.0f) * Time.deltaTime;
 			_characterController.Move(downwardForce);
+			
+			UpdateFootsteps();
 		}
 		else if (!GameManager.Instance.IsPlaying)
 		{
@@ -134,7 +146,7 @@ public class PlayerController : MonoBehaviour
 		_moveDirection *= _currentMoveSpeed * Time.deltaTime;
 		_characterController.Move(_moveDirection);
 	}
-
+	
 	private void CheckForSprinting()
 	{
 		//ducttape - will refactor later
@@ -240,10 +252,40 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 	}
+	
+	private void UpdateFootsteps()
+	{
+		if (!_enableFootstepSounds || !_isGrounded) return;
+		
+		float movementSpeed = new Vector3(_moveDirection.x, 0, _moveDirection.z).magnitude / Time.deltaTime;
+		
+		if (movementSpeed < _footstepSpeedTreshold) 
+		{
+			_footstepTimer = 0;
+			return;
+		}
+		
+		_footstepTimer += Time.deltaTime;
+		
+		float currentInterval = (_isSprinting || movementSpeed > _runningSpeedThreshold) ? 
+			_runningFootstepInterval : _footstepInterval;
+		
+		if (_footstepTimer >= currentInterval)
+		{
+			AudioManager.Instance.PlayEffect(_footstepSounds[GetRandomWalkSound()]);
+			_footstepTimer = 0f;
+		}
+	}
 
 	private int GetRandomJumpSound()
 	{
 		return Random.Range(0, _jumpSounds.Length);
+	}
+	
+	    
+	private int GetRandomWalkSound()
+	{
+		return Random.Range(0, _footstepSounds.Length);
 	}
 	
 	private void OnDisable()
