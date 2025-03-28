@@ -264,7 +264,6 @@ public class PlayerController : MonoBehaviour
 			_footstepTimer = 0;
 			return;
 		}
-		
 		_footstepTimer += Time.deltaTime;
 		
 		float currentInterval = (_isSprinting || movementSpeed > _runningSpeedThreshold) ? 
@@ -276,18 +275,14 @@ public class PlayerController : MonoBehaviour
 			_footstepTimer = 0f;
 		}
 	}
-
 	private int GetRandomJumpSound()
 	{
 		return Random.Range(0, _jumpSounds.Length);
 	}
-	
-	    
 	private int GetRandomWalkSound()
 	{
 		return Random.Range(0, _footstepSounds.Length);
 	}
-	
 	private void OnDisable()
 	{
 		_input.Disable();
