@@ -374,7 +374,11 @@ MonoBehaviour:
   _cameraMaxAngle: 60
   _footstepSounds: []
   _jumpSounds:
-  - {fileID: 0}
+  - {fileID: 8300000, guid: a684ae4f7af324043bf36d8aa5be0ee1, type: 3}
+  - {fileID: 8300000, guid: a67d2be585e36eb448c9ba6ff03914a1, type: 3}
+  - {fileID: 8300000, guid: 6cb4c8b3746090341877d3232799a44d, type: 3}
+  - {fileID: 8300000, guid: c9da5170a8163d041825163deea7cbae, type: 3}
+  - {fileID: 8300000, guid: e0052e738ccdee940b4aa75082368bfa, type: 3}
 --- !u!114 &5953302303216707664
 MonoBehaviour:
   m_ObjectHideFlags: 0

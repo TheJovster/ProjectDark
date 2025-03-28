@@ -234,10 +234,16 @@ public class PlayerController : MonoBehaviour
 		{
 			if (_canJump)
 			{
+				AudioManager.Instance.PlayEffect(_jumpSounds[GetRandomJumpSound()]);
 				_verticalVelocity.y = Mathf.Sqrt(_jumpForce * -2f * _gravityValue);	
 				_numberOfJumps--;
 			}
 		}
+	}
+
+	private int GetRandomJumpSound()
+	{
+		return Random.Range(0, _jumpSounds.Length);
 	}
 	
 	private void OnDisable()
