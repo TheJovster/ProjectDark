@@ -23,6 +23,7 @@ public class Stats : MonoBehaviour
     private void Awake()
     {
         _currentHealth = _maxHealth;
+        _currentStamina = _maxStamina;
         if (!_isPlayer)
         {
             _animationHandler = GetComponentInChildren<AnimationHandler>();
@@ -60,7 +61,6 @@ public class Stats : MonoBehaviour
         {
             _animationHandler.Trigger_Death();
         }
-
     }
 
     public void ReduceStamina(float staminaCost)

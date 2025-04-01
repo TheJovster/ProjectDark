@@ -3,7 +3,6 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
-
 public class AIAgent : MonoBehaviour
 {
     public enum BehaviorState
@@ -21,16 +20,19 @@ public class AIAgent : MonoBehaviour
     }
 
     private Stats _stats;
-    [SerializeField] private Transform[] _waypoints;
-    [SerializeField] private float _waitTimeAtWaypoint = 3.0f;
-    //serializefield for testing, make purely private later
+    [Header("AI Agent Basics")]
     [SerializeField] private BehaviorState _currentState;
     [SerializeField] private EnemyType _type;
-    private float _timeAtWaypoint = 0.0f;
+    
+    [Header("Waypoints")]
+    [SerializeField] private Transform[] _waypoints;
+    [SerializeField] private float _waitTimeAtWaypoint = 3.0f;
+    private float _timeAtWaypoint = 0.0f; //probably not necessary
+    //serializefield for testing, make purely private later
     [SerializeField]private int _currentWaypointIndex;
     [SerializeField]private int _nextWaypointIndex;
     
-    private Vector3 _startPosition;
+    //components
     private AnimationHandler _animationHandler;
     private NavMeshAgent _navMeshAgent;
     private void Awake()
@@ -45,7 +47,6 @@ public class AIAgent : MonoBehaviour
         {
             waypoint.parent = transform.parent;
         }
-        _startPosition = transform.position;
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _currentState = BehaviorState.Patrol;
     }
@@ -69,7 +70,7 @@ public class AIAgent : MonoBehaviour
     {
         if (_stats.IsAlive)
         {
-            _animationHandler.SetFloat_Speed("Speed", _navMeshAgent.velocity.magnitude, 0.1f, Time.deltaTime);
+            _animationHandler.SetFloat_Speed("Speed", _navMeshAgent.velocity.magnitude, 0.2f, Time.deltaTime);
             _navMeshAgent.isStopped = false;
             GoToLocation(_waypoints[_currentWaypointIndex].position);
             if (_navMeshAgent.remainingDistance <= 0.1f)
@@ -92,7 +93,7 @@ public class AIAgent : MonoBehaviour
     private void Idle()
     {
         _navMeshAgent.velocity = Vector3.zero;
-        _animationHandler.SetFloat_Speed("Speed", _navMeshAgent.velocity.magnitude, 0.1f,Time.deltaTime);
+        _animationHandler.SetFloat_Speed("Speed", _navMeshAgent.velocity.magnitude, 0.2f,Time.deltaTime);
     }
 
     private void EvaluateState()
@@ -106,6 +107,7 @@ public class AIAgent : MonoBehaviour
                 Patrol();
                 break;
             case BehaviorState.Aggressive:
+                AggressiveBehavior();
                 break;
         }
     }
