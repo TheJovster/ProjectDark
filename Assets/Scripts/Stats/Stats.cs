@@ -12,7 +12,7 @@ public class Stats : MonoBehaviour
     [SerializeField] private bool _isPlayer;
     private AnimationHandler _animationHandler;
     private CapsuleCollider _capsuleCollider;
-    private bool _isAlive = true;
+    [SerializeField]private bool _isAlive = true;
     
     #region Properties
     public float CurrentHealth => _currentHealth;
@@ -36,11 +36,11 @@ public class Stats : MonoBehaviour
     public void TakeDamage(float damageToTake)
     {
         _currentHealth -= damageToTake;
-        if (_isPlayer && _isAlive)
+        if (_isPlayer && _isAlive && _isPlayer)
         {
             GameManager.Instance.SetHealthBarFill(_currentHealth, _maxHealth);
         }
-        if (_currentHealth > 0 && !_isPlayer)
+        else if (_isAlive && !_isPlayer)
         {
             _animationHandler.Trigger_TakeDamage();
         }
@@ -51,33 +51,10 @@ public class Stats : MonoBehaviour
             {
                 Death();
                 _capsuleCollider.enabled = false;
+                _animationHandler.Trigger_Death();
                 //temporary - will add more functionality, like gibbing
             }
-            else if (_isPlayer)
-            {
-                GameManager.Instance.SetGameState(GameManager.GameState.GameOver);
-            }
         }
-    }
-
-    public void DrainStamina(float drainRate)
-    {
-        _currentStamina -= drainRate * Time.deltaTime;
-        if (_currentStamina <= 0)
-        {
-            _currentStamina = 0;
-        }
-        GameManager.Instance.SetStaminaBarFill(_currentStamina, _maxStamina);
-    }
-
-    public void RestoreStamina(float restoreRate)
-    {
-        _currentStamina += restoreRate * Time.deltaTime;
-        if (_currentStamina >= _maxStamina)
-        {
-            _currentStamina = _maxStamina;
-        }
-        GameManager.Instance.SetStaminaBarFill(_currentStamina, _maxStamina);
     }
 
     private void Death()
@@ -87,38 +64,77 @@ public class Stats : MonoBehaviour
         {
             _animationHandler.Trigger_Death();
         }
+        else if (_isPlayer)
+        {
+            GameManager.Instance.SetGameState(GameManager.GameState.GameOver);
+        }
     }
-
-    public void ReduceStamina(float staminaCost)
-    {
-        _currentStamina -= staminaCost * Time.deltaTime;
-        GameManager.Instance.SetStaminaBarFill(_currentStamina, _maxStamina);
-    }
-
+    
     public void SetStamina(float amount)
     {
         _currentStamina = amount;
-        GameManager.Instance.SetStaminaBarFill(_currentStamina, _maxStamina);
     }
 
     public void SetHealth(float amount)
     {
         _currentHealth = amount;
-        GameManager.Instance.SetHealthBarFill(_currentHealth, _maxHealth);
     }
+    
+    
+    //player specific functions
+    public void DrainStamina(float drainRate)
+    {
+        if (_isPlayer)
+        {
+            _currentStamina -= drainRate * Time.deltaTime;
+            if (_currentStamina <= 0)
+            {
+                _currentStamina = 0;
+            }
+            GameManager.Instance.SetStaminaBarFill(_currentStamina, _maxStamina);
+        }
+    }
+
+    public void RegenStamina(float restoreRate)
+    {
+        if (_isPlayer)
+        {
+            _currentStamina += restoreRate * Time.deltaTime;
+            if (_currentStamina >= _maxStamina)
+            {
+                _currentStamina = _maxStamina;
+            }
+            GameManager.Instance.SetStaminaBarFill(_currentStamina, _maxStamina);
+        }
+    }
+    
+    public void ReduceStamina(float staminaCost)
+    {
+        if (_isPlayer)
+        {
+            _currentStamina -= staminaCost * Time.deltaTime;
+            GameManager.Instance.SetStaminaBarFill(_currentStamina, _maxStamina);
+        }
+    }
+
+
 
     public void AddHealth(float amounToAdd)
     {
-        _currentHealth += amounToAdd;
-        if (_currentHealth > _maxHealth)
+        if (_isPlayer)
         {
-            _currentHealth = _maxHealth;
+            _currentHealth += amounToAdd;
+            if (_currentHealth > _maxHealth)
+            {
+                _currentHealth = _maxHealth;
+            }
+            GameManager.Instance.SetHealthBarFill(_currentHealth, _maxHealth);
         }
-        GameManager.Instance.SetHealthBarFill(_currentHealth, _maxHealth);
     }
 
     public void AddStamina(float amountToAdd)
     {
+        if(_isPlayer){}
         _currentStamina += amountToAdd;
         if (_currentStamina > _maxStamina)
         {

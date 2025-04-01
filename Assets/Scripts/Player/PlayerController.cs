@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
 			CheckForSprinting();
 			if (!_isSprinting)
 			{
-				_stats.RestoreStamina(_staminaRegenRate);
+				_stats.RegenStamina(_staminaRegenRate);
 			}
 			_currentMoveSpeed = _isSprinting ? _sprintSpeed : _walkSpeed;
 			Move();
