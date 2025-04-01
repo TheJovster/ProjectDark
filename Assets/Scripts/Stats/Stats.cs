@@ -17,6 +17,8 @@ public class Stats : MonoBehaviour
     #region Properties
     public float CurrentHealth => _currentHealth;
     public float CurrentStamina => _currentStamina;
+    public float MaxHealth => _maxHealth;
+    public float MaxStamina => _maxStamina;
     public bool IsAlive => _isAlive;
     #endregion
 
@@ -34,6 +36,10 @@ public class Stats : MonoBehaviour
     public void TakeDamage(float damageToTake)
     {
         _currentHealth -= damageToTake;
+        if (_isPlayer && _isAlive)
+        {
+            GameManager.Instance.SetHealthBarFill(_currentHealth, _maxHealth);
+        }
         if (_currentHealth > 0 && !_isPlayer)
         {
             _animationHandler.Trigger_TakeDamage();
@@ -52,6 +58,26 @@ public class Stats : MonoBehaviour
                 GameManager.Instance.SetGameState(GameManager.GameState.GameOver);
             }
         }
+    }
+
+    public void DrainStamina(float drainRate)
+    {
+        _currentStamina -= drainRate * Time.deltaTime;
+        if (_currentStamina <= 0)
+        {
+            _currentStamina = 0;
+        }
+        GameManager.Instance.SetStaminaBarFill(_currentStamina, _maxStamina);
+    }
+
+    public void RestoreStamina(float restoreRate)
+    {
+        _currentStamina += restoreRate * Time.deltaTime;
+        if (_currentStamina >= _maxStamina)
+        {
+            _currentStamina = _maxStamina;
+        }
+        GameManager.Instance.SetStaminaBarFill(_currentStamina, _maxStamina);
     }
 
     private void Death()

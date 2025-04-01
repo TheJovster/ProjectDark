@@ -7,13 +7,14 @@ public class PlayerController : MonoBehaviour
 	private CharacterController _characterController;
 	private InputSystem_Actions _input;
 	private WeaponInventory _weaponInventory;
+	private Stats _stats;
 	
 	private float _xInput;
 	private float _yInput;
 	private float _mouseXDelta;
 	private float _mouseYDelta;
 
-	private bool _isSprinting = false;
+	[SerializeField]private bool _isSprinting = false;
 	private bool _canJump = true;
 	[SerializeField, Range(0.0f, 5.0f)] private float _jumpForce = 1.0f;
 	[SerializeField] private int _numberOfJumps = 2; //this is used to control the air jump
@@ -42,6 +43,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private float _gravityGrounded = -2.0f;
 	[SerializeField] private float _gravityValue = -9.81f;
 	[SerializeField] private float _fallMultiplier = 2.5f;
+	[SerializeField] private float _staminaDrainRate = 5.0f;
+	[SerializeField] private float _staminaRegenRate = 4.0f;
 	
 	[Header("Camera Control")]
 	[SerializeField] private Camera _camera;
@@ -73,6 +76,7 @@ public class PlayerController : MonoBehaviour
 		_characterController = GetComponent<CharacterController>();
 		_camera.tag = "MainCamera";
 		_weaponInventory = GetComponent<WeaponInventory>();
+		_stats = GetComponent<Stats>();
 	}
 
 	private void Start()
@@ -92,11 +96,14 @@ public class PlayerController : MonoBehaviour
 				_numberOfJumps = MAX_NUMBER_OF_JUMPS;
 			}
 			CheckForSprinting();
+			if (!_isSprinting)
+			{
+				_stats.RestoreStamina(_staminaRegenRate);
+			}
 			_currentMoveSpeed = _isSprinting ? _sprintSpeed : _walkSpeed;
 			Move();
 			LookUp();
 			RotatePlayer();
-
 			TryFireWeapon();
 			TryReloadWeapon();
 			TrySwitchWeapon();
@@ -145,17 +152,21 @@ public class PlayerController : MonoBehaviour
 		_moveDirection.Normalize();
 		_moveDirection *= _currentMoveSpeed * Time.deltaTime;
 		_characterController.Move(_moveDirection);
+		if (_isSprinting && Mathf.Abs(_characterController.velocity.magnitude) > 5.0f)
+		{
+			_stats.DrainStamina(_staminaDrainRate);
+		}
 	}
 	
 	private void CheckForSprinting()
 	{
 		//ducttape - will refactor later
 		
-		if (_input.Player.Sprint.WasPressedThisFrame())
+		if (_input.Player.Sprint.IsPressed() && _stats.CurrentStamina > 0)
 		{
 			_isSprinting = true;
 		}
-		else if (_input.Player.Sprint.WasReleasedThisFrame())
+		else if (_input.Player.Sprint.WasReleasedThisFrame() || _stats.CurrentStamina <= 0)
 		{
 			_isSprinting = false;
 		}

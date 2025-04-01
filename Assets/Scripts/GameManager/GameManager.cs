@@ -26,6 +26,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Slider loadingProgressBar;
     [SerializeField] private Camera menuCamera;
 
+    [Header("UI Elements - Player")] 
+    [SerializeField] private Image _healthBarImage;
+    [SerializeField] private Image _staminaBarImage;
+    
     [Header("Loading Simulation")] //TODO: expand this so the loading is actual, not simulated;
     [SerializeField, Range(1f, 120f)] private float loadingTime = 10.0f;
 
@@ -233,7 +237,16 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(ReturnToMainMenuRoutine());
     }
-    
+
+    public void SetHealthBarFill(float currentHealth, float maxHealth)
+    {
+        _healthBarImage.fillAmount = currentHealth / maxHealth;
+    }
+
+    public void SetStaminaBarFill(float currentStamina, float maxStamina)
+    {
+        _staminaBarImage.fillAmount = currentStamina / maxStamina;
+    }
     
     private IEnumerator ReturnToMainMenuRoutine()
     {
