@@ -119,8 +119,8 @@ public class GameManager : MonoBehaviour
                 ShowCursor();
                 break;
             case GameState.Paused: 
-                pausePanel.SetActive(true);
                 isPlaying = false;
+                pausePanel.SetActive(true);
                 break;
             
         }

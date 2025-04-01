@@ -41,6 +41,10 @@ public class PlayerProjectile : MonoBehaviour
 
 	public void OnCollisionEnter(Collision other)
 	{
+		if (other.gameObject.CompareTag("Enemy"))
+		{
+			other.gameObject.GetComponent<Stats>().TakeDamage(15.0f);
+		}
 		Destroy(this.gameObject);
 	}
 }
