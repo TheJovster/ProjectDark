@@ -92,16 +92,19 @@ public class Stats : MonoBehaviour
     public void ReduceStamina(float staminaCost)
     {
         _currentStamina -= staminaCost * Time.deltaTime;
+        GameManager.Instance.SetStaminaBarFill(_currentStamina, _maxStamina);
     }
 
     public void SetStamina(float amount)
     {
         _currentStamina = amount;
+        GameManager.Instance.SetStaminaBarFill(_currentStamina, _maxStamina);
     }
 
     public void SetHealth(float amount)
     {
         _currentHealth = amount;
+        GameManager.Instance.SetHealthBarFill(_currentHealth, _maxHealth);
     }
 
     public void AddHealth(float amounToAdd)
@@ -111,6 +114,7 @@ public class Stats : MonoBehaviour
         {
             _currentHealth = _maxHealth;
         }
+        GameManager.Instance.SetHealthBarFill(_currentHealth, _maxHealth);
     }
 
     public void AddStamina(float amountToAdd)
@@ -120,5 +124,6 @@ public class Stats : MonoBehaviour
         {
             _currentStamina = _maxStamina;
         }
+        GameManager.Instance.SetStaminaBarFill(_currentStamina, _maxStamina);
     }
 }
