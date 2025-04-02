@@ -174,7 +174,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 9124340185647703713}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.3
+  m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -204,6 +204,7 @@ MonoBehaviour:
   _currentStamina: 0
   _maxStamina: 100
   _isPlayer: 0
+  _isAlive: 1
 --- !u!114 &7367434772518668856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,13 +254,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c699494471a02c64388e2d05aa7de845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentState: 0
+  _type: 0
   _waypoints:
   - {fileID: 2132058287201225493}
   - {fileID: 5727320710020054187}
   - {fileID: 662762607448114095}
   - {fileID: 872595197266360561}
   _waitTimeAtWaypoint: 3
-  _currentState: 0
+  _currentWaypointIndex: 0
+  _nextWaypointIndex: 0
 --- !u!1001 &5599652729667382788
 PrefabInstance:
   m_ObjectHideFlags: 0

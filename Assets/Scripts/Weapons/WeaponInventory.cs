@@ -7,14 +7,17 @@ public class WeaponInventory : MonoBehaviour
     [SerializeField] private List<Weapon> _weapons;
     [SerializeField] private Transform _weaponContainer;
     [SerializeField] private int _currentWeaponIndex = 0;
+    private PlayerController _playerController;
     
     #region Properties
     public Weapon CurrentWeapon => _currentWeapon;
+    public PlayerController PlayerController => _playerController;
     #endregion
 
     private void Awake()
     {
         PopulateWeaponsList();
+        _playerController = GetComponent<PlayerController>();
     }
 
     private void PopulateWeaponsList()

@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Serialization;
+
 
 public class Weapon : MonoBehaviour
 {
@@ -40,7 +42,10 @@ public class Weapon : MonoBehaviour
     [Tooltip("Set this to 5")]
     [SerializeField] private AudioClip[] _weaponAudioClips; 
     [SerializeField] private ParticleSystem _muzzleFlash;
-
+    [SerializeField] private float _screenShakeIntensity;
+    [SerializeField] private float _screenShakeDuration;
+    [SerializeField] private float _screenShakeSpeed;
+    
     private WeaponRecoil _weaponRecoil;
     
     #region Properties
@@ -50,6 +55,12 @@ public class Weapon : MonoBehaviour
     public Animator WeaponAnimator => _weaponAnimator;
     public AnimatorOverrideController AnimatorOverrideController => _animatorOverrideController;
     public WeaponType CurrentWeaponType => _weaponType;
+
+    public float ScreenShakeIntensity => _screenShakeIntensity;
+    public float ScreenShakeDuration => _screenShakeDuration;
+
+    public float ScreenShakeSpeed => _screenShakeSpeed;
+    
     #endregion
     
     private void Awake()
@@ -101,6 +112,7 @@ public class Weapon : MonoBehaviour
             int audioClipIndex = Random.Range(0, _weaponAudioClips.Length);
             AudioManager.Instance.PlayEffect(_weaponAudioClips[audioClipIndex]);
             _weaponRecoil.ApplyRecoil();
+            _weaponInventory.PlayerController.TriggerShake();
             HUDManager.Instance.UpdateAmmoCount(_weaponInventory.CurrentWeapon.GetCurrentAmmoInMag(), 
                 _weaponInventory.CurrentWeapon.GetCurrentAmmoInInventory());
         }
@@ -151,4 +163,6 @@ public class Weapon : MonoBehaviour
     {
         _weaponAnimator.enabled = false;
     }
+    
+    //post process effects
 }

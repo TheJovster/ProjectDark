@@ -1,7 +1,9 @@
 using System.Collections;
+using UnityEngine.Rendering;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
- [RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
 	private CharacterController _characterController;
@@ -24,6 +26,11 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private bool _isGrounded;
 	
 	private Vector3 _moveDirection;
+	
+	private Volume _postProcessVolume;
+	private LensDistortion _lensDistortion;
+	[SerializeField] private float _xOffset = 0.05f;
+	[SerializeField] private float _yOffset = 0.5f;
 	
 	#region Properties
 
@@ -77,6 +84,8 @@ public class PlayerController : MonoBehaviour
 		_camera.tag = "MainCamera";
 		_weaponInventory = GetComponent<WeaponInventory>();
 		_stats = GetComponent<Stats>();
+		_postProcessVolume = FindFirstObjectByType<Volume>();
+		_postProcessVolume.profile.TryGet<LensDistortion>(out _lensDistortion);
 	}
 
 	private void Start()
@@ -219,15 +228,10 @@ public class PlayerController : MonoBehaviour
 		if (_weaponInventory.CurrentWeapon.IsSemi && _input.Player.Shoot.WasPressedThisFrame())
 		{
 			_weaponInventory.CurrentWeapon.Fire();
-			//anim setter goes here.
 		}
 		else if (!_weaponInventory.CurrentWeapon.IsSemi && _input.Player.Shoot.IsPressed())
 		{
 			_weaponInventory.CurrentWeapon.Fire();
-		}
-		else if (!_weaponInventory.CurrentWeapon.IsSemi && _input.Player.Shoot.WasReleasedThisFrame())
-		{
-			
 		}
 	}
 
@@ -298,4 +302,43 @@ public class PlayerController : MonoBehaviour
 	{
 		_input.Disable();
 	}
+	
+	//post processing
+
+	public void TriggerShake()
+	{
+		StartCoroutine(ScreenShake());
+	}
+
+	private IEnumerator ScreenShake()
+	{
+		_lensDistortion.active = true;
+
+		float elapsed = 0.0f;
+
+		while (elapsed < _weaponInventory.CurrentWeapon.ScreenShakeDuration)
+		{
+			float currentIntensity = Mathf.Lerp(
+				_weaponInventory.CurrentWeapon.ScreenShakeIntensity,
+				0,
+				elapsed / _weaponInventory.CurrentWeapon.ScreenShakeDuration
+			);
+
+			float xDistortion = Mathf.Sin((Time.time * _weaponInventory.CurrentWeapon.ScreenShakeSpeed) * currentIntensity);
+			float yDistortion = Mathf.Sin((Time.time * _weaponInventory.CurrentWeapon.ScreenShakeSpeed * 1.2f) * currentIntensity);
+			
+			_lensDistortion.intensity.Override(_xOffset * xDistortion);
+			_lensDistortion.scale.Override(_yOffset + (yDistortion * 0.1f));
+
+			elapsed += Time.deltaTime;
+			yield return null;
+		}
+		
+		_lensDistortion.intensity.Override(0);
+		_lensDistortion.scale.Override(1f);
+		_lensDistortion.active = false;
+
+		StopCoroutine(ScreenShake());
+	}
+	
 }
