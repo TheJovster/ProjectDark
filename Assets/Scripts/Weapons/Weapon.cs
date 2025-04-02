@@ -68,6 +68,10 @@ public class Weapon : MonoBehaviour
         _weaponInventory = GetComponentInParent<WeaponInventory>();
         _ammoInventory = GetComponentInParent<AmmoInventory>();
         _weaponRecoil = GetComponent<WeaponRecoil>();
+        if (_muzzleFlash == null)
+        {
+            _muzzleFlash = GetComponentInChildren<ParticleSystem>();
+        }
     }
     
     private void Start()
@@ -92,6 +96,10 @@ public class Weapon : MonoBehaviour
 
         _canFire = _timeSinceLastShot >= _rateOfFire &&
                    _currentAmmoInMag > 0;
+        if (GameManager.Instance.CurrentGameState != GameManager.GameState.Playing)
+        {
+            _muzzleFlash.Stop();
+        }
     }
 
     public void Fire()
@@ -112,11 +120,11 @@ public class Weapon : MonoBehaviour
             int audioClipIndex = Random.Range(0, _weaponAudioClips.Length);
             AudioManager.Instance.PlayEffect(_weaponAudioClips[audioClipIndex]);
             _weaponRecoil.ApplyRecoil();
+            _muzzleFlash.Play();
             _weaponInventory.PlayerController.TriggerShake();
             HUDManager.Instance.UpdateAmmoCount(_weaponInventory.CurrentWeapon.GetCurrentAmmoInMag(), 
                 _weaponInventory.CurrentWeapon.GetCurrentAmmoInInventory());
         }
-
         if (_isEmpty && _ammoInventory.ReturnCurrentAmmoAmount(_weaponInventory.CurrentWeapon.CurrentWeaponType) > 0)
         {
             Reload();
