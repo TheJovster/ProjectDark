@@ -36,25 +36,25 @@ public class Stats : MonoBehaviour
     public void TakeDamage(float damageToTake)
     {
         _currentHealth -= damageToTake;
+        if (_currentHealth <= 0)
+        {
+            _currentHealth = 0;
+            Death();
+            if (!_isPlayer)
+            {
+                _capsuleCollider.enabled = false;
+                //temporary - will add more functionality, like gibbing
+            }
+        }
         if (_isPlayer && _isAlive && _isPlayer)
         {
             GameManager.Instance.SetHealthBarFill(_currentHealth, _maxHealth);
         }
-        else if (_isAlive && !_isPlayer)
+        if (_isAlive && !_isPlayer)
         {
             _animationHandler.Trigger_TakeDamage();
         }
-        if (_currentHealth <= 0)
-        {
-            _currentHealth = 0;
-            if (!_isPlayer)
-            {
-                Death();
-                _capsuleCollider.enabled = false;
-                _animationHandler.Trigger_Death();
-                //temporary - will add more functionality, like gibbing
-            }
-        }
+
     }
 
     private void Death()
