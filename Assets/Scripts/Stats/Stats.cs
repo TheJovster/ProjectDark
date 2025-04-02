@@ -116,9 +116,7 @@ public class Stats : MonoBehaviour
             GameManager.Instance.SetStaminaBarFill(_currentStamina, _maxStamina);
         }
     }
-
-
-
+    
     public void AddHealth(float amounToAdd)
     {
         if (_isPlayer)
