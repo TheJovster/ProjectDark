@@ -176,6 +176,19 @@ public class Weapon : MonoBehaviour
         //edgecases
     }
     
+    public void ToggleADS(bool isAiming)
+    {
+        if(isAiming)
+        {
+            
+        }
+        else if(!isAiming)
+        {
+            
+        }
+    }
+    
+    
     //getter functions
 
     public int GetCurrentAmmoInMag()

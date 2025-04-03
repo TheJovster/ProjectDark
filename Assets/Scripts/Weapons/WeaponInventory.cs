@@ -73,9 +73,7 @@ public class WeaponInventory : MonoBehaviour
         _weapons[newIndex].gameObject.SetActive(true);
         _currentWeapon = _weapons[newIndex];
         _handsAnimator.runtimeAnimatorController = _currentWeapon.AnimatorOverrideController;
-        Debug.Log("Switched Animator");
         _weaponIKHandler.ApplyWeaponIK(_currentWeapon.RightHandPosition, _currentWeapon.LeftHandPosition, _currentWeapon.AnimatorOverrideController);
-        Debug.Log("Applied IK");
         HUDManager.Instance.UpdateAmmoCount(_currentWeapon.GetCurrentAmmoInMag(), _currentWeapon.GetCurrentAmmoInInventory());
     }
 
