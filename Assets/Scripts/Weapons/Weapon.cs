@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using TMPro;
 using UnityEngine.Serialization;
 
 
@@ -100,6 +101,7 @@ public class Weapon : MonoBehaviour
         {
             _muzzleFlash.Stop();
         }
+        
     }
 
     public void Fire()
@@ -133,6 +135,7 @@ public class Weapon : MonoBehaviour
     
     public void Reload() //I guess I can just have this as an anim event;
     {
+        _muzzleFlash.Stop();
         int amountToReduce = _weaponInventory.CurrentWeapon.GetMaxAmmoInMag() - 
                              _weaponInventory.CurrentWeapon.GetCurrentAmmoInMag();
         if (_ammoInventory.ReturnCurrentAmmoAmount(_weaponInventory.CurrentWeapon.CurrentWeaponType) <= 0)
@@ -173,4 +176,10 @@ public class Weapon : MonoBehaviour
     }
     
     //post process effects
+    
+    //public setters
+    public void StopMuzzleFlash()
+    {
+        _muzzleFlash.Stop();
+    }
 }

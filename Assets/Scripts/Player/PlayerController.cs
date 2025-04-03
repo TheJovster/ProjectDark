@@ -233,6 +233,10 @@ public class PlayerController : MonoBehaviour
 		{
 			_weaponInventory.CurrentWeapon.Fire();
 		}
+		else if (_input.Player.Shoot.WasReleasedThisFrame())
+		{
+			_weaponInventory.CurrentWeapon.StopMuzzleFlash();
+		}
 	}
 
 	private void TryReloadWeapon()
