@@ -72,11 +72,12 @@ public class WeaponIKHandler : MonoBehaviour
             }
             
             // Apply any additional IK hints for elbows if specified
-            if (_weaponInventory.CurrentWeapon.UseElbowHints)
+            /*if (_weaponInventory.CurrentWeapon.UseElbowHints)
             {
                 ApplyElbowHints();
-            }
+            }*/
             //TODO: Kill weapon data - overengineered and unnecessary
+            //elbow hints are breaking the script
         else
         {
             ResetIK();
