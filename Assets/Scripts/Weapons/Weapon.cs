@@ -26,6 +26,8 @@ public class Weapon : MonoBehaviour
     private bool _canFire = true;
     private bool _isFiring = false;
     [SerializeField] private Transform _barrels;
+    [SerializeField] private WeaponIKData _weaponData; //do I even need the data?
+    [SerializeField] private WeaponIKHandler _IKHandler;
 
     [SerializeField]private int _currentAmmoInMag;
     [SerializeField] private int _maxAmmoInMag;
@@ -175,7 +177,22 @@ public class Weapon : MonoBehaviour
         _weaponAnimator.enabled = false;
     }
     
-    //post process effects
+    //animation events
+    
+    //public void LowerWeapon()
+    //{
+    //anim event disables firing and lovers the weapon. First frame of the animation when switching the weapons. I could, maybe, go with a translation instead of an anim event?
+    //}
+    
+    //public void RaiseWeapon()
+    //{
+    //anim event when raising the weapon, enables weapon fire. 
+    //}
+    
+    //public void Reload()
+    //public void SwitchWeapon()
+    //more stuff to add?
+    
     
     //public setters
     public void StopMuzzleFlash()

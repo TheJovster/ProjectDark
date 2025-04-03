@@ -251,7 +251,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (_input.Player.SwitchWeaponUp.WasPressedThisFrame())
 		{
-			_weaponInventory.IncrementWeaponIndex();
+			_weaponInventory.IncrementWeaponIndex(); //this approach is overly simplistic - I am going to refactor this
 		}
 		if (_input.Player.SwitchWeaponDown.WasPressedThisFrame())
 		{
