@@ -50,6 +50,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float _rateOfFire;
     private float _timeSinceLastShot = 0.0f;
     [SerializeField] private int _weaponDamage = 10;
+    [SerializeField] private bool _canADS = true;
 
 
     [Header("Audio and VFX")]
@@ -178,14 +179,22 @@ public class Weapon : MonoBehaviour
     
     public void ToggleADS(bool isAiming)
     {
-        if(isAiming)
+        if(_canADS)
         {
-            
+            if(isAiming)
+            {
+                
+            }
+            else if(!isAiming)
+            {
+                
+            }
         }
-        else if(!isAiming)
+        else 
         {
-            
+            return;
         }
+
     }
     
     
