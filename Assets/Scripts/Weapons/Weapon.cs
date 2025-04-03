@@ -19,7 +19,6 @@ public class Weapon : MonoBehaviour
     [SerializeField] private WeaponType _weaponType;
     [SerializeField] private Transform _muzzlePoint;
     [SerializeField] private Animator _weaponAnimator;
-    [SerializeField] private AnimatorOverrideController _animatorOverrideController;
     private WeaponInventory _weaponInventory;
     private AmmoInventory _ammoInventory;
     [SerializeField] private PlayerProjectile _projectilePrefab;
@@ -28,7 +27,15 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Transform _barrels;
     [SerializeField] private WeaponIKData _weaponData; //do I even need the data?
     [SerializeField] private WeaponIKHandler _IKHandler;
+    [SerializeField] private AnimatorOverrideController _animatorOverrideController;
 
+    [Header("IK Settings")] 
+    [SerializeField, Range(0f, 1f)] private float _rightHandIKWeight = 1.0f;
+    [SerializeField, Range(0f, 1f)] private float _leftHandIKWeight = 1.0f;
+    
+    [SerializeField] private Transform _rightHandPosition;
+    [SerializeField] private Transform _leftHandPosition;
+    
     [SerializeField]private int _currentAmmoInMag;
     [SerializeField] private int _maxAmmoInMag;
     private bool _isEmpty;
@@ -63,6 +70,13 @@ public class Weapon : MonoBehaviour
     public float ScreenShakeDuration => _screenShakeDuration;
 
     public float ScreenShakeSpeed => _screenShakeSpeed;
+    public WeaponIKData IKData => _weaponData;
+    
+    public Transform RightHandPosition => _rightHandPosition;
+    public Transform LeftHandPosition => _leftHandPosition;
+    
+    public float RightHandIKWeight => _rightHandIKWeight;
+    public float LeftHandIKWeight => _leftHandIKWeight;
     
     #endregion
     

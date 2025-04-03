@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class WeaponInventory : MonoBehaviour
     [SerializeField] private Transform _weaponContainer;
     [SerializeField] private int _currentWeaponIndex = 0;
     private PlayerController _playerController;
+    private WeaponIKHandler _weaponIKHandler;
+    [SerializeField]private Animator _handsAnimator;
     
     #region Properties
     public Weapon CurrentWeapon => _currentWeapon;
@@ -18,6 +21,13 @@ public class WeaponInventory : MonoBehaviour
     {
         PopulateWeaponsList();
         _playerController = GetComponent<PlayerController>();
+        _weaponIKHandler = GetComponentInChildren<WeaponIKHandler>();
+        _weaponIKHandler.ApplyWeaponIK(_currentWeapon.RightHandPosition, _currentWeapon.LeftHandPosition, _currentWeapon.AnimatorOverrideController);
+    }
+
+    private void Start()
+    {
+       
     }
 
     private void PopulateWeaponsList()
@@ -62,6 +72,10 @@ public class WeaponInventory : MonoBehaviour
         _weapons[oldIndex].gameObject.SetActive(false);
         _weapons[newIndex].gameObject.SetActive(true);
         _currentWeapon = _weapons[newIndex];
+        _handsAnimator.runtimeAnimatorController = _currentWeapon.AnimatorOverrideController;
+        Debug.Log("Switched Animator");
+        _weaponIKHandler.ApplyWeaponIK(_currentWeapon.RightHandPosition, _currentWeapon.LeftHandPosition, _currentWeapon.AnimatorOverrideController);
+        Debug.Log("Applied IK");
         HUDManager.Instance.UpdateAmmoCount(_currentWeapon.GetCurrentAmmoInMag(), _currentWeapon.GetCurrentAmmoInInventory());
     }
 

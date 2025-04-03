@@ -169,6 +169,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2555094020838352287}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2907133654972515021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8664632832910703483}
+  m_Layer: 0
+  m_Name: RightHandPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8664632832910703483
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2907133654972515021}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.0011, z: -0.0001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4394371874284434296}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3720398824204003016
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3990341256816573296}
+  m_Layer: 0
+  m_Name: RightHandPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3990341256816573296
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3720398824204003016}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.536, z: -3.189}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5154394816046736189}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3768926325806901751
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,6 +318,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 5113072675361837181}
   m_LocalEulerAnglesHint: {x: 16, y: 21.228, z: 130.66}
+--- !u!1 &3868153399359212754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5772498237313576457}
+  m_Layer: 0
+  m_Name: LeftHandPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5772498237313576457
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3868153399359212754}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.809, z: -0.88}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5154394816046736189}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4667348972402120776
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1514629442314283093}
+  m_Layer: 0
+  m_Name: LeftHandPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1514629442314283093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4667348972402120776}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.11946077, y: -0.021013469, z: 0.9720531, w: 0.20099849}
+  m_LocalPosition: {x: -0.03, y: 0.034, z: 0.372}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4394371874284434296}
+  m_LocalEulerAnglesHint: {x: 5.099, y: 12.984, z: 157.215}
 --- !u!1 &5777616604985556733
 GameObject:
   m_ObjectHideFlags: 0
@@ -535,6 +659,7 @@ MonoBehaviour:
   _weapons: []
   _weaponContainer: {fileID: 3261543685367986461}
   _currentWeaponIndex: 0
+  _handsAnimator: {fileID: 7320085246036438682}
 --- !u!114 &5712259306644384151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,6 +703,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3261543685367986461}
     m_Modifications:
     - target: {fileID: 2055352537291397193, guid: 68d473487eb53ae44bee88162ad7dc0e, type: 3}
+      propertyPath: _IKHandler
+      value: 
+      objectReference: {fileID: 3579720945037305269}
+    - target: {fileID: 2055352537291397193, guid: 68d473487eb53ae44bee88162ad7dc0e, type: 3}
       propertyPath: _muzzleFlash
       value: 
       objectReference: {fileID: 7904285864615292842}
@@ -590,9 +719,17 @@ PrefabInstance:
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2055352537291397193, guid: 68d473487eb53ae44bee88162ad7dc0e, type: 3}
+      propertyPath: _leftHandPosition
+      value: 
+      objectReference: {fileID: 7422542860236704141}
+    - target: {fileID: 2055352537291397193, guid: 68d473487eb53ae44bee88162ad7dc0e, type: 3}
       propertyPath: _screenShakeSpeed
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 2055352537291397193, guid: 68d473487eb53ae44bee88162ad7dc0e, type: 3}
+      propertyPath: _rightHandPosition
+      value: 
+      objectReference: {fileID: 8241314705510328038}
     - target: {fileID: 2055352537291397193, guid: 68d473487eb53ae44bee88162ad7dc0e, type: 3}
       propertyPath: _weaponRecoilForce
       value: 0.6
@@ -605,6 +742,10 @@ PrefabInstance:
       propertyPath: _screenShakeIntensity
       value: 0.00075
       objectReference: {fileID: 0}
+    - target: {fileID: 2055352537291397193, guid: 68d473487eb53ae44bee88162ad7dc0e, type: 3}
+      propertyPath: _animatorOverrideController
+      value: 
+      objectReference: {fileID: 22100000, guid: b9234d6eadcd5cc468aea5409f6ac9a6, type: 2}
     - target: {fileID: 4149560383648977997, guid: 68d473487eb53ae44bee88162ad7dc0e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -928,6 +1069,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+      propertyPath: _IKHandler
+      value: 
+      objectReference: {fileID: 3579720945037305269}
+    - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
       propertyPath: _rateOfFire
       value: 0.2
       objectReference: {fileID: 0}
@@ -948,6 +1093,10 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+      propertyPath: _leftHandPosition
+      value: 
+      objectReference: {fileID: 1514629442314283093}
+    - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
       propertyPath: _projectilePrefab
       value: 
       objectReference: {fileID: 6031244269927499314, guid: b3861136c2c60b3488f52ec5271c8c02, type: 3}
@@ -955,6 +1104,10 @@ PrefabInstance:
       propertyPath: _screenShakeSpeed
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+      propertyPath: _rightHandPosition
+      value: 
+      objectReference: {fileID: 8664632832910703483}
     - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
       propertyPath: _weaponRecoilForce
       value: 0.4
@@ -967,6 +1120,10 @@ PrefabInstance:
       propertyPath: _screenShakeIntensity
       value: 0.0001333333
       objectReference: {fileID: 0}
+    - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+      propertyPath: _animatorOverrideController
+      value: 
+      objectReference: {fileID: 22100000, guid: 628713119dc12e148bf05f22aded575c, type: 2}
     - target: {fileID: 6980041935456485478, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
       propertyPath: m_Name
       value: AssaultRifle
@@ -1011,6 +1168,12 @@ PrefabInstance:
     - {fileID: 3537240962592690168, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 1650985779162348345, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8664632832910703483}
+    - targetCorrespondingSourceObject: {fileID: 1650985779162348345, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1514629442314283093}
     - targetCorrespondingSourceObject: {fileID: 7922950436812423318, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5125806355305835127}
@@ -1300,6 +1463,14 @@ PrefabInstance:
       value: -0.625
       objectReference: {fileID: 0}
     - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
+      propertyPath: _IKHandler
+      value: 
+      objectReference: {fileID: 3579720945037305269}
+    - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
+      propertyPath: _weaponData
+      value: 
+      objectReference: {fileID: 11400000, guid: 8346c587ca91649468b37209a4bfd0e0, type: 2}
+    - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
       propertyPath: _muzzleFlash
       value: 
       objectReference: {fileID: 4322888397811172607}
@@ -1312,9 +1483,17 @@ PrefabInstance:
       value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
+      propertyPath: _leftHandPosition
+      value: 
+      objectReference: {fileID: 5772498237313576457}
+    - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
       propertyPath: _screenShakeSpeed
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
+      propertyPath: _rightHandPosition
+      value: 
+      objectReference: {fileID: 3990341256816573296}
     - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
       propertyPath: _weaponRecoilForce
       value: 0.2
@@ -1327,10 +1506,20 @@ PrefabInstance:
       propertyPath: _screenShakeIntensity
       value: 0.0005
       objectReference: {fileID: 0}
+    - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
+      propertyPath: _animatorOverrideController
+      value: 
+      objectReference: {fileID: 22100000, guid: 051efda6a1c9c364ebda9cc7efca744f, type: 2}
     m_RemovedComponents:
     - {fileID: 7893564886361146705, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 529853046362904217, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3990341256816573296}
+    - targetCorrespondingSourceObject: {fileID: 529853046362904217, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5772498237313576457}
     - targetCorrespondingSourceObject: {fileID: 8020519893189168607, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4121605321922923475}
@@ -1597,14 +1786,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8576399177999530385, guid: 64e61440ffd800947814ae54f8a2f9ba, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5403585347062656518}
+      addedObject: {fileID: 3579720945037305269}
   m_SourcePrefab: {fileID: 100100000, guid: 64e61440ffd800947814ae54f8a2f9ba, type: 3}
 --- !u!1 &1465331591016286081 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8576399177999530385, guid: 64e61440ffd800947814ae54f8a2f9ba, type: 3}
   m_PrefabInstance: {fileID: 7156390014630379024}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5403585347062656518
+--- !u!114 &3579720945037305269
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1618,12 +1807,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ikWeight: 1
   _ikRotationWeight: 1
-  _rightHandTarget: {fileID: 2133160632248027751}
-  _leftHandTarget: {fileID: 6026638545092490689}
-  _currentWeaponData: {fileID: 11400000, guid: 6b4d37f2646317f4684ba3ed91e96b99, type: 2}
+  _rightHandTarget: {fileID: 0}
+  _leftHandTarget: {fileID: 0}
+  _currentWeaponData: {fileID: 0}
+  _animator: {fileID: 7320085246036438682}
+  _weaponInventory: {fileID: 5953302303216707664}
 --- !u!4 &3459872319068041517 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6004271673240702781, guid: 64e61440ffd800947814ae54f8a2f9ba, type: 3}
+  m_PrefabInstance: {fileID: 7156390014630379024}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7320085246036438682 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 488271614222684298, guid: 64e61440ffd800947814ae54f8a2f9ba, type: 3}
   m_PrefabInstance: {fileID: 7156390014630379024}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8030281563962160004
@@ -1781,6 +1977,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 3261543685367986461}
     m_Modifications:
     - target: {fileID: 2055352537291397193, guid: d42b5913bdc96a84e832209d081c2e2e, type: 3}
+      propertyPath: _IKHandler
+      value: 
+      objectReference: {fileID: 3579720945037305269}
+    - target: {fileID: 2055352537291397193, guid: d42b5913bdc96a84e832209d081c2e2e, type: 3}
       propertyPath: _muzzleFlash
       value: 
       objectReference: {fileID: 2046512790736426329}
@@ -1797,9 +1997,17 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2055352537291397193, guid: d42b5913bdc96a84e832209d081c2e2e, type: 3}
+      propertyPath: _leftHandPosition
+      value: 
+      objectReference: {fileID: 6026638545092490689}
+    - target: {fileID: 2055352537291397193, guid: d42b5913bdc96a84e832209d081c2e2e, type: 3}
       propertyPath: _screenShakeSpeed
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 2055352537291397193, guid: d42b5913bdc96a84e832209d081c2e2e, type: 3}
+      propertyPath: _rightHandPosition
+      value: 
+      objectReference: {fileID: 2133160632248027751}
     - target: {fileID: 2055352537291397193, guid: d42b5913bdc96a84e832209d081c2e2e, type: 3}
       propertyPath: _weaponRecoilForce
       value: 5
@@ -1812,6 +2020,10 @@ PrefabInstance:
       propertyPath: _screenShakeIntensity
       value: 0.01
       objectReference: {fileID: 0}
+    - target: {fileID: 2055352537291397193, guid: d42b5913bdc96a84e832209d081c2e2e, type: 3}
+      propertyPath: _animatorOverrideController
+      value: 
+      objectReference: {fileID: 22100000, guid: b9234d6eadcd5cc468aea5409f6ac9a6, type: 2}
     - target: {fileID: 4149560383648977997, guid: d42b5913bdc96a84e832209d081c2e2e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
