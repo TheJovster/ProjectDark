@@ -72,11 +72,11 @@ public class WeaponIKHandler : MonoBehaviour
             }
             
             // Apply any additional IK hints for elbows if specified
-            /*if (_currentWeaponData._useElbowHints)
+            if (_weaponInventory.CurrentWeapon.UseElbowHints)
             {
                 ApplyElbowHints();
-            }*/
-            //I need to kill the WeaponData SO
+            }
+            //TODO: Kill weapon data - overengineered and unnecessary
         else
         {
             ResetIK();
@@ -161,14 +161,14 @@ public class WeaponIKHandler : MonoBehaviour
     {
         if (_currentWeaponData._rightElbowHint != null)
         {
-            _animator.SetIKHintPositionWeight(AvatarIKHint.RightElbow, _currentWeaponData._rightElbowHintWeight);
-            _animator.SetIKHintPosition(AvatarIKHint.RightElbow, _currentWeaponData._rightElbowHint.position);
+            _animator.SetIKHintPositionWeight(AvatarIKHint.RightElbow, _weaponInventory.CurrentWeapon.RightElbowHintWeight);
+            _animator.SetIKHintPosition(AvatarIKHint.RightElbow, _weaponInventory.CurrentWeapon.RightElbowHint.position);
         }
         
         if (_currentWeaponData._leftElbowHint != null)
         {
-            _animator.SetIKHintPositionWeight(AvatarIKHint.LeftElbow, _currentWeaponData._leftElbowHintWeight);
-            _animator.SetIKHintPosition(AvatarIKHint.LeftElbow, _currentWeaponData._leftElbowHint.position);
+            _animator.SetIKHintPositionWeight(AvatarIKHint.LeftElbow, _weaponInventory.CurrentWeapon.LeftElbowHintWeight);
+            _animator.SetIKHintPosition(AvatarIKHint.LeftElbow, _weaponInventory.CurrentWeapon.LeftElbowHint.position);
         }
     }
     

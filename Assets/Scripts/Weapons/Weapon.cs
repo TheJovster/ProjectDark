@@ -32,9 +32,13 @@ public class Weapon : MonoBehaviour
     [Header("IK Settings")] 
     [SerializeField, Range(0f, 1f)] private float _rightHandIKWeight = 1.0f;
     [SerializeField, Range(0f, 1f)] private float _leftHandIKWeight = 1.0f;
-    
     [SerializeField] private Transform _rightHandPosition;
     [SerializeField] private Transform _leftHandPosition;
+    [SerializeField] private Transform _rightElbowHint;
+    [SerializeField] private Transform _leftElbowHint;
+    [SerializeField] private float _rightElbowHintWeight = 1.0f;
+    [SerializeField] private float _leftElbowHintWeight = 1.0f;
+    [SerializeField] private bool _useElbowHints = false;
     
     [SerializeField]private int _currentAmmoInMag;
     [SerializeField] private int _maxAmmoInMag;
@@ -74,6 +78,12 @@ public class Weapon : MonoBehaviour
     
     public Transform RightHandPosition => _rightHandPosition;
     public Transform LeftHandPosition => _leftHandPosition;
+    
+    public Transform RightElbowHint => _rightElbowHint;
+    public Transform LeftElbowHint => _leftElbowHint;
+    public float RightElbowHintWeight => _rightElbowHintWeight;
+    public float LeftElbowHintWeight => _leftElbowHintWeight;
+    public bool UseElbowHints => _useElbowHints;
     
     public float RightHandIKWeight => _rightHandIKWeight;
     public float LeftHandIKWeight => _leftHandIKWeight;
