@@ -25,7 +25,6 @@ public class Weapon : MonoBehaviour
     private bool _canFire = true;
     private bool _isFiring = false;
     [SerializeField] private Transform _barrels;
-    [SerializeField] private WeaponIKData _weaponData; //do I even need the data?
     [SerializeField] private WeaponIKHandler _IKHandler;
     [SerializeField] private AnimatorOverrideController _animatorOverrideController;
 
@@ -75,7 +74,6 @@ public class Weapon : MonoBehaviour
     public float ScreenShakeDuration => _screenShakeDuration;
 
     public float ScreenShakeSpeed => _screenShakeSpeed;
-    public WeaponIKData IKData => _weaponData;
     
     public Transform RightHandPosition => _rightHandPosition;
     public Transform LeftHandPosition => _leftHandPosition;

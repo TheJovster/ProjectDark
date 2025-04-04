@@ -15,9 +15,6 @@ public class WeaponIKHandler : MonoBehaviour
     public Transform _rightHandTarget;
     public Transform _leftHandTarget;
     
-    [Header("Current Weapon")]
-    public WeaponIKData _currentWeaponData;
-    
     // References
     [SerializeField]private Animator _animator;
     [SerializeField]private WeaponInventory _weaponInventory;
@@ -26,10 +23,7 @@ public class WeaponIKHandler : MonoBehaviour
     private bool _isTransitioning = false;
     private float _transitionTime = 0.3f;
     private float _currentTransitionTime = 0f;
-    private WeaponIKData _targetWeapon;
-
-
-
+    
     private void Start()
     {
         ApplyWeaponIK(_weaponInventory.CurrentWeapon.RightHandPosition,
@@ -85,7 +79,8 @@ public class WeaponIKHandler : MonoBehaviour
     }
     
     // Set a new weapon and transition to its IK settings
-    public void SetWeapon(WeaponIKData newWeapon)
+    //redundant
+    /*public void SetWeapon(WeaponIKData newWeapon)
     {
         if (newWeapon == null)
         {
@@ -104,7 +99,7 @@ public class WeaponIKHandler : MonoBehaviour
         {
             _animator.runtimeAnimatorController = newWeapon._animatorOverrideController;
         }
-    }
+    }*/
     
     // Apply weapon IK immediately without transition
     public void ApplyWeaponIK(Transform rightHandTarget, Transform leftHandTarget, AnimatorOverrideController animatorOverrideController)
@@ -135,8 +130,8 @@ public class WeaponIKHandler : MonoBehaviour
         // Right Hand IK
         if (_rightHandTarget != null)
         {
-            float rightHandWeightLerp = Mathf.Lerp(_currentWeaponData != null ? _currentWeaponData._rightHandWeight : 0f, 
-                                                  _targetWeapon._rightHandWeight, t);
+            float rightHandWeightLerp = Mathf.Lerp(_weaponInventory.CurrentWeapon != null ? _weaponInventory.CurrentWeapon.RightHandIKWeight : 0f, 
+                                                  _weaponInventory.CurrentWeapon.RightHandIKWeight, t);
             
             _animator.SetIKPositionWeight(AvatarIKGoal.RightHand, _ikWeight * rightHandWeightLerp);
             _animator.SetIKRotationWeight(AvatarIKGoal.RightHand, _ikRotationWeight * rightHandWeightLerp);
@@ -147,8 +142,8 @@ public class WeaponIKHandler : MonoBehaviour
         // Left Hand IK
         if (_leftHandTarget != null)
         {
-            float leftHandWeightLerp = Mathf.Lerp(_currentWeaponData != null ? _currentWeaponData._leftHandWeight : 0f, 
-                                                 _targetWeapon._leftHandWeight, t);
+            float leftHandWeightLerp = Mathf.Lerp(_weaponInventory.CurrentWeapon != null ? _weaponInventory.CurrentWeapon.LeftHandIKWeight : 0f, 
+                                                 _weaponInventory.CurrentWeapon.LeftHandIKWeight, t);
             
             _animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, _ikWeight * leftHandWeightLerp);
             _animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, _ikRotationWeight * leftHandWeightLerp);
@@ -160,13 +155,13 @@ public class WeaponIKHandler : MonoBehaviour
     // Apply elbow hints for better arm positioning
     private void ApplyElbowHints()
     {
-        if (_currentWeaponData._rightElbowHint != null)
+        if (_weaponInventory.CurrentWeapon.RightElbowHint != null)
         {
             _animator.SetIKHintPositionWeight(AvatarIKHint.RightElbow, _weaponInventory.CurrentWeapon.RightElbowHintWeight);
             _animator.SetIKHintPosition(AvatarIKHint.RightElbow, _weaponInventory.CurrentWeapon.RightElbowHint.position);
         }
         
-        if (_currentWeaponData._leftElbowHint != null)
+        if (_weaponInventory.CurrentWeapon.LeftElbowHint != null)
         {
             _animator.SetIKHintPositionWeight(AvatarIKHint.LeftElbow, _weaponInventory.CurrentWeapon.LeftElbowHintWeight);
             _animator.SetIKHintPosition(AvatarIKHint.LeftElbow, _weaponInventory.CurrentWeapon.LeftElbowHint.position);
