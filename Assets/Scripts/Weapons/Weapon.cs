@@ -50,7 +50,13 @@ public class Weapon : MonoBehaviour
     private float _timeSinceLastShot = 0.0f;
     [SerializeField] private int _weaponDamage = 10;
     [SerializeField] private bool _canADS = true;
-
+    private bool _isAiming = false;
+    [SerializeField] private float _aimSmoothingTimeHip = 0.5f;
+    [SerializeField] private float m_aimSmoothingTimeADS = 0.25f;
+    [SerializeField] private float m_fADSTime = 10.0f;
+    private Vector3 _originalPosition;
+    [SerializeField] Vector3 _ADSPosition;
+    private float _aimSmoothingTime;
 
     [Header("Audio and VFX")]
     [Tooltip("Set this to 5")]
@@ -91,6 +97,7 @@ public class Weapon : MonoBehaviour
     
     private void Awake()
     {
+        _originalPosition = transform.localPosition;
         _weaponInventory = GetComponentInParent<WeaponInventory>();
         _ammoInventory = GetComponentInParent<AmmoInventory>();
         _weaponRecoil = GetComponent<WeaponRecoil>();
@@ -126,9 +133,10 @@ public class Weapon : MonoBehaviour
         {
             _muzzleFlash.Stop();
         }
-        
+
     }
 
+    
     public void Fire()
     {
         if (_weaponName == "Minigun") //this is a lot of ducttape - will fix this with a local animator.
@@ -175,24 +183,32 @@ public class Weapon : MonoBehaviour
         //edgecases
     }
     
-    public void ToggleADS(bool isAiming)
+    public void ToggleAimMode(bool input)
     {
-        if(_canADS)
+        _isAiming = input;
+    }
+    
+    private void SetAds() //imported from project MoveIt - doesn't work. Something else is setting the transform position at all times. Question is, do I need ads for a game like this?
+    {
+        if (_canADS)
         {
-            if(isAiming)
+            if (_isAiming)
             {
-                
-            }
-            else if(!isAiming)
-            {
-                
-            }
-        }
-        else 
-        {
-            return;
-        }
+                _aimSmoothingTime = m_aimSmoothingTimeADS;
+                transform.localPosition =
+                    Vector3.Lerp(transform.localPosition, _ADSPosition, m_fADSTime * Time.deltaTime);
+                HUDManager.Instance.DisableAimReticle();
 
+            }
+            else
+            {
+                _aimSmoothingTime = _aimSmoothingTimeHip;
+                transform.localPosition = Vector3.Lerp(transform.localPosition, _originalPosition,
+                    m_fADSTime * Time.deltaTime);
+                HUDManager.Instance.EnableAimReticle();
+            }
+        }
+        else return;
     }
     
     

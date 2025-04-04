@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class HUDManager : MonoBehaviour
 {
     public static HUDManager Instance;
-    
+
+    [SerializeField] private GameObject _aimReticle;
     [SerializeField] private Image _healthSlider;
     [SerializeField] private TMP_Text _ammoInMag;
     [SerializeField] private TMP_Text _ammoInInventory;
@@ -28,5 +29,15 @@ public class HUDManager : MonoBehaviour
     {
         _ammoInMag.text = ammoInMag.ToString();
         _ammoInInventory.text = ammoInInventory.ToString();
+    }
+
+    public void EnableAimReticle()
+    {
+        _aimReticle.SetActive(true);
+    }
+
+    public void DisableAimReticle()
+    {
+        _aimReticle.SetActive(false);
     }
 }

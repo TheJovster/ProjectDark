@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
 			TryFireWeapon();
 			TryReloadWeapon();
 			TrySwitchWeapon();
-
+			//_weaponInventory.CurrentWeapon.ToggleAimMode(_input.Player.Aim.IsPressed()); - deactivated, for now
 			if (_characterController.isGrounded && _verticalVelocity.y < 0)
 			{
 				_verticalVelocity.y = _gravityGrounded;
