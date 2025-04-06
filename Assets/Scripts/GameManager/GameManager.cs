@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     private GameObject playerInstance;
     private PlayerController _playerController;
     private GameObject currentLevelInstance;
+    private Transform currentLevelPlayerSpawnPoint;
     
     [Header("UI Elements")] 
     [SerializeField] private FaderController fader;
@@ -194,7 +195,8 @@ public class GameManager : MonoBehaviour
         }
         //sounds
         currentLevelInstance = Instantiate(levelPrefabs[levelIndex]);
-        playerInstance = Instantiate(playerPrefab);
+        currentLevelPlayerSpawnPoint = currentLevelInstance.GetComponent<LevelIdentifier>().GetPlayerSpawnLocation();
+        playerInstance = Instantiate(playerPrefab, currentLevelPlayerSpawnPoint.position, Quaternion.identity);
         _playerController = playerInstance.GetComponent<PlayerController>();
         HUDManager.Instance.UpdateAmmoCount(_playerController.WeaponInventory.CurrentWeapon.GetCurrentAmmoInMag(), 
             _playerController.WeaponInventory.CurrentWeapon.GetCurrentAmmoInInventory());

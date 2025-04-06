@@ -1656,7 +1656,7 @@ MonoBehaviour:
   currentGameState: 0
   playerPrefab: {fileID: 9074778794591022342, guid: bd40ef2092763764ab9b464c417ccb8a, type: 3}
   levelPrefabs:
-  - {fileID: 2806497139812903254, guid: 09a4d3a8b8ba8a14aacb1c0592604fc4, type: 3}
+  - {fileID: 2665337147164467761, guid: 2ec4346a32ffe394299e993cdcd9d3d7, type: 3}
   - {fileID: 4320764189467301779, guid: 568ff64370258d04498239a5754c96d8, type: 3}
   fader: {fileID: 1033423512}
   mainMenuPanel: {fileID: 1228835384}

@@ -289,7 +289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelName: The Slums
-  _levelIndex: 0
+  _levelIndex: 1
 --- !u!1 &3150350776397089692
 GameObject:
   m_ObjectHideFlags: 0
