@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine.Rendering;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
 	private float _mouseYDelta;
 
 	[SerializeField]private bool _isSprinting = false;
+	[SerializeField] private bool _canSprint = true;
 	private bool _canJump = true;
 	[SerializeField, Range(0.0f, 5.0f)] private float _jumpForce = 1.0f;
 	[SerializeField] private int _numberOfJumps = 2; //this is used to control the air jump
@@ -43,10 +45,9 @@ public class PlayerController : MonoBehaviour
 
 	[Header("Movement and Gravity")]
 	[SerializeField] private float _currentMoveSpeed;
-	[SerializeField, Range(4.0f, 36.0f)] private float _walkSpeed = 4.0f;
-	[SerializeField, Range(16.0f, 72.0f)] private float _sprintSpeed = 8.0f;
-	[SerializeField] private float _walkFraction = 0.5f;
-	[SerializeField] private float _sprintFraction = 0.5f;
+	[SerializeField, Range(4.0f, 8.0f)] private float _walkSpeed = 4.0f;
+	[SerializeField, Range(6.0f, 20.0f)] private float _sprintSpeed = 8.0f;
+	[SerializeField, Range(2.0f, 6.0f)] private float _aimingSpeed = 2.0f;
 	[SerializeField] private float _gravityGrounded = -2.0f;
 	[SerializeField] private float _gravityValue = -9.81f;
 	[SerializeField] private float _fallMultiplier = 2.5f;
@@ -71,7 +72,15 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private float _footstepSpeedTreshold = 0.5f;
 	[SerializeField] private float _runningFootstepInterval = 0.3f;
 	[SerializeField] private float _runningSpeedThreshold = 4f;
+	[SerializeField] private float _aimingFootstepsInterval = 0.25f;
+	[SerializeField] private float _aimingSpeedTreshold = 2f;
 	private float _footstepTimer = 0f;
+
+	[Header("ADS")] 
+	[SerializeField] private Transform _weaponPivot;
+	[SerializeField] private bool _isAiming;
+	private Vector3 _weaponPivotOriginalPosition;
+	[SerializeField] private float _adsSmoothingTime;
 	private void OnEnable()
 	{
 		_input = new InputSystem_Actions();
@@ -80,6 +89,7 @@ public class PlayerController : MonoBehaviour
 
 	private void Awake()
 	{
+		_weaponPivotOriginalPosition = _weaponPivot.localPosition;
 		_characterController = GetComponent<CharacterController>();
 		_camera.tag = "MainCamera";
 		_weaponInventory = GetComponent<WeaponInventory>();
@@ -105,18 +115,19 @@ public class PlayerController : MonoBehaviour
 				_numberOfJumps = MAX_NUMBER_OF_JUMPS;
 			}
 			CheckForSprinting();
+			SetMoveSpeed();
 			if (!_isSprinting)
 			{
 				_stats.RegenStamina(_staminaRegenRate);
 			}
-			_currentMoveSpeed = _isSprinting ? _sprintSpeed : _walkSpeed;
 			Move();
 			LookUp();
 			RotatePlayer();
 			TryFireWeapon();
 			TryReloadWeapon();
 			TrySwitchWeapon();
-			//_weaponInventory.CurrentWeapon.ToggleAimMode(_input.Player.Aim.IsPressed()); - deactivated, for now
+			CheckForAdsHeld();
+			SetADS();
 			if (_characterController.isGrounded && _verticalVelocity.y < 0)
 			{
 				_verticalVelocity.y = _gravityGrounded;
@@ -135,10 +146,8 @@ public class PlayerController : MonoBehaviour
 			}
 			
 			Jump();
-
 			Vector3 downwardForce = new Vector3(0.0f, _verticalVelocity.y, 0.0f) * Time.deltaTime;
 			_characterController.Move(downwardForce);
-			
 			UpdateFootsteps();
 		}
 		else if (!GameManager.Instance.IsPlaying)
@@ -161,7 +170,7 @@ public class PlayerController : MonoBehaviour
 		_moveDirection.Normalize();
 		_moveDirection *= _currentMoveSpeed * Time.deltaTime;
 		_characterController.Move(_moveDirection);
-		if (_isSprinting && Mathf.Abs(_characterController.velocity.magnitude) > 5.0f)
+		if (_isSprinting && _canSprint && Mathf.Abs(_characterController.velocity.magnitude) > 5.0f)
 		{
 			_stats.DrainStamina(_staminaDrainRate);
 		}
@@ -169,18 +178,34 @@ public class PlayerController : MonoBehaviour
 	
 	private void CheckForSprinting()
 	{
-		//ducttape - will refactor later
-		
-		if (_input.Player.Sprint.IsPressed() && _stats.CurrentStamina > 0)
+		if (_stats.CurrentStamina <= 0.1f && _isSprinting)
+		{
+			_isSprinting = false;
+			DisableSprint();
+			return;
+		}
+    
+		if (!_canSprint || _input.Player.Sprint.WasReleasedThisFrame())
+		{
+			_isSprinting = false;
+			return;
+		}
+		if (_canSprint && _input.Player.Sprint.IsPressed())
 		{
 			_isSprinting = true;
 		}
-		else if (_input.Player.Sprint.WasReleasedThisFrame() || _stats.CurrentStamina <= 0)
-		{
-			_isSprinting = false;
-		}
 	}
 
+	private void DisableSprint()
+	{
+		_canSprint = false;
+	}
+
+	private void EnableSprint()
+	{
+		_canSprint = true;
+	}
+	
 	private void RotatePlayer()
 	{
 		_mouseXDelta = _input.Player.Look.ReadValue<Vector2>().x;
@@ -220,6 +245,70 @@ public class PlayerController : MonoBehaviour
 			{
 				GameManager.Instance.ResumeGame();
 			}
+		}
+	}
+
+	private void CheckForAdsHeld()
+	{
+		if (_input.Player.Aim.IsPressed() && _weaponInventory.CurrentWeapon.CanADS)
+		{
+			_isAiming = true;
+			_canSprint = false;
+		}
+		else
+		{
+			_isAiming = false;
+			_canSprint = true;
+		}
+	}
+
+	private void SetMoveSpeed()
+	{
+		if (_stats.CurrentStamina <= 0.1f)
+		{
+			_currentMoveSpeed = _walkSpeed;
+		}
+		if (_isSprinting && !_isAiming && _stats.CurrentStamina > 0.1f)
+		{
+			_currentMoveSpeed = _sprintSpeed;
+		}
+		//add a check for crouching when adding the option to crouch
+		else if (!_isSprinting && !_isAiming)
+		{
+			_currentMoveSpeed = _walkSpeed;
+		}
+		else if (_isAiming && !_isSprinting)
+		{
+			_currentMoveSpeed = _aimingSpeed;
+		}
+	}
+	
+	private void SetADS()
+	{
+		if (_isAiming && _weaponInventory.CurrentWeapon.CanADS)
+		{
+			/*m_fAimSmoothingTime = m_fAimSmoothingTimeADS;*/
+			_weaponPivot.localPosition = Vector3.Lerp(_weaponPivot.localPosition, _weaponInventory.CurrentWeapon.ADSPosition, _adsSmoothingTime * Time.deltaTime);
+			HUDManager.Instance.DisableAimReticle();
+			//only if I add snipers and scopes
+			/*if (m_Type == WeaponType.Sniper || m_Type == WeaponType.DMR)
+			{
+				if (m_ScopeCamera)
+				{
+					m_ScopeCamera.fieldOfView = m_fOriginalZoom / m_fMagnificationFactor;
+				}
+			}*/
+		}
+		else
+		{
+			/*m_fAimSmoothingTime = m_fAimSmoothingTimeHip;*/
+			_weaponPivot.localPosition = Vector3.Lerp(_weaponPivot.localPosition, _weaponPivotOriginalPosition, _adsSmoothingTime * Time.deltaTime);
+			HUDManager.Instance.EnableAimReticle();
+			//only if I add snipers and scopes
+			/*if (m_ScopeCamera)
+			{
+				m_ScopeCamera.fieldOfView = m_fOriginalZoom;
+			}*/
 		}
 	}
 
@@ -275,25 +364,42 @@ public class PlayerController : MonoBehaviour
 	private void UpdateFootsteps()
 	{
 		if (!_enableFootstepSounds || !_isGrounded) return;
-		
+    
 		float movementSpeed = new Vector3(_moveDirection.x, 0, _moveDirection.z).magnitude / Time.deltaTime;
-		
-		if (movementSpeed < _footstepSpeedTreshold) 
+    
+		// Use a lower threshold when aiming to account for slower movement
+		float currentThreshold = _isAiming ? _aimingSpeedTreshold : _footstepSpeedTreshold;
+    
+		if (movementSpeed < currentThreshold) 
 		{
 			_footstepTimer = 0;
 			return;
 		}
 		_footstepTimer += Time.deltaTime;
-		
-		float currentInterval = (_isSprinting || movementSpeed > _runningSpeedThreshold) ? 
-			_runningFootstepInterval : _footstepInterval;
-		
+    
+		float currentInterval;
+    
+		// Determine the appropriate footstep interval based on movement state
+		if (_isAiming)
+		{
+			currentInterval = _aimingFootstepsInterval;
+		}
+		else if (_isSprinting || movementSpeed > _runningSpeedThreshold)
+		{
+			currentInterval = _runningFootstepInterval;
+		}
+		else
+		{
+			currentInterval = _footstepInterval;
+		}
+    
 		if (_footstepTimer >= currentInterval)
 		{
 			AudioManager.Instance.PlayEffect(_footstepSounds[GetRandomWalkSound()]);
 			_footstepTimer = 0f;
 		}
 	}
+	
 	private int GetRandomJumpSound()
 	{
 		return Random.Range(0, _jumpSounds.Length);
