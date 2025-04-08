@@ -114,7 +114,6 @@ public class Weapon : MonoBehaviour
         _currentAmmoInMag = _maxAmmoInMag;
     }
     
-
     private void Update()
     {
         _isEmpty = _currentAmmoInMag == 0;

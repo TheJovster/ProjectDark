@@ -86,12 +86,7 @@ public class ProceduralGibbing : MonoBehaviour
         // Map bones by name for faster lookups
         MapBones();
     }
-
-    private void Start()
-    {
-        // No event subscription needed - we'll check stats in Update
-    }
-
+    
     private void Update()
     {
         // Check if character just died and we haven't processed it yet
