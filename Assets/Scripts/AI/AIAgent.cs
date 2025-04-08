@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 public class AIAgent : MonoBehaviour
@@ -9,7 +7,8 @@ public class AIAgent : MonoBehaviour
     {
         Idle,
         Patrol,
-        Aggressive
+        Aggressive,
+        Dead
     }
 
     public enum EnemyType
@@ -32,9 +31,16 @@ public class AIAgent : MonoBehaviour
     [SerializeField]private int _currentWaypointIndex;
     [SerializeField]private int _nextWaypointIndex;
     
+    // Added for gibbing system
+    [Header("Death Settings")]
+    [SerializeField] private float _deathCleanupDelay = 15f;
+    [SerializeField] private bool _autoDestroyOnDeath = true;
+    [SerializeField] private bool _enableGibbingOnDeath = true;
+    
     //components
     private AnimationHandler _animationHandler;
     private NavMeshAgent _navMeshAgent;
+    private ProceduralGibbing _gibbingSystem;
     private void Awake()
     {
         _animationHandler = GetComponent<AnimationHandler>();
@@ -144,6 +150,66 @@ public class AIAgent : MonoBehaviour
         if (_type == EnemyType.Special)
         {
             Debug.Log("Boomy boi goes boom");
+        }
+    }
+    
+    private void HandleDeath()
+    {
+        // Set state to dead
+        SetBehaviorState(BehaviorState.Dead);
+        
+        // Disable NavMeshAgent
+        if (_navMeshAgent != null && _navMeshAgent.isActiveAndEnabled)
+        {
+            _navMeshAgent.isStopped = true;
+            _navMeshAgent.enabled = false;
+        }
+        
+        // Process gibbing if enabled
+        if (_enableGibbingOnDeath && _gibbingSystem != null)
+        {
+            // ProceduralGibbing script will handle this in its Update method
+            // when it detects !_stats.IsAlive
+        }
+        
+        // Auto-destroy after delay if enabled
+        if (_autoDestroyOnDeath)
+        {
+            Destroy(gameObject, _deathCleanupDelay);
+        }
+    }
+    
+    // Public methods for gibbing control
+    public void ForceGib(string partName = "")
+    {
+        if (_gibbingSystem != null)
+        {
+            if (string.IsNullOrEmpty(partName))
+            {
+                _gibbingSystem.ForceGibAll();
+            }
+            else
+            {
+                _gibbingSystem.ForceGib(partName);
+            }
+        }
+    }
+    
+    public void InstantGibDeath()
+    {
+        if (_stats != null)
+        {
+            _stats.InstantGibDeath();
+        }
+    }
+    
+    public void SetGibbingEnabled(bool enabled)
+    {
+        _enableGibbingOnDeath = enabled;
+        
+        if (_gibbingSystem != null)
+        {
+            _gibbingSystem.SetGibEnabled(enabled);
         }
     }
 }
