@@ -88,7 +88,6 @@ public class Weapon : MonoBehaviour
     
     public float RightHandIKWeight => _rightHandIKWeight;
     public float LeftHandIKWeight => _leftHandIKWeight;
-    
     public Vector3 ADSPosition => _adsPosition;
     public bool CanADS => _canADS;
     

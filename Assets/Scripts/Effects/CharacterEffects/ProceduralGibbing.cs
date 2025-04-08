@@ -39,7 +39,7 @@ public class ProceduralGibbing : MonoBehaviour
 
     [Header("Mesh Settings")] [SerializeField]
     private SkinnedMeshRenderer _characterMesh;
-
+    private List<Mesh> _modifiedMeshes = new List<Mesh>();
     [SerializeField] private bool _createCutFaces = true;
     [SerializeField] private Material _cutFaceMaterial;
     [SerializeField] private Color _cutFaceColor = Color.red;
@@ -47,6 +47,7 @@ public class ProceduralGibbing : MonoBehaviour
     [Header("Body Parts")] [SerializeField]
     private List<GibPart> _gibParts = new List<GibPart>();
 
+    
     [Header("Debug")] [SerializeField] private bool _debugGibbing = false;
     [SerializeField] private bool _drawGizmosForParts = false;
 
@@ -295,8 +296,6 @@ public class ProceduralGibbing : MonoBehaviour
         Destroy(gibObject, _gibLifetime);
     }
     
-    
-
     private Mesh ExtractGibMesh(Mesh originalMesh, int[] boneIndices)
     {
         Mesh gibMesh = new Mesh();
