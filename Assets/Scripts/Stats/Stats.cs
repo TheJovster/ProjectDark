@@ -19,6 +19,8 @@ public class Stats : MonoBehaviour
     private CapsuleCollider _capsuleCollider;
     [SerializeField]private bool _isAlive = true;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource _enemyAudioSource;
     [SerializeField] private AudioClip[] _deathSounds;
     [SerializeField] private AudioClip[] _hitSounds;
     [SerializeField] private AudioClip[] _voiceHitSounds;
@@ -46,7 +48,7 @@ public class Stats : MonoBehaviour
     public void TakeDamage(float damageToTake)
     {
         _currentHealth -= damageToTake;
-        AudioManager.Instance.PlayEffect(_hitSounds[GetRandomSoundIndex(_hitSounds.Length)]);
+        _enemyAudioSource.PlayOneShot(_hitSounds[GetRandomSoundIndex(_hitSounds.Length)]);
         
         if (_currentHealth <= 0)
         {
@@ -55,7 +57,7 @@ public class Stats : MonoBehaviour
         }
         else if (_isAlive && !_isPlayer)
         {
-            AudioManager.Instance.PlayEffect(_voiceHitSounds[GetRandomSoundIndex(_voiceHitSounds.Length)]);
+            _enemyAudioSource.PlayOneShot(_voiceHitSounds[GetRandomSoundIndex(_voiceHitSounds.Length)]);
             _animationHandler.Trigger_TakeDamage();
         }
         
@@ -72,7 +74,7 @@ public class Stats : MonoBehaviour
         _isAlive = false;
         if (!_isPlayer)
         {
-            AudioManager.Instance.PlayEffect(_deathSounds[GetRandomSoundIndex(_deathSounds.Length)]);
+            _enemyAudioSource.PlayOneShot(_deathSounds[GetRandomSoundIndex(_deathSounds.Length)]);
             _animationHandler.Trigger_Death();
             GameObject newDeathParticle = Instantiate(_deathParticle, transform.position + new Vector3(0, 1f, 0f), Quaternion.identity);
             _skinnedMeshRenderers.enabled = false;

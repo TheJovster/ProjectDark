@@ -81,11 +81,11 @@ using Biostart.Blood;
         m_bIsFlying = false;
         
         //impact effects should go here - TODO: Implement Interface
-        /*if (!hit.transform.CompareTag("Player"))
+        if (!hit.transform.CompareTag("Player") && !hit.transform.CompareTag("Enemy"))
         {
             PlayImpactEffect(hit);
             ProjectDecal(hit);
-        }*/
+        }
 
         if (hit.transform.CompareTag(("Enemy")))
         {
@@ -98,26 +98,30 @@ using Biostart.Blood;
             BloodProjector bloodProjector = hit.transform.GetComponent<BloodProjector>();
             if (bloodProjector)
             {
-                bloodProjector.AttachBloodProjector(hit.point, hit.normal, hit.collider);
+                bloodProjector.AttachBloodProjector(hit.transform.position, hit.transform.position.normalized, hit.collider);
             }
             hit.transform.GetComponent<Stats>().TakeDamage(m_fDamageToDeal);
         }
-        
         if (!m_bIsFlying) Destroy(gameObject);
     }
-
+    
     private void PlayImpactEffect(RaycastHit hit)
     {
-        GameObject particleInstance = Instantiate(m_ImpactParticle, hit.point, Quaternion.identity);
-        particleInstance.GetComponent<ParticleSystem>().Play();             
-        //Destroy(gameObject);
+        Quaternion rotation = Quaternion.LookRotation(hit.normal);
+        
+        Vector3 position = hit.point + hit.normal * 0.01f;
+    
+        GameObject particleInstance = Instantiate(m_ImpactParticle, position, rotation);
         Destroy(particleInstance, 0.2f);
     }
-
+    
     private void ProjectDecal(RaycastHit hit)
     {
-        Quaternion rotation = Quaternion.FromToRotation(hit.point, hit.normal) * transform.rotation;
-        GameObject decalInstance = Instantiate(m_DecalGameObject, hit.point,  rotation);
+        Quaternion rotation = Quaternion.LookRotation(-hit.normal);
+        
+        Vector3 position = hit.point + hit.normal * 0.01f;
+    
+        GameObject decalInstance = Instantiate(m_DecalGameObject, position, rotation);
         Destroy(decalInstance, m_fDecalLifetime);
     }
 

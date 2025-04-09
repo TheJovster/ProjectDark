@@ -54,8 +54,8 @@ MonoBehaviour:
   m_fMinRicochetAngle: 10
   m_fMaxRicochetAngle: 60
   m_fRicochetChance: 1
-  m_ImpactParticle: {fileID: 0}
-  m_DecalGameObject: {fileID: 0}
+  m_ImpactParticle: {fileID: 1067536016464596, guid: 57e18706e2792ff4bb5561ed74b796e2, type: 3}
+  m_DecalGameObject: {fileID: 169483127223556339, guid: e05e7f89cbd20ae47bc0bbc8e4b043e9, type: 3}
   m_fDecalLifetime: 4
 --- !u!1001 &4455578829056377497
 PrefabInstance:

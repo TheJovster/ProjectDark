@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Corridor
+  - Environment
   layers:
   - Default
   - TransparentFX

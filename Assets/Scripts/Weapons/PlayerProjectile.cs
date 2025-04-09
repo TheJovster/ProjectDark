@@ -55,7 +55,7 @@ public class PlayerProjectile : MonoBehaviour
 				newEffect.SpawnBloodEffect(hit.point, hit.normal);
 
 				BloodProjector newBloodProjector = other.gameObject.GetComponent<BloodProjector>();
-				newBloodProjector.AttachBloodProjector(hit.point, hit.normal, hit.collider);
+				newBloodProjector.AttachBloodProjector(hit.point + new Vector3(0f, 1f, 0f), hit.normal, hit.collider);
 			}
 			other.gameObject.GetComponent<Stats>().TakeDamage(15.0f);
 		}

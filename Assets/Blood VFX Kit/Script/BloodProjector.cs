@@ -8,7 +8,8 @@ namespace Biostart.Blood
     {
         public GameObject bloodProjectorPrefab;
         public float zOffset = 0.1f;
-        public float destroyTime = 25f; // Destroy time
+        public float destroyTime = 25f; 
+        public float randomRotationRange = 360f;
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -26,7 +27,14 @@ namespace Biostart.Blood
             if (other != null)
             {
                 Vector3 hitPosition = other.ClosestPointOnBounds(transform.position);
-                Vector3 hitNormal = other.transform.forward;
+                
+                Vector3 hitNormal = (hitPosition - other.transform.position).normalized;
+                
+                if (hitNormal.magnitude < 0.01f)
+                {
+                    hitNormal = -other.transform.forward;
+                }
+                
                 AttachBloodProjector(hitPosition, hitNormal, other);
             }
         }
@@ -36,9 +44,20 @@ namespace Biostart.Blood
             if (bloodProjectorPrefab != null)
             {
                 Vector3 correctedPosition = position + normal * zOffset;
-                GameObject projector = Instantiate(bloodProjectorPrefab, correctedPosition, Quaternion.LookRotation(normal));
-
-                // Попытка найти SkinnedMeshRenderer или кость в объекте
+                
+                Vector3 upVector = Vector3.up;
+                if (Mathf.Abs(Vector3.Dot(normal, upVector)) > 0.99f)
+                {
+                    upVector = Vector3.forward;
+                }
+                
+                Quaternion baseRotation = Quaternion.LookRotation(normal, upVector);
+                
+                Quaternion randomRotation = Quaternion.AngleAxis(Random.Range(0f, randomRotationRange), normal);
+                Quaternion finalRotation = randomRotation * baseRotation;
+                
+                GameObject projector = Instantiate(bloodProjectorPrefab, correctedPosition, finalRotation);
+                
                 Transform parentTransform = FindSkinnedMeshOrBone(hitObject.transform);
                 if (parentTransform != null)
                 {
@@ -48,9 +67,7 @@ namespace Biostart.Blood
                 {
                     projector.transform.SetParent(hitObject.transform);
                 }
-
-
-                // Уничтожаем проектор через указанное время
+                
                 Destroy(projector, destroyTime);
             }
             else
@@ -58,7 +75,6 @@ namespace Biostart.Blood
                 Debug.LogError("bloodProjectorPrefab is not assigned!");
             }
         }
-
 
         private Transform FindSkinnedMeshOrBone(Transform objTransform)
         {

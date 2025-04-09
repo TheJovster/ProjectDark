@@ -6,12 +6,13 @@ namespace Biostart.Impact
 {
     public class ImpactEffect : MonoBehaviour
     {
-        public List<GameObject> bloodEffectPrefabs; // List of blood effect prefabs
-        public float bloodEffectPrefabsDestroy = 5f; // Destroy time
-        public List<BloodEffectData> otherBloodEffectsData; // List of data for other blood effects
-        public bool destroy = false; // Flag to destroy the object
-        public bool disabled = false; // Flag to disable objects
-        public List<GameObject> disabledObjects;  // List of objects to disable
+        public List<GameObject> bloodEffectPrefabs; 
+        public float bloodEffectPrefabsDestroy = 5f; 
+        public List<BloodEffectData> otherBloodEffectsData; 
+        public bool destroy = false; 
+        public bool disabled = false; 
+        public List<GameObject> disabledObjects; 
+        public float normalOffset = 0.01f; 
 
         private void OnCollisionEnter(Collision collision)
         {
@@ -29,34 +30,44 @@ namespace Biostart.Impact
             if (other != null)
             {
                 Vector3 hitPosition = other.ClosestPointOnBounds(transform.position);
-                Vector3 hitNormal = other.transform.forward;
+                
+                Vector3 hitNormal = (hitPosition - other.transform.position).normalized;
+                
+                if (hitNormal.magnitude < 0.01f)
+                {
+                    hitNormal = -other.transform.forward;
+                }
+                
                 SpawnBloodEffect(hitPosition, hitNormal);
             }
         }
 
         public void SpawnBloodEffect(Vector3 position, Vector3 normal)
         {
-            Quaternion rotation = Quaternion.LookRotation(normal);
-
-            // Instantiate the main blood effect from the list of prefabs
+            position = position + normal * normalOffset;
+            Vector3 upVector = Vector3.up;
+            if (Mathf.Abs(Vector3.Dot(normal, upVector)) > 0.99f)
+            {
+                upVector = Vector3.forward; 
+            }
+            
+            Quaternion rotation = Quaternion.LookRotation(normal, upVector);
+            
             foreach (var bloodEffectPrefab in bloodEffectPrefabs)
             {
                 if (bloodEffectPrefab != null)
                 {
                     GameObject effect = Instantiate(bloodEffectPrefab, position, rotation);
-                    Destroy(effect, bloodEffectPrefabsDestroy); // Destroy after 5 seconds
+                    Destroy(effect, bloodEffectPrefabsDestroy);
                 }
             }
-
-            // Instantiate other blood effects based on their position and rotation
+            
             foreach (var effectData in otherBloodEffectsData)
             {
                 if (effectData.effect != null && effectData.positionObject != null)
                 {
-                    // Instantiate the effect inside positionObject
                     GameObject effect = Instantiate(effectData.effect, effectData.positionObject.transform);
-
-                    // Inherit the full rotation from positionObject
+                    
                     effect.transform.rotation = effectData.positionObject.transform.rotation;
 
                     Destroy(effect, effectData.destroyTime);
@@ -66,8 +77,7 @@ namespace Biostart.Impact
                     Debug.LogWarning("Effect or position object is not assigned in the list!");
                 }
             }
-
-            // Disable objects from the list if the disabled flag is active
+            
             if (disabled)
             {
                 foreach (GameObject obj in disabledObjects)
@@ -82,8 +92,7 @@ namespace Biostart.Impact
                     }
                 }
             }
-
-            // Destroy the current object if the destroy flag is active
+            
             if (destroy)
             {
                 Destroy(gameObject);
@@ -94,8 +103,8 @@ namespace Biostart.Impact
     [System.Serializable]
     public struct BloodEffectData
     {
-        public GameObject effect;             // Blood effect
-        public GameObject positionObject;     // Object from which the position is taken for spawning the effect
-        public float destroyTime;             // Effect destruction time
+        public GameObject effect;             
+        public GameObject positionObject;     
+        public float destroyTime;             
     }
 }

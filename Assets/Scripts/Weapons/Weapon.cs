@@ -132,7 +132,6 @@ public class Weapon : MonoBehaviour
         {
             _muzzleFlash.Stop();
         }
-
     }
 
 
@@ -149,8 +148,6 @@ public class Weapon : MonoBehaviour
                 Instantiate(_projectilePrefab, _muzzlePoint.position, _muzzlePoint.rotation);
             projectileInstance.SetDamageToDeal(_weaponDamage);
             projectileInstance.Fire(_muzzlePoint.forward);
-            /*projectileInstance.SetDamage(_weaponDamage);
-            projectileInstance.SetRotation(_muzzlePoint.forward);*/
             _timeSinceLastShot = 0.0f;
             _currentAmmoInMag--;
             int audioClipIndex = Random.Range(0, _weaponAudioClips.Length);
