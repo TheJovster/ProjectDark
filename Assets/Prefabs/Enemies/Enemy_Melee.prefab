@@ -138,7 +138,9 @@ GameObject:
   - component: {fileID: 7367434772518668856}
   - component: {fileID: 5538976631654792894}
   - component: {fileID: 6961670854118715947}
-  - component: {fileID: 7177538716820361694}
+  - component: {fileID: 8059801824708346340}
+  - component: {fileID: 1420146488175146723}
+  - component: {fileID: 2999427385718204609}
   m_Layer: 0
   m_Name: Enemy_Melee
   m_TagString: Enemy
@@ -200,15 +202,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd3b6ba653671a5408dfb6d73effb1bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _skinnedMeshRenderers: {fileID: 5502387143324765192}
+  _deathParticle: {fileID: 893913727056456344, guid: a0669073dcce8054fae2dbb63a7215e6, type: 3}
   _currentHealth: 0
   _maxHealth: 30
   _currentStamina: 0
   _maxStamina: 100
   _isPlayer: 0
   _isAlive: 1
-  _gibDamageThreshold: 20
-  _enableGibbing: 1
-  _highDamageGibMultiplier: 2
+  _deathSounds:
+  - {fileID: 8300000, guid: f775dc10833c9483dbd387fad3281e8e, type: 3}
+  - {fileID: 8300000, guid: 5cea1a976329644d3b607a934b89ae5e, type: 3}
+  - {fileID: 8300000, guid: d21c96b20db2b4f8bbe3e10a367f525e, type: 3}
+  _hitSounds:
+  - {fileID: 8300000, guid: b47922d1e32931c43988fbaa0267a273, type: 3}
+  - {fileID: 8300000, guid: 019b1cad8d20c6748abcaeabd40d6746, type: 3}
+  _voiceHitSounds:
+  - {fileID: 8300000, guid: d38c2236494f39546bd28ece44fb7684, type: 3}
+  - {fileID: 8300000, guid: 2852f35a7b9c8fe46a7686ed3b05c159, type: 3}
+  - {fileID: 8300000, guid: dc0f7110428091942897a82531997b53, type: 3}
 --- !u!114 &7367434772518668856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,10 +280,7 @@ MonoBehaviour:
   _waitTimeAtWaypoint: 3
   _currentWaypointIndex: 0
   _nextWaypointIndex: 0
-  _deathCleanupDelay: 15
-  _autoDestroyOnDeath: 1
-  _enableGibbingOnDeath: 1
---- !u!114 &7177538716820361694
+--- !u!114 &8059801824708346340
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -280,45 +289,54 @@ MonoBehaviour:
   m_GameObject: {fileID: 9124340185647703713}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27262bee9f9076e4eaaad80829fc4c50, type: 3}
+  m_Script: {fileID: 11500000, guid: fe21da65262a4ab499ba25313da02993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gibEnabled: 1
-  _gibChanceMultiplier: 1
-  _gibForceMin: 5
-  _gibForceMax: 10
-  _gibTorqueMin: 2
-  _gibTorqueMax: 5
-  _gibLifetime: 10
-  _gibMaterial: {fileID: 2100000, guid: 4cee7a5983b187943adc589b9cb1f084, type: 2}
-  _bloodEffectPrefab: {fileID: 1489431029902184, guid: 4430919f14c50f84085d287cbcb2c30e, type: 3}
-  _bloodEffectDuration: 3
-  _gibMass: 3
-  _gibDrag: 0.5
-  _gibAngularDrag: 0.2
-  _gibPhysicsMaterial: {fileID: 13400000, guid: 8b6a747b5f1432d42b1d42343d91ef68, type: 2}
-  _characterMesh: {fileID: 5502387143324765192}
-  _createCutFaces: 1
-  _cutFaceMaterial: {fileID: 2100000, guid: 4cee7a5983b187943adc589b9cb1f084, type: 2}
-  _cutFaceColor: {r: 1, g: 0, b: 0, a: 1}
-  _gibParts:
-  - Name: Head
-    BoneRoot: {fileID: 5600854913259827816}
-    BonesToInclude:
-    - {fileID: 5600923309374912888}
-    - {fileID: 5600795932268970356}
-    - {fileID: 5595017622483008470}
-    GibChance: 0.2
-    IsGibbed: 0
-  - Name: Torso
-    BoneRoot: {fileID: 5601093200655047280}
-    BonesToInclude:
-    - {fileID: 5594785432231421994}
-    - {fileID: 5594693960220687466}
-    GibChance: 0.2
-    IsGibbed: 0
-  _debugGibbing: 0
-  _drawGizmosForParts: 0
+  decalPrefabs:
+  - {fileID: 1315955394258604, guid: c485c7f52a9c60f419b3d354774e464f, type: 3}
+  - {fileID: 1315955394258604, guid: b38af6b93eed4e243901c5afe6b606b0, type: 3}
+  - {fileID: 1315955394258604, guid: 0eb933806366f2e40bd3032e36ae71fb, type: 3}
+  - {fileID: 1315955394258604, guid: 63974b91db0af15489137e67aab4e08f, type: 3}
+  randomRotation: 1
+  minScale: 1
+  maxScale: 1.5
+  destroyDelay: 20
+  targetTags: []
+  spawnChance: 0.7
+--- !u!114 &1420146488175146723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9124340185647703713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e132ae7dab5908e4ebc78875032e25c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodProjectorPrefab: {fileID: 81780311032234737, guid: 20494e9a5a3996f4a87a98000e90a0b8, type: 3}
+  zOffset: 0.1
+  destroyTime: 25
+--- !u!114 &2999427385718204609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9124340185647703713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01e530bc4c3e2ea4580e29cb9358b11f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodEffectPrefabs:
+  - {fileID: 893913727056456344, guid: 89207601446ace84aba6d7aba7eb7c8b, type: 3}
+  bloodEffectPrefabsDestroy: 5
+  otherBloodEffectsData: []
+  destroy: 0
+  disabled: 0
+  disabledObjects: []
 --- !u!1001 &5599652729667382788
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -385,43 +403,8 @@ SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 137801283352551948, guid: e91fc491052840f48a62c61a286ccf07, type: 3}
   m_PrefabInstance: {fileID: 5599652729667382788}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &5594693960220687466 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4977482774401646, guid: e91fc491052840f48a62c61a286ccf07, type: 3}
-  m_PrefabInstance: {fileID: 5599652729667382788}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5594723281119207714 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4931669671350054, guid: e91fc491052840f48a62c61a286ccf07, type: 3}
-  m_PrefabInstance: {fileID: 5599652729667382788}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5594785432231421994 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4888188245100078, guid: e91fc491052840f48a62c61a286ccf07, type: 3}
-  m_PrefabInstance: {fileID: 5599652729667382788}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5595017622483008470 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4653816200336850, guid: e91fc491052840f48a62c61a286ccf07, type: 3}
-  m_PrefabInstance: {fileID: 5599652729667382788}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5600795932268970356 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4486302368444272, guid: e91fc491052840f48a62c61a286ccf07, type: 3}
-  m_PrefabInstance: {fileID: 5599652729667382788}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5600854913259827816 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4448225654512748, guid: e91fc491052840f48a62c61a286ccf07, type: 3}
-  m_PrefabInstance: {fileID: 5599652729667382788}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5600923309374912888 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4376530404890492, guid: e91fc491052840f48a62c61a286ccf07, type: 3}
-  m_PrefabInstance: {fileID: 5599652729667382788}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5601093200655047280 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4190145863005300, guid: e91fc491052840f48a62c61a286ccf07, type: 3}
   m_PrefabInstance: {fileID: 5599652729667382788}
   m_PrefabAsset: {fileID: 0}

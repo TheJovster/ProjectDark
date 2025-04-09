@@ -11,13 +11,13 @@ public class PlayerController : MonoBehaviour
 	private InputSystem_Actions _input;
 	private WeaponInventory _weaponInventory;
 	private Stats _stats;
-	
+
 	private float _xInput;
 	private float _yInput;
 	private float _mouseXDelta;
 	private float _mouseYDelta;
 
-	[SerializeField]private bool _isSprinting = false;
+	[SerializeField] private bool _isSprinting = false;
 	[SerializeField] private bool _canSprint = true;
 	private bool _canJump = true;
 	[SerializeField, Range(0.0f, 5.0f)] private float _jumpForce = 1.0f;
@@ -26,25 +26,26 @@ public class PlayerController : MonoBehaviour
 	private Vector3 _verticalVelocity;
 
 	[SerializeField] private bool _isGrounded;
-	
+
 	private Vector3 _moveDirection;
-	
+
 	private Volume _postProcessVolume;
 	private LensDistortion _lensDistortion;
 	[SerializeField] private float _xOffset = 0.05f;
 	[SerializeField] private float _yOffset = 0.5f;
-	
+
 	#region Properties
 
 	public Vector3 MoveDirection => _moveDirection;
 	public bool IsSprinting => _isSprinting;
 	public CharacterController CharacterController => _characterController;
 	public WeaponInventory WeaponInventory => _weaponInventory;
-	
+
 	#endregion
 
-	[Header("Movement and Gravity")]
-	[SerializeField] private float _currentMoveSpeed;
+	[Header("Movement and Gravity")] [SerializeField]
+	private float _currentMoveSpeed;
+
 	[SerializeField, Range(4.0f, 8.0f)] private float _walkSpeed = 4.0f;
 	[SerializeField, Range(6.0f, 20.0f)] private float _sprintSpeed = 8.0f;
 	[SerializeField, Range(2.0f, 6.0f)] private float _aimingSpeed = 2.0f;
@@ -53,20 +54,27 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private float _fallMultiplier = 2.5f;
 	[SerializeField] private float _staminaDrainRate = 5.0f;
 	[SerializeField] private float _staminaRegenRate = 4.0f;
-	
-	[Header("Camera Control")]
-	[SerializeField] private Camera _camera;
+
+	[Header("Camera Control")] [SerializeField]
+	private Camera _camera;
 	[SerializeField] private float _cameraSensitivity = 30.0f;
 	[SerializeField] private bool _inverseCamera = false;
 	[SerializeField] private float _cameraMinAngle = -60.0f;
 	[SerializeField] private float _cameraMaxAngle = 60.0f;
 	private float _currentXRotation = 0.0f;
-
-	[Header("Jump Sounds")] 
-	[SerializeField] private AudioClip[] _jumpSounds;
 	
-	[Header("Footstep Sounds")]
-	[SerializeField] private AudioClip[] _footstepSounds;
+	[Header("Camera and Mouse Smoothing")]
+	private Vector2 _currentMouseDelta = Vector2.zero;
+	private Vector2 _targetMouseDelta = Vector2.zero;
+	[SerializeField] private float _mouseSmoothTime = 0.03f; // Lower for more responsive, higher for smoother
+	private Vector2 _currentMouseDeltaVelocity = Vector2.zero;
+
+	[Header("Jump Sounds")] [SerializeField]
+	private AudioClip[] _jumpSounds;
+
+	[Header("Footstep Sounds")] [SerializeField]
+	private AudioClip[] _footstepSounds;
+
 	[SerializeField] private bool _enableFootstepSounds = true;
 	[SerializeField] private float _footstepInterval = 0.5f;
 	[SerializeField] private float _footstepSpeedTreshold = 0.5f;
@@ -76,11 +84,15 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private float _aimingSpeedTreshold = 2f;
 	private float _footstepTimer = 0f;
 
-	[Header("ADS")] 
-	[SerializeField] private Transform _weaponPivot;
+	[Header("ADS")] [SerializeField] private Transform _weaponPivot;
 	[SerializeField] private bool _isAiming;
 	private Vector3 _weaponPivotOriginalPosition;
 	[SerializeField] private float _adsSmoothingTime;
+
+	[Header("Aiming")] 
+	[SerializeField] private Transform _aimPoint;
+	[SerializeField] private float _aimRaycastDistance;
+	[SerializeField] private LayerMask _aimingLayer;
 	private void OnEnable()
 	{
 		_input = new InputSystem_Actions();
@@ -114,13 +126,23 @@ public class PlayerController : MonoBehaviour
 			{
 				_numberOfJumps = MAX_NUMBER_OF_JUMPS;
 			}
+
 			CheckForSprinting();
 			SetMoveSpeed();
 			if (!_isSprinting)
 			{
 				_stats.RegenStamina(_staminaRegenRate);
 			}
+
 			Move();
+			
+			// Get the raw input
+			_targetMouseDelta = _input.Player.Look.ReadValue<Vector2>();
+    
+			// Smoothly interpolate to target input
+			_currentMouseDelta = Vector2.SmoothDamp(_currentMouseDelta, _targetMouseDelta, 
+				ref _currentMouseDeltaVelocity, _mouseSmoothTime);
+			
 			LookUp();
 			RotatePlayer();
 			TryFireWeapon();
@@ -128,6 +150,7 @@ public class PlayerController : MonoBehaviour
 			TrySwitchWeapon();
 			CheckForAdsHeld();
 			SetADS();
+			SetAim();
 			if (_characterController.isGrounded && _verticalVelocity.y < 0)
 			{
 				_verticalVelocity.y = _gravityGrounded;
@@ -144,7 +167,7 @@ public class PlayerController : MonoBehaviour
 					_verticalVelocity.y += _gravityValue * _fallMultiplier * Time.deltaTime;
 				}
 			}
-			
+
 			Jump();
 			Vector3 downwardForce = new Vector3(0.0f, _verticalVelocity.y, 0.0f) * Time.deltaTime;
 			_characterController.Move(downwardForce);
@@ -154,7 +177,37 @@ public class PlayerController : MonoBehaviour
 		{
 			_verticalVelocity.y = 0;
 		}
+
 		TogglePauseMenu();
+	}
+
+	private void SetAim()
+	{
+		//Raycast
+		RaycastHit outHit;
+		Vector3 direction = _camera.transform.forward;
+		Vector3 lookPosition;
+		bool rayCast = Physics.Raycast
+		(
+			_camera.transform.position,
+			direction,
+			out outHit,
+			_aimRaycastDistance,
+			_aimingLayer
+		);
+
+		if (rayCast)
+		{
+			_aimPoint.position = outHit.point;
+			lookPosition = outHit.point;
+		}
+		else
+		{
+			_aimPoint.position = _camera.transform.position + direction * _aimRaycastDistance;
+			lookPosition = _camera.transform.position + direction * _aimRaycastDistance;
+		}
+		_weaponInventory.CurrentWeapon.SetMuzzlePointLookDirection(lookPosition);
+		
 	}
 
 	private void Move()
@@ -208,21 +261,21 @@ public class PlayerController : MonoBehaviour
 	
 	private void RotatePlayer()
 	{
-		_mouseXDelta = _input.Player.Look.ReadValue<Vector2>().x;
-		
+		_mouseXDelta = _currentMouseDelta.x;
+    
 		transform.Rotate(transform.up * (_mouseXDelta * Time.deltaTime * _cameraSensitivity));
 	}
 
 	private void LookUp()
 	{
-		_mouseYDelta = _input.Player.Look.ReadValue<Vector2>().y;
+		_mouseYDelta = _currentMouseDelta.y;
 		float rotationAmount = (_mouseYDelta * _cameraSensitivity) * Time.deltaTime;
 
 		if (_inverseCamera)
 		{
 			_currentXRotation += rotationAmount;
 		}
-		else if (!_inverseCamera)
+		else
 		{
 			_currentXRotation -= rotationAmount;
 		}

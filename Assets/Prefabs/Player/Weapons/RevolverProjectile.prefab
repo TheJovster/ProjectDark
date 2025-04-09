@@ -9,9 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4783426277661612724}
-  - component: {fileID: 8357720542407385360}
-  - component: {fileID: 953306209122580059}
-  - component: {fileID: 6031244269927499314}
+  - component: {fileID: 5607873592707384268}
   m_Layer: 0
   m_Name: RevolverProjectile
   m_TagString: Untagged
@@ -35,55 +33,7 @@ Transform:
   - {fileID: 4457009318502528297}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &8357720542407385360
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8935928649372609911}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!135 &953306209122580059
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8935928649372609911}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.025
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6031244269927499314
+--- !u!114 &5607873592707384268
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,11 +42,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 8935928649372609911}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f50c5a1f56eb3e048a3da6822fa03eb8, type: 3}
+  m_Script: {fileID: 11500000, guid: 3eae56b86657b0f40bcb7a2aa96cbc65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _muzzleVelocity: 90
-  _lifeTime: 3
+  m_fInitialProjectileVelocity: 360
+  m_fGravityValue: -9.81
+  m_fDragCoeficient: 0.1
+  m_fCollisionRadius: 0.01
+  m_iMaxRicochetCount: 0
+  m_fRicochetVelocityLoss: 0.5
+  m_fMinRicochetAngle: 10
+  m_fMaxRicochetAngle: 60
+  m_fRicochetChance: 1
+  m_ImpactParticle: {fileID: 0}
+  m_DecalGameObject: {fileID: 0}
+  m_fDecalLifetime: 4
 --- !u!1001 &4455578829056377497
 PrefabInstance:
   m_ObjectHideFlags: 0

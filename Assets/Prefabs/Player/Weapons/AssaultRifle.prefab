@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1650985779162348345}
   - component: {fileID: 3478572493195021534}
-  - component: {fileID: 3537240962592690168}
   m_Layer: 0
   m_Name: AssaultRifle
   m_TagString: Untagged
@@ -51,16 +50,26 @@ MonoBehaviour:
   _weaponType: 3
   _muzzlePoint: {fileID: 7922950436812423318}
   _weaponAnimator: {fileID: 0}
-  _animatorOverrideController: {fileID: 0}
   _projectilePrefab: {fileID: 6031244269927499314, guid: b3861136c2c60b3488f52ec5271c8c02, type: 3}
   _barrels: {fileID: 0}
+  _IKHandler: {fileID: 0}
+  _animatorOverrideController: {fileID: 0}
+  _rightHandIKWeight: 1
+  _leftHandIKWeight: 1
+  _rightHandPosition: {fileID: 0}
+  _leftHandPosition: {fileID: 0}
+  _rightElbowHint: {fileID: 0}
+  _leftElbowHint: {fileID: 0}
+  _rightElbowHintWeight: 1
+  _leftElbowHintWeight: 1
+  _useElbowHints: 0
   _currentAmmoInMag: 0
   _maxAmmoInMag: 30
   _hasSelectFire: 0
   _isSemi: 0
   _rateOfFire: 0.4
-  _weaponRecoilForce: 0.5
   _weaponDamage: 30
+  _canADS: 1
   _weaponAudioClips:
   - {fileID: 8300000, guid: 40551c6406630ab49b2a8ad43cc752a8, type: 3}
   - {fileID: 8300000, guid: fa50548934648a04885242083eeeee08, type: 3}
@@ -68,36 +77,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1e0435c5fb435de43bfc28da9b033a82, type: 3}
   - {fileID: 8300000, guid: 5f36dc1aa05d4354e9bea30e6bb63ffe, type: 3}
   _muzzleFlash: {fileID: 0}
-  _recoilDuration: 0.1
-  _returnSpeed: 5
-  _recoilRotation: {x: -10, y: 5, z: 0}
-  _recoilKickback: 0.1
-  _headbobSpeed: 4
-  _headbobAmount: 0.05
-  _headbobSmoothing: 10
-  _enableHeadbob: 1
---- !u!114 &3537240962592690168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6980041935456485478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dcebd1524beb894ab40a01eb10762ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _swayAmount: 0.02
-  _maxSwayAmount: 0.06
-  _swaySmoothing: 8
-  _swayResetSmoothing: 2
-  _rotationSwayMultiplier: 0.1
-  _maxRotationSway: 1
-  _invertXRotation: 0
-  _invertYRotation: 0
-  _positionSwayMultiplier: 1
-  _swayPositionLimit: {x: 0.1, y: 0.1, z: 0.1}
+  _screenShakeIntensity: 0
+  _screenShakeDuration: 0
+  _screenShakeSpeed: 0
+  _adsPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &7552421741977897555
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,22 +14,24 @@ public class Weapon : MonoBehaviour
         AssaultRifle,
     }
 
-    [Header("Weapon Properties")] 
-    [SerializeField] private string _weaponName;
+    [Header("Weapon Properties")] [SerializeField]
+    private string _weaponName;
+
     [SerializeField] private WeaponType _weaponType;
     [SerializeField] private Transform _muzzlePoint;
     [SerializeField] private Animator _weaponAnimator;
     private WeaponInventory _weaponInventory;
     private AmmoInventory _ammoInventory;
-    [SerializeField] private PlayerProjectile _projectilePrefab;
+    [SerializeField] private BallisticProjectile _projectilePrefab;
     private bool _canFire = true;
     private bool _isFiring = false;
     [SerializeField] private Transform _barrels;
     [SerializeField] private WeaponIKHandler _IKHandler;
     [SerializeField] private AnimatorOverrideController _animatorOverrideController;
 
-    [Header("IK Settings")] 
-    [SerializeField, Range(0f, 1f)] private float _rightHandIKWeight = 1.0f;
+    [Header("IK Settings")] [SerializeField, Range(0f, 1f)]
+    private float _rightHandIKWeight = 1.0f;
+
     [SerializeField, Range(0f, 1f)] private float _leftHandIKWeight = 1.0f;
     [SerializeField] private Transform _rightHandPosition;
     [SerializeField] private Transform _leftHandPosition;
@@ -38,33 +40,34 @@ public class Weapon : MonoBehaviour
     [SerializeField] private float _rightElbowHintWeight = 1.0f;
     [SerializeField] private float _leftElbowHintWeight = 1.0f;
     [SerializeField] private bool _useElbowHints = false;
-    
-    [SerializeField]private int _currentAmmoInMag;
+
+    [SerializeField] private int _currentAmmoInMag;
     [SerializeField] private int _maxAmmoInMag;
     private bool _isEmpty;
-    
-    [Header("Weapon Behavior Properties")] 
-    [SerializeField] private bool _hasSelectFire = false;
+
+    [Header("Weapon Behavior Properties")] [SerializeField]
+    private bool _hasSelectFire = false;
     [SerializeField] private bool _isSemi = false;
     [SerializeField] private float _rateOfFire;
     private float _timeSinceLastShot = 0.0f;
     [SerializeField] private int _weaponDamage = 10;
     [SerializeField] private bool _canADS = true;
 
-    [Header("Audio and VFX")]
-    [Tooltip("Set this to 5")]
-    [SerializeField] private AudioClip[] _weaponAudioClips; 
+    [Header("Audio and VFX")] [Tooltip("Set this to 5")] [SerializeField]
+    private AudioClip[] _weaponAudioClips;
+
     [SerializeField] private ParticleSystem _muzzleFlash;
     [SerializeField] private float _screenShakeIntensity;
     [SerializeField] private float _screenShakeDuration;
     [SerializeField] private float _screenShakeSpeed;
-    
+
     private WeaponRecoil _weaponRecoil;
-    
+
     //ads settings to be used in the player controller
     [SerializeField] private Vector3 _adsPosition;
-    
+
     #region Properties
+
     public bool IsSemi => _isSemi;
     public bool CanFire => _canFire;
     public string WeapoonName => _weaponName;
@@ -76,23 +79,23 @@ public class Weapon : MonoBehaviour
     public float ScreenShakeDuration => _screenShakeDuration;
 
     public float ScreenShakeSpeed => _screenShakeSpeed;
-    
+
     public Transform RightHandPosition => _rightHandPosition;
     public Transform LeftHandPosition => _leftHandPosition;
-    
+
     public Transform RightElbowHint => _rightElbowHint;
     public Transform LeftElbowHint => _leftElbowHint;
     public float RightElbowHintWeight => _rightElbowHintWeight;
     public float LeftElbowHintWeight => _leftElbowHintWeight;
     public bool UseElbowHints => _useElbowHints;
-    
+
     public float RightHandIKWeight => _rightHandIKWeight;
     public float LeftHandIKWeight => _leftHandIKWeight;
     public Vector3 ADSPosition => _adsPosition;
     public bool CanADS => _canADS;
-    
+
     #endregion
-    
+
     private void Awake()
     {
         _weaponInventory = GetComponentInParent<WeaponInventory>();
@@ -103,7 +106,7 @@ public class Weapon : MonoBehaviour
             _muzzleFlash = GetComponentInChildren<ParticleSystem>();
         }
     }
-    
+
     private void Start()
     {
         SetCurrentAmmoInMag();
@@ -113,7 +116,7 @@ public class Weapon : MonoBehaviour
     {
         _currentAmmoInMag = _maxAmmoInMag;
     }
-    
+
     private void Update()
     {
         _isEmpty = _currentAmmoInMag == 0;
@@ -132,20 +135,22 @@ public class Weapon : MonoBehaviour
 
     }
 
-    
+
     public void Fire()
     {
         if (_weaponName == "Minigun") //this is a lot of ducttape - will fix this with a local animator.
         {
             _barrels.Rotate(Vector3.forward * (720.0f * Time.deltaTime));
         }
-        
+
         if (_currentAmmoInMag > 0 && _timeSinceLastShot >= _rateOfFire)
         {
-            PlayerProjectile projectileInstance =
+            BallisticProjectile projectileInstance =
                 Instantiate(_projectilePrefab, _muzzlePoint.position, _muzzlePoint.rotation);
-            projectileInstance.SetDamage(_weaponDamage);
-            projectileInstance.SetRotation(_muzzlePoint.forward);
+            projectileInstance.SetDamageToDeal(_weaponDamage);
+            projectileInstance.Fire(_muzzlePoint.forward);
+            /*projectileInstance.SetDamage(_weaponDamage);
+            projectileInstance.SetRotation(_muzzlePoint.forward);*/
             _timeSinceLastShot = 0.0f;
             _currentAmmoInMag--;
             int audioClipIndex = Random.Range(0, _weaponAudioClips.Length);
@@ -153,32 +158,34 @@ public class Weapon : MonoBehaviour
             _weaponRecoil.ApplyRecoil();
             _muzzleFlash.Play();
             _weaponInventory.PlayerController.TriggerShake();
-            HUDManager.Instance.UpdateAmmoCount(_weaponInventory.CurrentWeapon.GetCurrentAmmoInMag(), 
+            HUDManager.Instance.UpdateAmmoCount(_weaponInventory.CurrentWeapon.GetCurrentAmmoInMag(),
                 _weaponInventory.CurrentWeapon.GetCurrentAmmoInInventory());
         }
+
         if (_isEmpty && _ammoInventory.ReturnCurrentAmmoAmount(_weaponInventory.CurrentWeapon.CurrentWeaponType) > 0)
         {
             Reload();
         }
     }
-    
+
     public void Reload() //I guess I can just have this as an anim event;
     {
         _muzzleFlash.Stop();
-        int amountToReduce = _weaponInventory.CurrentWeapon.GetMaxAmmoInMag() - 
+        int amountToReduce = _weaponInventory.CurrentWeapon.GetMaxAmmoInMag() -
                              _weaponInventory.CurrentWeapon.GetCurrentAmmoInMag();
         if (_ammoInventory.ReturnCurrentAmmoAmount(_weaponInventory.CurrentWeapon.CurrentWeaponType) <= 0)
         {
             return;
         }
-        _currentAmmoInMag = _maxAmmoInMag; 
+
+        _currentAmmoInMag = _maxAmmoInMag;
         _ammoInventory.ReduceAmmoAmount(_weaponInventory.CurrentWeapon.CurrentWeaponType, amountToReduce);
-        HUDManager.Instance.UpdateAmmoCount(_weaponInventory.CurrentWeapon.GetCurrentAmmoInMag(), 
+        HUDManager.Instance.UpdateAmmoCount(_weaponInventory.CurrentWeapon.GetCurrentAmmoInMag(),
             _weaponInventory.CurrentWeapon.GetCurrentAmmoInInventory());
 
         //edgecases
     }
-    
+
     //getter functions
 
     public int GetCurrentAmmoInMag()
@@ -195,8 +202,13 @@ public class Weapon : MonoBehaviour
     {
         return _maxAmmoInMag;
     }
-    
-    //setters
+
+    public void SetMuzzlePointLookDirection(Vector3 lookDirection)
+    {
+        _muzzlePoint.LookAt(lookDirection);
+    }
+
+//setters
     
     //animator setters
     public void DisableAnimator()

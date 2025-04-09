@@ -1,0 +1,30 @@
+fileFormatVersion: 2
+guid: a86851350f2b742cc8347528930088d1
+AudioImporter:
+  externalObjects: {}
+  serializedVersion: 8
+  defaultSettings:
+    serializedVersion: 2
+    loadType: 1
+    sampleRateSetting: 0
+    sampleRateOverride: 0
+    compressionFormat: 0
+    quality: 1
+    conversionMode: 0
+    preloadAudioData: 0
+  platformSettingOverrides: {}
+  forceToMono: 0
+  normalize: 1
+  loadInBackground: 0
+  ambisonic: 0
+  3D: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 16107
+  packageName: Blood SFX Pack
+  packageVersion: 1.01
+  assetPath: Assets/BloodSFX/Splat/bloodfx3.wav
+  uploadId: 4539

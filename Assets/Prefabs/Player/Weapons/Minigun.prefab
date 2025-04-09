@@ -41,7 +41,6 @@ GameObject:
   m_Component:
   - component: {fileID: 529853046362904217}
   - component: {fileID: 8139672024244417169}
-  - component: {fileID: 7893564886361146705}
   m_Layer: 0
   m_Name: Minigun
   m_TagString: Untagged
@@ -82,16 +81,26 @@ MonoBehaviour:
   _weaponType: 3
   _muzzlePoint: {fileID: 8020519893189168607}
   _weaponAnimator: {fileID: 4818280801735733899}
-  _animatorOverrideController: {fileID: 0}
   _projectilePrefab: {fileID: 6031244269927499314, guid: b3861136c2c60b3488f52ec5271c8c02, type: 3}
   _barrels: {fileID: 2060861327629356057}
+  _IKHandler: {fileID: 0}
+  _animatorOverrideController: {fileID: 0}
+  _rightHandIKWeight: 1
+  _leftHandIKWeight: 1
+  _rightHandPosition: {fileID: 0}
+  _leftHandPosition: {fileID: 0}
+  _rightElbowHint: {fileID: 0}
+  _leftElbowHint: {fileID: 0}
+  _rightElbowHintWeight: 1
+  _leftElbowHintWeight: 1
+  _useElbowHints: 0
   _currentAmmoInMag: 0
   _maxAmmoInMag: 300
   _hasSelectFire: 0
   _isSemi: 0
   _rateOfFire: 0.025
-  _weaponRecoilForce: 0.1
   _weaponDamage: 24
+  _canADS: 1
   _weaponAudioClips:
   - {fileID: 8300000, guid: 12d3aec0d13475042a0942613ecc5186, type: 3}
   - {fileID: 8300000, guid: d05847eba04faa646a8bb5ca7c50b5ac, type: 3}
@@ -99,36 +108,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 71bf072d25912e9429bc774978b237eb, type: 3}
   - {fileID: 8300000, guid: 44f33c4fdb97c414cb54a165c14f6b33, type: 3}
   _muzzleFlash: {fileID: 0}
-  _recoilDuration: 0.1
-  _returnSpeed: 5
-  _recoilRotation: {x: -10, y: 5, z: 0}
-  _recoilKickback: 0.1
-  _headbobSpeed: 4
-  _headbobAmount: 0.05
-  _headbobSmoothing: 10
-  _enableHeadbob: 1
---- !u!114 &7893564886361146705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5984748266032679234}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dcebd1524beb894ab40a01eb10762ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _swayAmount: 0.02
-  _maxSwayAmount: 0.06
-  _swaySmoothing: 8
-  _swayResetSmoothing: 2
-  _rotationSwayMultiplier: 1
-  _maxRotationSway: 5
-  _invertXRotation: 0
-  _invertYRotation: 0
-  _positionSwayMultiplier: 1
-  _swayPositionLimit: {x: 0.1, y: 0.1, z: 0.1}
+  _screenShakeIntensity: 0
+  _screenShakeDuration: 0
+  _screenShakeSpeed: 0
+  _adsPosition: {x: 0, y: 0, z: 0}
 --- !u!1001 &7572093564038967266
 PrefabInstance:
   m_ObjectHideFlags: 0

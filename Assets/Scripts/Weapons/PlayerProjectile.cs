@@ -1,6 +1,6 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
+using Biostart.Impact;
+using Biostart.Blood;
 
 public class PlayerProjectile : MonoBehaviour
 {
@@ -9,6 +9,7 @@ public class PlayerProjectile : MonoBehaviour
 	[SerializeField] private float _muzzleVelocity = 30.0f;
 	[SerializeField] private float _lifeTime = 3.0f;
 	private float _timeSinceSpawned = 0.0f;
+	[SerializeField] private GameObject _impactEffect;
 	
 	private void Awake()
 	{
@@ -43,8 +44,23 @@ public class PlayerProjectile : MonoBehaviour
 	{
 		if (other.gameObject.CompareTag("Enemy"))
 		{
+			RaycastHit hit;
+			Vector3 rayOrigin = transform.position;
+			Vector3 rayDirection = transform.forward;
+			
+			//the impact effects from the blood VFX package
+			if(Physics.Raycast(rayOrigin, rayDirection, out hit))
+			{
+				ImpactEffect newEffect = other.gameObject.GetComponent<ImpactEffect>();
+				newEffect.SpawnBloodEffect(hit.point, hit.normal);
+
+				BloodProjector newBloodProjector = other.gameObject.GetComponent<BloodProjector>();
+				newBloodProjector.AttachBloodProjector(hit.point, hit.normal, hit.collider);
+			}
 			other.gameObject.GetComponent<Stats>().TakeDamage(15.0f);
 		}
+		GameObject newImpacEffect = Instantiate(_impactEffect, transform.position, transform.rotation);
+		Destroy(newImpacEffect, 1.5f);
 		Destroy(this.gameObject);
 	}
 }

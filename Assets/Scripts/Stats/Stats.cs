@@ -1,9 +1,15 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 [Serializable]
 public class Stats : MonoBehaviour
 {
+    [SerializeField] private SkinnedMeshRenderer _skinnedMeshRenderers;
+    [SerializeField] private GameObject _deathParticle;
+    
     [SerializeField] private float _currentHealth;
     [SerializeField] private float _maxHealth;
     [SerializeField] private float _currentStamina;
@@ -12,13 +18,10 @@ public class Stats : MonoBehaviour
     private AnimationHandler _animationHandler;
     private CapsuleCollider _capsuleCollider;
     [SerializeField]private bool _isAlive = true;
-    
-    // Added for gibbing system
-    [Header("Gibbing Settings")]
-    [SerializeField] private float _gibDamageThreshold = 20f;
-    [SerializeField] private bool _enableGibbing = true;
-    [SerializeField] private float _highDamageGibMultiplier = 2.0f;
-    private ProceduralGibbing _gibbingSystem;
+
+    [SerializeField] private AudioClip[] _deathSounds;
+    [SerializeField] private AudioClip[] _hitSounds;
+    [SerializeField] private AudioClip[] _voiceHitSounds;
     
     #region Properties
     public float CurrentHealth => _currentHealth;
@@ -32,62 +35,50 @@ public class Stats : MonoBehaviour
     {
         _currentHealth = _maxHealth;
         _currentStamina = _maxStamina;
+        
         if (!_isPlayer)
         {
             _animationHandler = GetComponentInChildren<AnimationHandler>();
             _capsuleCollider = GetComponent<CapsuleCollider>();
-            _gibbingSystem = GetComponent<ProceduralGibbing>();
         }
     }
-
 
     public void TakeDamage(float damageToTake)
     {
         _currentHealth -= damageToTake;
-        
-        // Check for high damage for gibbing chance increase
-        if (_gibbingSystem != null && _enableGibbing && damageToTake >= _gibDamageThreshold)
-        {
-            float multiplier = Mathf.Min(damageToTake / _gibDamageThreshold, _highDamageGibMultiplier);
-            _gibbingSystem.SetGibChanceMultiplier(multiplier);
-        }
+        AudioManager.Instance.PlayEffect(_hitSounds[GetRandomSoundIndex(_hitSounds.Length)]);
         
         if (_currentHealth <= 0)
         {
             _currentHealth = 0;
             Death();
-            
-            if (!_isPlayer)
-            {
-                _capsuleCollider.enabled = false;
-                
-                // Handle gibbing at death
-                if (_gibbingSystem != null && _enableGibbing)
-                {
-                    // Gibbing will be processed in the ProceduralGibbing Update method
-                    // when it detects that _isAlive is false
-                }
-            }
+        }
+        else if (_isAlive && !_isPlayer)
+        {
+            AudioManager.Instance.PlayEffect(_voiceHitSounds[GetRandomSoundIndex(_voiceHitSounds.Length)]);
+            _animationHandler.Trigger_TakeDamage();
         }
         
         if (_isPlayer && _isAlive)
         {
             GameManager.Instance.SetHealthBarFill(_currentHealth, _maxHealth);
         }
-        
-        if (_isAlive && !_isPlayer)
-        {
-            _animationHandler.Trigger_TakeDamage();
-        }
     }
 
     private void Death()
     {
+        if (!_isAlive) return; // Already dead
+        
         _isAlive = false;
         if (!_isPlayer)
         {
-            _gibbingSystem.ForceGibAll();
+            AudioManager.Instance.PlayEffect(_deathSounds[GetRandomSoundIndex(_deathSounds.Length)]);
             _animationHandler.Trigger_Death();
+            GameObject newDeathParticle = Instantiate(_deathParticle, transform.position + new Vector3(0, 1f, 0f), Quaternion.identity);
+            _skinnedMeshRenderers.enabled = false;
+            _capsuleCollider.enabled = false;
+            Destroy(this.gameObject, 3f);
+            Destroy(newDeathParticle, 3f);
         }
         else if (_isPlayer)
         {
@@ -155,6 +146,11 @@ public class Stats : MonoBehaviour
         }
     }
 
+    public int GetRandomSoundIndex(int index)
+    {
+        return Random.Range(0, index);
+    }
+
     public void AddStamina(float amountToAdd)
     {
         if(_isPlayer){}
@@ -165,43 +161,5 @@ public class Stats : MonoBehaviour
         }
         GameManager.Instance.SetStaminaBarFill(_currentStamina, _maxStamina);
     }
-    
-    // Added for gibbing system
-    public void InstantGibDeath()
-    {
-        if (_gibbingSystem != null && _enableGibbing)
-        {
-            _gibbingSystem.SetGibChanceMultiplier(3.0f); // High chance
-            TakeDamage(_maxHealth * 2); // Ensure death
-        }
-        else
-        {
-            TakeDamage(_maxHealth);
-        }
-    }
-    
-    public void EnableGibbing(bool enable)
-    {
-        _enableGibbing = enable;
-        
-        if (_gibbingSystem != null)
-        {
-            _gibbingSystem.SetGibEnabled(enable);
-        }
-    }
-    
-    public void ForceGib(string partName = "")
-    {
-        if (_gibbingSystem != null)
-        {
-            if (string.IsNullOrEmpty(partName))
-            {
-                _gibbingSystem.ForceGibAll();
-            }
-            else
-            {
-                _gibbingSystem.ForceGib(partName);
-            }
-        }
-    }
 }
+
