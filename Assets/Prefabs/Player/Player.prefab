@@ -741,6 +741,10 @@ MonoBehaviour:
   _fallMultiplier: 2.5
   _staminaDrainRate: 20
   _staminaRegenRate: 2.5
+  _acceleration: 7.5
+  _deceleration: 11.25
+  _sprintAcceleration: 12
+  _aimDeceleration: 20
   _camera: {fileID: 7227263887555804188}
   _cameraSensitivity: 30
   _inverseCamera: 0
@@ -826,6 +830,10 @@ MonoBehaviour:
   _maxStamina: 100
   _isPlayer: 1
   _isAlive: 1
+  _enemyAudioSource: {fileID: 0}
+  _deathSounds: []
+  _hitSounds: []
+  _voiceHitSounds: []
 --- !u!1001 &1937593846685053394
 PrefabInstance:
   m_ObjectHideFlags: 0

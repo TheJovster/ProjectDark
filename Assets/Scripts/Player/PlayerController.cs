@@ -54,7 +54,16 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private float _fallMultiplier = 2.5f;
 	[SerializeField] private float _staminaDrainRate = 5.0f;
 	[SerializeField] private float _staminaRegenRate = 4.0f;
-
+	
+	// For momentum and acceleration
+	private Vector3 _currentVelocity; 
+	[Tooltip("Deceleration is 1.5 of Acceleration")]
+	[SerializeField]private float _acceleration = 10f; //10 is default value - responsive and snappy
+	[Tooltip("Deceleration is 1.5 of Acceleration")]
+	[SerializeField]private float _deceleration = 15f; //15 default value - responsive and snappy
+	[SerializeField]private float _sprintAcceleration = 12f; // Faster acceleration when starting to sprint
+	[SerializeField]private float _aimDeceleration = 20f;    // Quick deceleration when aiming for responsiveness
+	
 	[Header("Camera Control")] [SerializeField]
 	private Camera _camera;
 	[SerializeField] private float _cameraSensitivity = 30.0f;
@@ -129,11 +138,10 @@ public class PlayerController : MonoBehaviour
 
 			CheckForSprinting();
 			SetMoveSpeed();
-			if (!_isSprinting)
+			if (!_isSprinting && Mathf.Abs(_characterController.velocity.magnitude) < 10.0f)
 			{
 				_stats.RegenStamina(_staminaRegenRate);
 			}
-
 			Move();
 			
 			// Get the raw input
@@ -212,17 +220,81 @@ public class PlayerController : MonoBehaviour
 
 	private void Move()
 	{
-		_xInput = _input.Player.Move.ReadValue<Vector2>().x;
-		_yInput = _input.Player.Move.ReadValue<Vector2>().y;
-
-		Vector3 forwardMovement = transform.forward * _yInput;
-		Vector3 rightMovement = transform.right * _xInput;
-
-		_moveDirection = forwardMovement + rightMovement;
-
-		_moveDirection.Normalize();
-		_moveDirection *= _currentMoveSpeed * Time.deltaTime;
-		_characterController.Move(_moveDirection);
+    	_xInput = _input.Player.Move.ReadValue<Vector2>().x;
+    	_yInput = _input.Player.Move.ReadValue<Vector2>().y;
+	
+    	// Apply directional speed modifiers
+    	float sideStrafeFactor = 0.75f;  // 75% speed when moving sideways
+    	float backwardsFactor = 0.6f;    // 60% speed when moving backwards
+    	
+    	// Store base direction for determining movement type
+    	Vector3 forwardMovement = transform.forward * _yInput;
+    	Vector3 rightMovement = transform.right * _xInput;
+	
+    	// Apply strafe and backwards speed modifiers
+    	if (_xInput != 0 && Mathf.Abs(_xInput) > Mathf.Abs(_yInput))
+    	{
+    	    // Primarily strafing side to side
+    	    rightMovement *= sideStrafeFactor;
+    	}
+    	
+    	if (_yInput < 0)
+    	{
+    	    // Moving backwards
+    	    forwardMovement *= backwardsFactor;
+    	}
+	
+    	Vector3 targetMoveDirection = forwardMovement + rightMovement;
+    	
+    	// Normalize only if there's actual input
+    	if (targetMoveDirection.magnitude > 0.1f)
+    	{
+    	    targetMoveDirection.Normalize();
+    	    
+    	    // Calculate speed based on predominant direction
+    	    float speedModifier = 1.0f;
+    	    
+    	    // Get angle between forward and input direction
+    	    float movementAngle = Vector3.Angle(transform.forward, targetMoveDirection);
+    	    
+    	    // More precise directional speed modifiers using angles
+    	    if (movementAngle > 135f && _yInput < 0)
+    	    {
+    	        // Moving predominantly backwards (135-180 degrees from forward)
+    	        speedModifier = backwardsFactor;
+    	    }
+    	    else if (movementAngle > 45f && movementAngle < 135f)
+    	    {
+    	        // Moving predominantly sideways (45-135 degrees from forward)
+    	        speedModifier = sideStrafeFactor;
+    	        
+    	        // Optional: slightly slower when strafing backward vs forward
+    	        if (_yInput < 0)
+    	        {
+    	            speedModifier *= 0.9f;
+    	        }
+    	    }
+    	    
+    	    // Apply speed with modifier
+    	    targetMoveDirection *= _currentMoveSpeed * speedModifier;
+    	}
+	
+    	// Apply smooth acceleration toward target direction
+    	_currentVelocity = Vector3.Lerp(_currentVelocity, targetMoveDirection, _acceleration * Time.deltaTime);
+    	
+    	// Apply deceleration when no input
+    	if (targetMoveDirection.magnitude < 0.1f)
+    	{
+    	    _currentVelocity = Vector3.Lerp(_currentVelocity, Vector3.zero, _deceleration * Time.deltaTime);
+    	}
+    	
+    	// Calculate movement this frame
+    	_moveDirection = _currentVelocity * Time.deltaTime;
+    	
+    	// Apply movement
+    	_characterController.Move(_moveDirection);
+    
+    // Drain stamina when sprinting and actually moving
 		if (_isSprinting && _canSprint && Mathf.Abs(_characterController.velocity.magnitude) > 5.0f)
 		{
 			_stats.DrainStamina(_staminaDrainRate);
@@ -317,22 +389,69 @@ public class PlayerController : MonoBehaviour
 
 	private void SetMoveSpeed()
 	{
+		// Determine target speed based on current state
+		float targetSpeed;
+    
 		if (_stats.CurrentStamina <= 0.1f)
 		{
-			_currentMoveSpeed = _walkSpeed;
+			targetSpeed = _walkSpeed;
 		}
-		if (_isSprinting && !_isAiming && _stats.CurrentStamina > 0.1f)
+		else if (_isSprinting && !_isAiming && _stats.CurrentStamina > 0.1f)
 		{
-			_currentMoveSpeed = _sprintSpeed;
+			targetSpeed = _sprintSpeed;
 		}
-		//add a check for crouching when adding the option to crouch
 		else if (!_isSprinting && !_isAiming)
 		{
-			_currentMoveSpeed = _walkSpeed;
+			targetSpeed = _walkSpeed;
 		}
 		else if (_isAiming && !_isSprinting)
 		{
-			_currentMoveSpeed = _aimingSpeed;
+			targetSpeed = _aimingSpeed;
+		}
+		else
+		{
+			// Fallback
+			targetSpeed = _walkSpeed;
+		}
+    
+		// Apply different acceleration rates based on state transition
+		float transitionRate;
+    
+		if (targetSpeed > _currentMoveSpeed)
+		{
+			// Accelerating - use acceleration
+			transitionRate = _acceleration;
+        
+			// If transitioning to sprint, use a faster sprint-specific acceleration
+			if (targetSpeed == _sprintSpeed)
+			{
+				transitionRate = _sprintAcceleration; // You might want to add this variable, typically higher than regular acceleration
+			}
+		}
+		else if (targetSpeed < _currentMoveSpeed)
+		{
+			// Decelerating - use deceleration
+			transitionRate = _deceleration;
+        
+			// If transitioning to aiming, use a faster aim-specific deceleration for responsiveness
+			if (targetSpeed == _aimingSpeed)
+			{
+				transitionRate = _aimDeceleration; // You might want to add this variable for quick aiming transitions
+			}
+		}
+		else
+		{
+			// Already at target speed
+			return;
+		}
+    
+		// Smoothly transition to target speed
+		_currentMoveSpeed = Mathf.Lerp(_currentMoveSpeed, targetSpeed, transitionRate * Time.deltaTime);
+    
+		// Optional: Add a small threshold check to snap to exact values when very close
+		if (Mathf.Abs(_currentMoveSpeed - targetSpeed) < 0.05f)
+		{
+			_currentMoveSpeed = targetSpeed;
 		}
 	}
 	
@@ -417,21 +536,22 @@ public class PlayerController : MonoBehaviour
 	private void UpdateFootsteps()
 	{
 		if (!_enableFootstepSounds || !_isGrounded) return;
-    
-		float movementSpeed = new Vector3(_moveDirection.x, 0, _moveDirection.z).magnitude / Time.deltaTime;
-    
+   
+		// Use the current velocity magnitude instead of moveDirection
+		float movementSpeed = new Vector3(_currentVelocity.x, 0, _currentVelocity.z).magnitude;
+   
 		// Use a lower threshold when aiming to account for slower movement
 		float currentThreshold = _isAiming ? _aimingSpeedTreshold : _footstepSpeedTreshold;
-    
+   
 		if (movementSpeed < currentThreshold) 
 		{
 			_footstepTimer = 0;
 			return;
 		}
 		_footstepTimer += Time.deltaTime;
-    
+   
 		float currentInterval;
-    
+   
 		// Determine the appropriate footstep interval based on movement state
 		if (_isAiming)
 		{
@@ -445,7 +565,21 @@ public class PlayerController : MonoBehaviour
 		{
 			currentInterval = _footstepInterval;
 		}
+   
+		// Optionally adjust interval based on actual speed for smoother transitions
+		float speedRatio = Mathf.Clamp01((movementSpeed - currentThreshold) / 
+		                                 (_runningSpeedThreshold - currentThreshold));
     
+		if (_isSprinting && !_isAiming)
+		{
+			// Keep sprint interval as is
+		}
+		else if (!_isAiming)
+		{
+			// Smoothly transition between walking and running intervals
+			currentInterval = Mathf.Lerp(_footstepInterval, _runningFootstepInterval, speedRatio);
+		}
+   
 		if (_footstepTimer >= currentInterval)
 		{
 			AudioManager.Instance.PlayEffect(_footstepSounds[GetRandomWalkSound()]);

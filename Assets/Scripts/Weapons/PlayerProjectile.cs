@@ -10,6 +10,8 @@ public class PlayerProjectile : MonoBehaviour
 	[SerializeField] private float _lifeTime = 3.0f;
 	private float _timeSinceSpawned = 0.0f;
 	[SerializeField] private GameObject _impactEffect;
+
+
 	
 	private void Awake()
 	{

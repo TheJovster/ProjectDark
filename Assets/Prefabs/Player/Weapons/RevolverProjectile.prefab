@@ -57,6 +57,12 @@ MonoBehaviour:
   m_ImpactParticle: {fileID: 1067536016464596, guid: 57e18706e2792ff4bb5561ed74b796e2, type: 3}
   m_DecalGameObject: {fileID: 169483127223556339, guid: e05e7f89cbd20ae47bc0bbc8e4b043e9, type: 3}
   m_fDecalLifetime: 4
+  _impactSounds:
+  - {fileID: 8300000, guid: a438bb66ee16d03479e0bcee9b99329f, type: 3}
+  - {fileID: 8300000, guid: 02bf6c72c1c2f60448d66de1e0a10798, type: 3}
+  - {fileID: 8300000, guid: 087bace50db49124c9737a5840e97554, type: 3}
+  - {fileID: 8300000, guid: 4c5d4e2874eaf074584174937d17e331, type: 3}
+  - {fileID: 8300000, guid: 1c825ebd401bc954dafdc60f61220d7b, type: 3}
 --- !u!1001 &4455578829056377497
 PrefabInstance:
   m_ObjectHideFlags: 0
