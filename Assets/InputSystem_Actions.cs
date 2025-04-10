@@ -161,6 +161,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FlashlightToggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""250e9b47-6b21-4668-ac84-39bd3102cadf"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -590,6 +599,28 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bdf2718b-11e5-48cd-b93e-c218438781a0"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""FlashlightToggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1ead0fcf-268e-4e24-8118-340ad6f058ca"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FlashlightToggle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1192,6 +1223,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_SwitchWeaponUp = m_Player.FindAction("SwitchWeaponUp", throwIfNotFound: true);
         m_Player_SwitchWeaponDown = m_Player.FindAction("SwitchWeaponDown", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
+        m_Player_FlashlightToggle = m_Player.FindAction("FlashlightToggle", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1286,6 +1318,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SwitchWeaponUp;
     private readonly InputAction m_Player_SwitchWeaponDown;
     private readonly InputAction m_Player_Aim;
+    private readonly InputAction m_Player_FlashlightToggle;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
@@ -1305,6 +1338,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @SwitchWeaponUp => m_Wrapper.m_Player_SwitchWeaponUp;
         public InputAction @SwitchWeaponDown => m_Wrapper.m_Player_SwitchWeaponDown;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
+        public InputAction @FlashlightToggle => m_Wrapper.m_Player_FlashlightToggle;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1359,6 +1393,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Aim.started += instance.OnAim;
             @Aim.performed += instance.OnAim;
             @Aim.canceled += instance.OnAim;
+            @FlashlightToggle.started += instance.OnFlashlightToggle;
+            @FlashlightToggle.performed += instance.OnFlashlightToggle;
+            @FlashlightToggle.canceled += instance.OnFlashlightToggle;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1408,6 +1445,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Aim.started -= instance.OnAim;
             @Aim.performed -= instance.OnAim;
             @Aim.canceled -= instance.OnAim;
+            @FlashlightToggle.started -= instance.OnFlashlightToggle;
+            @FlashlightToggle.performed -= instance.OnFlashlightToggle;
+            @FlashlightToggle.canceled -= instance.OnFlashlightToggle;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1605,6 +1645,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnSwitchWeaponUp(InputAction.CallbackContext context);
         void OnSwitchWeaponDown(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
+        void OnFlashlightToggle(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -102,6 +102,11 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private Transform _aimPoint;
 	[SerializeField] private float _aimRaycastDistance;
 	[SerializeField] private LayerMask _aimingLayer;
+
+	[Header("Misc")] 
+	[SerializeField] private GameObject _flashLight;
+
+	private bool _flashlightActive = false;
 	private void OnEnable()
 	{
 		_input = new InputSystem_Actions();
@@ -117,6 +122,7 @@ public class PlayerController : MonoBehaviour
 		_stats = GetComponent<Stats>();
 		_postProcessVolume = FindFirstObjectByType<Volume>();
 		_postProcessVolume.profile.TryGet<LensDistortion>(out _lensDistortion);
+		_flashLight.SetActive(false);
 	}
 
 	private void Start()
@@ -159,6 +165,8 @@ public class PlayerController : MonoBehaviour
 			CheckForAdsHeld();
 			SetADS();
 			SetAim();
+			ToggleFlashLight(
+				_input.Player.FlashlightToggle.WasPressedThisFrame());
 			if (_characterController.isGrounded && _verticalVelocity.y < 0)
 			{
 				_verticalVelocity.y = _gravityGrounded;
@@ -216,6 +224,17 @@ public class PlayerController : MonoBehaviour
 		}
 		_weaponInventory.CurrentWeapon.SetMuzzlePointLookDirection(lookPosition);
 		
+	}
+
+	private void ToggleFlashLight(bool input)
+	{
+		if (input)
+		{
+			_flashlightActive = !_flashlightActive;
+			{
+				_flashLight.SetActive(_flashlightActive);
+			}
+		}
 	}
 
 	private void Move()

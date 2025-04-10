@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 
 public class LevelIdentifier : MonoBehaviour
@@ -11,16 +12,12 @@ public class LevelIdentifier : MonoBehaviour
     #region Properties
     public string LevelName => _levelName;
     public int LevelIndex => _levelIndex;
+    public Transform PlayerSpawnLocation => _playerSpawnLocation;
     #endregion
 
     public void SetLevelInfo(string levelName, int levelIndex)
     {
         _levelName = levelName;
         _levelIndex = levelIndex;
-    }
-
-    public Transform GetPlayerSpawnLocation()
-    {
-        return _playerSpawnLocation;
     }
 }

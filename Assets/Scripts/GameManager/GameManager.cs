@@ -195,7 +195,7 @@ public class GameManager : MonoBehaviour
         }
         //sounds
         currentLevelInstance = Instantiate(levelPrefabs[levelIndex]);
-        currentLevelPlayerSpawnPoint = currentLevelInstance.GetComponent<LevelIdentifier>().GetPlayerSpawnLocation();
+        currentLevelPlayerSpawnPoint = currentLevelInstance.GetComponent<LevelIdentifier>().PlayerSpawnLocation;
         playerInstance = Instantiate(playerPrefab, currentLevelPlayerSpawnPoint.position, Quaternion.identity);
         _playerController = playerInstance.GetComponent<PlayerController>();
         HUDManager.Instance.UpdateAmmoCount(_playerController.WeaponInventory.CurrentWeapon.GetCurrentAmmoInMag(), 
@@ -235,6 +235,7 @@ public class GameManager : MonoBehaviour
         }
 
     }
+    
     public void ReturnToMainMenu()
     {
         StartCoroutine(ReturnToMainMenuRoutine());
