@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Net;
 using Unity.VisualScripting;
 using UnityEngine.Rendering;
 using UnityEngine;
@@ -196,7 +197,26 @@ public class PlayerController : MonoBehaviour
 			_verticalVelocity.y = 0;
 		}
 
+
 		TogglePauseMenu();
+		SetScopeAimAt();
+	}
+
+	private void SetScopeAimAt()
+	{
+		if (_isAiming && _weaponInventory.CurrentWeapon.GetScope())
+		{
+			_weaponInventory.CurrentWeapon.ScopeLookAtAimPoint(_aimPoint.position);
+		}
+
+		else if(!_isAiming && !_weaponInventory.CurrentWeapon.GetScope())
+		{
+			_weaponInventory.CurrentWeapon.ResetScope();
+		}
+		else if (!_weaponInventory.CurrentWeapon.GetScope())
+		{
+			return;
+		}
 	}
 
 	private void SetAim()

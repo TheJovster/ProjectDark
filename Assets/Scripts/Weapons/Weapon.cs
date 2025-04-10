@@ -66,6 +66,7 @@ public class Weapon : MonoBehaviour
 
     //ads settings to be used in the player controller
     [SerializeField] private Vector3 _adsPosition;
+    [SerializeField] private Transform _scope;
 
     #region Properties
 
@@ -94,7 +95,7 @@ public class Weapon : MonoBehaviour
     public float LeftHandIKWeight => _leftHandIKWeight;
     public Vector3 ADSPosition => _adsPosition;
     public bool CanADS => _canADS;
-
+    
     #endregion
 
     private void Awake()
@@ -133,8 +134,17 @@ public class Weapon : MonoBehaviour
         {
             _muzzleFlash.Stop();
         }
+        
     }
 
+    public Transform GetScope()
+    {
+        if (_scope != null)
+        {
+            return _scope;
+        }
+        else return null;
+    }
 
     public void Fire()
     {
@@ -205,6 +215,17 @@ public class Weapon : MonoBehaviour
     {
         _muzzlePoint.LookAt(lookDirection);
     }
+
+    public void ScopeLookAtAimPoint(Vector3 aimPoint)
+    {
+        _scope.LookAt(aimPoint);
+    }
+
+    public void ResetScope()
+    {
+        _scope.localRotation = Quaternion.Euler(0f, 0f, 0f);
+    }
+    
 
 //setters
     

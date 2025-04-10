@@ -1401,6 +1401,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+      propertyPath: _scope
+      value: 
+      objectReference: {fileID: 5141312409380716736}
+    - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
       propertyPath: _IKHandler
       value: 
       objectReference: {fileID: 3579720945037305269}
@@ -1581,6 +1585,11 @@ PrefabInstance:
 --- !u!4 &4394371874284434296 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1650985779162348345, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+  m_PrefabInstance: {fileID: 3031638598945441857}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5141312409380716736 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7875414056519305345, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
   m_PrefabInstance: {fileID: 3031638598945441857}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &5179546732341135575 stripped

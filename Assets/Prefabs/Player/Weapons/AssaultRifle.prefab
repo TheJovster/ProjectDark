@@ -81,6 +81,7 @@ MonoBehaviour:
   _screenShakeDuration: 0
   _screenShakeSpeed: 0
   _adsPosition: {x: 0, y: 0, z: 0}
+  _scope: {fileID: 0}
 --- !u!1 &7552421741977897555
 GameObject:
   m_ObjectHideFlags: 0
@@ -407,7 +408,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4082084948738288, guid: fef455933a0c9d04fb9fa32cb19e9129, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.0075
       objectReference: {fileID: 0}
     - target: {fileID: 4082084948738288, guid: fef455933a0c9d04fb9fa32cb19e9129, type: 3}
       propertyPath: m_LocalPosition.y
