@@ -57,6 +57,34 @@ public class AudioManager : MonoBehaviour
         _effects.PlayOneShot(clip);
     }
 
+    public void PlayEffectHalfVolume(AudioClip clip)
+    {
+        if (_effects.clip != null)
+        {
+            _effects.clip = null;
+        }
+        _effects.PlayOneShot(clip, 0.5f);
+    }
+    
+    
+    public void PlayEffectDoubleVolume(AudioClip clip)
+    {
+        if (_effects.clip != null)
+        {
+            _effects.clip = null;
+        }
+        _effects.PlayOneShot(clip, 2.0f);
+    }
+    
+    public void PlayEffectVariableVolume(AudioClip clip, float volume)
+    {
+        if (_effects.clip != null)
+        {
+            _effects.clip = null;
+        }
+        _effects.PlayOneShot(clip, volume);
+    }
+
     public void PlayLevelMusic(AudioClip clip)
     {
         StopSoundtrack();

@@ -106,6 +106,8 @@ public class PlayerController : MonoBehaviour
 	[Header("Misc")] 
 	[SerializeField] private GameObject _flashLight;
 
+	[SerializeField] private AudioClip _flashLightToggleSound;
+
 	private bool _flashlightActive = false;
 	private void OnEnable()
 	{
@@ -233,6 +235,7 @@ public class PlayerController : MonoBehaviour
 			_flashlightActive = !_flashlightActive;
 			{
 				_flashLight.SetActive(_flashlightActive);
+				AudioManager.Instance.PlayEffectDoubleVolume(_flashLightToggleSound);
 			}
 		}
 	}

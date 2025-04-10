@@ -55,6 +55,7 @@ public class Weapon : MonoBehaviour
 
     [Header("Audio and VFX")] [Tooltip("Set this to 5")] [SerializeField]
     private AudioClip[] _weaponAudioClips;
+    private AudioClip[] _weaponReloadClips;
 
     [SerializeField] private ParticleSystem _muzzleFlash;
     [SerializeField] private float _screenShakeIntensity;

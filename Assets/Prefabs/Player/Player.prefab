@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 412480036450997089}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75,7 +75,7 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
+  m_Cookie: {fileID: 2800000, guid: bff0be815db3bc74d837b087a4e5013f, type: 3}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0
@@ -402,12 +402,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68a5ebd7b425ed544a6754afb7173fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _swayAmount: 0.5
-  _maxSwayAmount: 1.5
+  _swayAmount: 1
+  _maxSwayAmount: 3
   _swaySmoothing: 8
   _swayResetSmoothing: 2
-  _movementSwayX: 0.0025
-  _movementSwayY: 0.0025
+  _movementSwayX: 0.005
+  _movementSwayY: 0.005
   _movementSwaySmoothing: 20
 --- !u!1 &3772071595528314092
 GameObject:
@@ -862,7 +862,7 @@ MonoBehaviour:
   _gravityValue: -9.81
   _fallMultiplier: 2.5
   _staminaDrainRate: 20
-  _staminaRegenRate: 2.5
+  _staminaRegenRate: 10
   _acceleration: 7.5
   _deceleration: 11.25
   _sprintAcceleration: 12
@@ -872,7 +872,7 @@ MonoBehaviour:
   _inverseCamera: 0
   _cameraMinAngle: -60
   _cameraMaxAngle: 60
-  _mouseSmoothTime: 0.075
+  _mouseSmoothTime: 0.09
   _jumpSounds:
   - {fileID: 8300000, guid: a684ae4f7af324043bf36d8aa5be0ee1, type: 3}
   - {fileID: 8300000, guid: a67d2be585e36eb448c9ba6ff03914a1, type: 3}
@@ -894,13 +894,14 @@ MonoBehaviour:
   _aimingSpeedTreshold: 1
   _weaponPivot: {fileID: 6715248846768907479}
   _isAiming: 0
-  _adsSmoothingTime: 7
+  _adsSmoothingTime: 10
   _aimPoint: {fileID: 3662342328990936781}
   _aimRaycastDistance: 100
   _aimingLayer:
     serializedVersion: 2
     m_Bits: 51
   _flashLight: {fileID: 412480036450997089}
+  _flashLightToggleSound: {fileID: 8300000, guid: 7fe379a45b2ccf5439a2eeb5f3abd16f, type: 3}
 --- !u!114 &5953302303216707664
 MonoBehaviour:
   m_ObjectHideFlags: 0

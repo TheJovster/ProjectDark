@@ -85,7 +85,7 @@ using Biostart.Blood;
         //impact effects should go here - TODO: Implement Interface
         if (!hit.transform.CompareTag("Player") && !hit.transform.CompareTag("Enemy"))
         {
-            AudioManager.Instance.PlayEffect(_impactSounds[Random.Range(0, _impactSounds.Length)]);
+            AudioManager.Instance.PlayEffectHalfVolume(_impactSounds[Random.Range(0, _impactSounds.Length)]);
             PlayImpactEffect(hit);
             ProjectDecal(hit);
         }
