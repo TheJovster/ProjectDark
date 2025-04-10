@@ -218,11 +218,13 @@ public class Weapon : MonoBehaviour
 
     public void ScopeLookAtAimPoint(Vector3 aimPoint)
     {
+        if (_scope == null) return;
         _scope.LookAt(aimPoint);
     }
 
     public void ResetScope()
     {
+        if (_scope == null) return;
         _scope.localRotation = Quaternion.Euler(0f, 0f, 0f);
     }
     
