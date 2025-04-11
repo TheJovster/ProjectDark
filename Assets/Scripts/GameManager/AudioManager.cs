@@ -1,12 +1,14 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
 
     [SerializeField] private AudioSource _soundtrack;
-    [SerializeField] private AudioSource _effects;
+    [SerializeField] private List<AudioSource> _effectSourceList = new();
     
     private void Awake()
     {
@@ -25,9 +27,9 @@ public class AudioManager : MonoBehaviour
             _soundtrack.loop = true;
         }
 
-        if (_effects != null)
+        if (_effectSourceList.Count > 0)
         {
-            _effects.loop = false;
+           
         }
     }
 
@@ -35,6 +37,7 @@ public class AudioManager : MonoBehaviour
     {
         _soundtrack.clip = clip;
         _soundtrack.Play();
+        
     }
 
     public void StopSoundtrack()
@@ -50,39 +53,37 @@ public class AudioManager : MonoBehaviour
 
     public void PlayEffect(AudioClip clip)
     {
-        if (_effects.clip != null)
+        AudioSource src = _effectSourceList.Find(x => x.isPlaying == false);
+        if (!src)
         {
-            _effects.clip = null;
+            src = _effectSourceList[0];
         }
-        _effects.PlayOneShot(clip);
+        src.PlayOneShot(clip);
     }
 
     public void PlayEffectHalfVolume(AudioClip clip)
     {
-        if (_effects.clip != null)
+        AudioSource src = _effectSourceList.Find(x => x.isPlaying == false);
+        if (!src)
         {
-            _effects.clip = null;
+            src = _effectSourceList[0];
         }
-        _effects.PlayOneShot(clip, 0.5f);
+        src.PlayOneShot(clip, 0.5f);
     }
-    
     
     public void PlayEffectDoubleVolume(AudioClip clip)
     {
-        if (_effects.clip != null)
+        AudioSource src = _effectSourceList.Find(x => x.isPlaying == false);
+        if (!src)
         {
-            _effects.clip = null;
+            src = _effectSourceList[0];
         }
-        _effects.PlayOneShot(clip, 2.0f);
+        src.PlayOneShot(clip, 2.0f);
     }
     
     public void PlayEffectVariableVolume(AudioClip clip, float volume)
     {
-        if (_effects.clip != null)
-        {
-            _effects.clip = null;
-        }
-        _effects.PlayOneShot(clip, volume);
+        
     }
 
     public void PlayLevelMusic(AudioClip clip)

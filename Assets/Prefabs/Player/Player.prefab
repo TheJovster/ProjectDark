@@ -44,8 +44,8 @@ Light:
   serializedVersion: 11
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 22.5
-  m_Range: 35
+  m_Intensity: 40
+  m_Range: 60
   m_SpotAngle: 60
   m_InnerSpotAngle: 30
   m_CookieSize: 10
@@ -1981,7 +1981,7 @@ PrefabInstance:
       objectReference: {fileID: 5607873592707384268, guid: b3861136c2c60b3488f52ec5271c8c02, type: 3}
     - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
       propertyPath: _screenShakeSpeed
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
       propertyPath: _rightHandPosition
@@ -1993,11 +1993,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
       propertyPath: _screenShakeDuration
-      value: 0.01
+      value: 0.005
       objectReference: {fileID: 0}
     - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
       propertyPath: _screenShakeIntensity
-      value: 0.0005
+      value: 0.00025
       objectReference: {fileID: 0}
     - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
       propertyPath: _animatorOverrideController

@@ -357,7 +357,7 @@ public class PlayerController : MonoBehaviour
 			_isSprinting = false;
 			return;
 		}
-		if (_canSprint && _input.Player.Sprint.IsPressed())
+		if (_canSprint && _input.Player.Sprint.WasPressedThisFrame())
 		{
 			_isSprinting = true;
 		}

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TMPro;
 using UnityEngine.Serialization;
+using UnityEngine.UI.Extensions;
 
 
 public class Weapon : MonoBehaviour
@@ -58,6 +59,8 @@ public class Weapon : MonoBehaviour
     private AudioClip[] _weaponReloadClips;
 
     [SerializeField] private ParticleSystem _muzzleFlash;
+    
+    [SerializeField, Tooltip("Set to 0 if the weapon is automatic")] private float _muzzleFlashDelay = 0.5f; //used only on semi weapons. 
     [SerializeField] private float _screenShakeIntensity;
     [SerializeField] private float _screenShakeDuration;
     [SerializeField] private float _screenShakeSpeed;
@@ -162,18 +165,29 @@ public class Weapon : MonoBehaviour
             _timeSinceLastShot = 0.0f;
             _currentAmmoInMag--;
             int audioClipIndex = Random.Range(0, _weaponAudioClips.Length);
-            AudioManager.Instance.PlayEffect(_weaponAudioClips[audioClipIndex]);
+            AudioManager.Instance.PlayEffectDoubleVolume(_weaponAudioClips[audioClipIndex]);
             _weaponRecoil.ApplyRecoil();
             _muzzleFlash.Play();
             _weaponInventory.PlayerController.TriggerShake();
             HUDManager.Instance.UpdateAmmoCount(_weaponInventory.CurrentWeapon.GetCurrentAmmoInMag(),
                 _weaponInventory.CurrentWeapon.GetCurrentAmmoInInventory());
+            if (IsSemi)
+            {
+                StartCoroutine(StopMuzzleFlashAfterDelay(0.05f));
+            }
+
         }
 
         if (_isEmpty && _ammoInventory.ReturnCurrentAmmoAmount(_weaponInventory.CurrentWeapon.CurrentWeaponType) > 0)
         {
             Reload();
         }
+    }
+
+    private IEnumerator StopMuzzleFlashAfterDelay(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        _muzzleFlash.Stop();
     }
 
     public void Reload() //I guess I can just have this as an anim event;
@@ -227,6 +241,8 @@ public class Weapon : MonoBehaviour
         if (_scope == null) return;
         _scope.localRotation = Quaternion.Euler(0f, 0f, 0f);
     }
+    
+    
     
 
 //setters
