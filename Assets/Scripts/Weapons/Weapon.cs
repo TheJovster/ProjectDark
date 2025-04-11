@@ -54,10 +54,10 @@ public class Weapon : MonoBehaviour
     [SerializeField] private int _weaponDamage = 10;
     [SerializeField] private bool _canADS = true;
 
-    [Header("Audio and VFX")] [Tooltip("Set this to 5")] [SerializeField]
-    private AudioClip[] _weaponAudioClips;
-    private AudioClip[] _weaponReloadClips;
-
+    [Header("Audio and VFX")] [Tooltip("Set this to 5")] 
+    [SerializeField] private AudioClip[] _weaponAudioClips;
+    [SerializeField] private AudioClip[] _weaponReloadClips;
+    [SerializeField] private AudioClip[] _weaponToggleFireClips;
     [SerializeField] private ParticleSystem _muzzleFlash;
     
     [SerializeField, Tooltip("Set to 0 if the weapon is automatic")] private float _muzzleFlashDelay = 0.5f; //used only on semi weapons. 
@@ -140,6 +140,16 @@ public class Weapon : MonoBehaviour
         
     }
 
+    public void ToggleSemi()
+    {
+        if (_hasSelectFire)
+        {
+            _isSemi = !_isSemi;
+            AudioManager.Instance.PlayEffect(_weaponToggleFireClips[Random.Range(0, _weaponToggleFireClips.Length)]);
+            HUDManager.Instance.SetFireModeIcon(_isSemi);
+        }
+    }
+
     public Transform GetScope()
     {
         if (_scope != null)
@@ -151,7 +161,7 @@ public class Weapon : MonoBehaviour
 
     public void Fire()
     {
-        if (_weaponName == "Minigun") //this is a lot of ducttape - will fix this with a local animator.
+        if (_weaponName == "XM994") //this is a lot of ducttape - will fix this with a local animator.
         {
             _barrels.Rotate(Vector3.forward * (720.0f * Time.deltaTime));
         }

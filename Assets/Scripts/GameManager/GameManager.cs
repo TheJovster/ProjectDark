@@ -200,6 +200,8 @@ public class GameManager : MonoBehaviour
         _playerController = playerInstance.GetComponent<PlayerController>();
         HUDManager.Instance.UpdateAmmoCount(_playerController.WeaponInventory.CurrentWeapon.GetCurrentAmmoInMag(), 
             _playerController.WeaponInventory.CurrentWeapon.GetCurrentAmmoInInventory());
+        HUDManager.Instance.UpdateWeaponName(_playerController.WeaponInventory.CurrentWeapon.WeapoonName);
+        HUDManager.Instance.SetFireModeIcon(_playerController.WeaponInventory.CurrentWeapon.IsSemi);
         //enemies 
         
         while (elapsedTime < loadTime)

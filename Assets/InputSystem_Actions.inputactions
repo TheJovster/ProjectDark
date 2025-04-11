@@ -148,6 +148,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleFireMode",
+                    "type": "Button",
+                    "id": "55bce323-513e-46d2-ad8c-afc3ab14d249",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -599,6 +608,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "FlashlightToggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2b141c80-a653-4e99-a5ae-179c15c8dd2d",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "ToggleFireMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

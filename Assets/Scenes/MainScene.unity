@@ -571,6 +571,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 286092369}
   m_CullTransparentMesh: 1
+--- !u!1 &299757361 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8402050596038640974, guid: 0bcf7ef29fee2f84084fd5a16911ea3a, type: 3}
+  m_PrefabInstance: {fileID: 4594302765870517862}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &356055346
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,6 +730,11 @@ MonoBehaviour:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+--- !u!1 &433452773 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 961030931527593112, guid: 0bcf7ef29fee2f84084fd5a16911ea3a, type: 3}
+  m_PrefabInstance: {fileID: 4594302765870517862}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &435876597
 GameObject:
   m_ObjectHideFlags: 0
@@ -1002,6 +1012,9 @@ MonoBehaviour:
   _healthSlider: {fileID: 1990727127}
   _ammoInMag: {fileID: 756204531}
   _ammoInInventory: {fileID: 1203764084}
+  _weaponName: {fileID: 1382382113}
+  _semiAutoIcon: {fileID: 433452773}
+  _fullAutoIcon: {fileID: 299757361}
 --- !u!4 &537539757
 Transform:
   m_ObjectHideFlags: 0
@@ -2496,6 +2509,17 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1382382113 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 448188625842401235, guid: 0bcf7ef29fee2f84084fd5a16911ea3a, type: 3}
+  m_PrefabInstance: {fileID: 4594302765870517862}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1414558616
 GameObject:
   m_ObjectHideFlags: 0
@@ -4296,10 +4320,6 @@ PrefabInstance:
     - target: {fileID: 3248112129554277144, guid: 0bcf7ef29fee2f84084fd5a16911ea3a, type: 3}
       propertyPath: m_Name
       value: PlayerHUD
-      objectReference: {fileID: 0}
-    - target: {fileID: 3248112129554277144, guid: 0bcf7ef29fee2f84084fd5a16911ea3a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7360084687117863195, guid: 0bcf7ef29fee2f84084fd5a16911ea3a, type: 3}
       propertyPath: m_Pivot.x

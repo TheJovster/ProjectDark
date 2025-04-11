@@ -872,7 +872,7 @@ MonoBehaviour:
   _inverseCamera: 0
   _cameraMinAngle: -60
   _cameraMaxAngle: 60
-  _mouseSmoothTime: 0.09
+  _mouseSmoothTime: 0
   _jumpSounds:
   - {fileID: 8300000, guid: a684ae4f7af324043bf36d8aa5be0ee1, type: 3}
   - {fileID: 8300000, guid: a67d2be585e36eb448c9ba6ff03914a1, type: 3}
@@ -982,6 +982,10 @@ PrefabInstance:
       propertyPath: _IKHandler
       value: 
       objectReference: {fileID: 3579720945037305269}
+    - target: {fileID: 2055352537291397193, guid: 68d473487eb53ae44bee88162ad7dc0e, type: 3}
+      propertyPath: _weaponName
+      value: PX45
+      objectReference: {fileID: 0}
     - target: {fileID: 2055352537291397193, guid: 68d473487eb53ae44bee88162ad7dc0e, type: 3}
       propertyPath: _muzzleFlash
       value: 
@@ -1413,6 +1417,10 @@ PrefabInstance:
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+      propertyPath: _weaponName
+      value: MX16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
       propertyPath: _muzzleFlash
       value: 
       objectReference: {fileID: 5038854614126142811}
@@ -1480,6 +1488,30 @@ PrefabInstance:
       propertyPath: _animatorOverrideController
       value: 
       objectReference: {fileID: 22100000, guid: 628713119dc12e148bf05f22aded575c, type: 2}
+    - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+      propertyPath: _weaponToggleFireClips.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+      propertyPath: '_weaponToggleFireClips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 08cbb6f77a9c8a44996053adac857ea0, type: 3}
+    - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+      propertyPath: '_weaponToggleFireClips.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 913cb3d77da93524681e1bec92de458e, type: 3}
+    - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+      propertyPath: '_weaponToggleFireClips.Array.data[2]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 423187235e69e424f9154058abf56d2a, type: 3}
+    - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+      propertyPath: '_weaponToggleFireClips.Array.data[3]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 41c078258c1caea47980bdc659f40efa, type: 3}
+    - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+      propertyPath: '_weaponToggleFireClips.Array.data[4]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 48f413bcbb6c03141b7bd55ae51cad56, type: 3}
     - target: {fileID: 5454226242860265593, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
       propertyPath: m_Layer
       value: 3
@@ -1955,6 +1987,10 @@ PrefabInstance:
       propertyPath: _weaponData
       value: 
       objectReference: {fileID: 11400000, guid: 8346c587ca91649468b37209a4bfd0e0, type: 2}
+    - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
+      propertyPath: _weaponName
+      value: XM994
+      objectReference: {fileID: 0}
     - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
       propertyPath: _muzzleFlash
       value: 
@@ -2820,6 +2856,10 @@ PrefabInstance:
       propertyPath: _IKHandler
       value: 
       objectReference: {fileID: 3579720945037305269}
+    - target: {fileID: 2055352537291397193, guid: d42b5913bdc96a84e832209d081c2e2e, type: 3}
+      propertyPath: _weaponName
+      value: Rhino-9
+      objectReference: {fileID: 0}
     - target: {fileID: 2055352537291397193, guid: d42b5913bdc96a84e832209d081c2e2e, type: 3}
       propertyPath: _muzzleFlash
       value: 

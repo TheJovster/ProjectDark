@@ -11,6 +11,9 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private Image _healthSlider;
     [SerializeField] private TMP_Text _ammoInMag;
     [SerializeField] private TMP_Text _ammoInInventory;
+    [SerializeField] private TMP_Text _weaponName;
+    [SerializeField] private GameObject _semiAutoIcon;
+    [SerializeField] private GameObject _fullAutoIcon;
 
     private void Awake()
     {
@@ -31,9 +34,28 @@ public class HUDManager : MonoBehaviour
         _ammoInInventory.text = ammoInInventory.ToString();
     }
 
+    public void UpdateWeaponName(string name)
+    {
+        _weaponName.text = name;
+    }
+
     public void EnableAimReticle()
     {
         _aimReticle.SetActive(true);
+    }
+
+    public void SetFireModeIcon(bool value)
+    {
+        if (value)
+        {
+            _semiAutoIcon.SetActive(true);
+            _fullAutoIcon.SetActive(false);
+        }
+        else
+        {
+            _semiAutoIcon.SetActive(false);
+            _fullAutoIcon.SetActive(true);
+        }
     }
 
     public void DisableAimReticle()

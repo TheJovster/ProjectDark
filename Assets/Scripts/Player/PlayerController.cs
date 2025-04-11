@@ -170,6 +170,7 @@ public class PlayerController : MonoBehaviour
 			SetAim();
 			ToggleFlashLight(
 				_input.Player.FlashlightToggle.WasPressedThisFrame());
+			TryToggleSemi();
 			if (_characterController.isGrounded && _verticalVelocity.y < 0)
 			{
 				_verticalVelocity.y = _gravityGrounded;
@@ -539,6 +540,14 @@ public class PlayerController : MonoBehaviour
 		else if (_input.Player.Shoot.WasReleasedThisFrame())
 		{
 			_weaponInventory.CurrentWeapon.StopMuzzleFlash();
+		}
+	}
+
+	private void TryToggleSemi()
+	{
+		if (_input.Player.ToggleFireMode.WasPressedThisFrame())
+		{
+			_weaponInventory.CurrentWeapon.ToggleSemi();
 		}
 	}
 
