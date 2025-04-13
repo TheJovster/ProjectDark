@@ -9,6 +9,9 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField] private AudioSource _soundtrack;
     [SerializeField] private List<AudioSource> _effectSourceList = new();
+
+    [Header("Menu Audio Effects")] 
+    [SerializeField] private AudioClip _menuButtonClick;
     
     private void Awake()
     {
@@ -93,9 +96,9 @@ public class AudioManager : MonoBehaviour
         _soundtrack.Play();
     }
 
-    public void PlayFootsteps(AudioClip clip)
+    public void PlayMenuButtonClick()
     {
-        
+        PlayEffect(_menuButtonClick);
     }
     
 }

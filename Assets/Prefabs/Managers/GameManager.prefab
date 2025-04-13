@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7633474076322595067
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 560156998185850222}
+  - component: {fileID: 8848107490470315544}
+  - component: {fileID: 2889937358541984959}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &560156998185850222
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7633474076322595067}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8848107490470315544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7633474076322595067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 209555467a4128f43815f83bc748a476, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentGameState: 0
+  playerPrefab: {fileID: 9074778794591022342, guid: bd40ef2092763764ab9b464c417ccb8a, type: 3}
+  levelPrefabs:
+  - {fileID: 2665337147164467761, guid: 2ec4346a32ffe394299e993cdcd9d3d7, type: 3}
+  - {fileID: 4320764189467301779, guid: 568ff64370258d04498239a5754c96d8, type: 3}
+  fader: {fileID: 2889937358541984959}
+  mainMenuPanel: {fileID: 0}
+  loadingScreenPanel: {fileID: 0}
+  gameOverPanel: {fileID: 0}
+  pausePanel: {fileID: 0}
+  playerHUD: {fileID: 0}
+  loadingProgressBar: {fileID: 0}
+  menuCamera: {fileID: 0}
+  _healthBarImage: {fileID: 0}
+  _staminaBarImage: {fileID: 0}
+  loadingTime: 1
+  _mainMenuMusic: {fileID: 8300000, guid: 8c20552e4f02b4443a57d5ff31c0af02, type: 3}
+  _loadingScreenMusic: {fileID: 8300000, guid: 7f03d4e6ebb25f34097189acda5847c5, type: 3}
+  _gameOverMusic: {fileID: 0}
+  _levelMusic:
+  - {fileID: 8300000, guid: 3539bc737d850604e9611b0fea876be2, type: 3}
+  - {fileID: 8300000, guid: 06a20364fe3be8948baa9f9d62ebb933, type: 3}
+--- !u!114 &2889937358541984959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7633474076322595067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 403a27a3c6d12aa4c9d571cec6c6bccf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 0}
+  fadeDuration: 1

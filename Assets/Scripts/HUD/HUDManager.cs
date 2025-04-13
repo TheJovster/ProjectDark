@@ -14,7 +14,16 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private TMP_Text _weaponName;
     [SerializeField] private GameObject _semiAutoIcon;
     [SerializeField] private GameObject _fullAutoIcon;
-
+    [SerializeField] private GameObject _flashlightOn;
+    [SerializeField] private Image _flashLightOnImage;
+    [SerializeField] private GameObject _flashLightOff;
+    
+    
+    [Header("Mouse Textures")] 
+    [SerializeField] private Texture2D _defaultMouseCursor;
+    [SerializeField] private Texture2D _selectionMouseCursor;
+    private CursorMode _cursorMode = CursorMode.Auto;
+    [SerializeField] private Vector2 _cursorHotSpot = Vector3.zero;
     private void Awake()
     {
         if (Instance == null)
@@ -26,6 +35,7 @@ public class HUDManager : MonoBehaviour
             Destroy(this);
         }
         DontDestroyOnLoad(this);
+        SetDefaultCursor();
     }
 
     public void UpdateAmmoCount(int ammoInMag, int ammoInInventory)
@@ -44,7 +54,7 @@ public class HUDManager : MonoBehaviour
         _aimReticle.SetActive(true);
     }
 
-    public void SetFireModeIcon(bool value)
+    public void ToggleFireModeIcon(bool value)
     {
         if (value)
         {
@@ -58,8 +68,35 @@ public class HUDManager : MonoBehaviour
         }
     }
 
+    public void ToggleFlashlight(bool value)
+    {
+        if (value)
+        {
+            _flashlightOn.SetActive(true);
+        }
+        else
+        {
+            _flashlightOn.SetActive(false);
+        }
+    }
+
     public void DisableAimReticle()
     {
         _aimReticle.SetActive(false);
+    }
+
+    public void SetCursorMode(CursorMode cursorMode)
+    {
+        _cursorMode = cursorMode;
+    }
+
+    public void SetFlashLightFill(float currentValue, float maxValue)
+    {
+        _flashLightOnImage.fillAmount = currentValue / maxValue;
+    }
+
+    public void SetDefaultCursor()
+    {
+        Cursor.SetCursor(_defaultMouseCursor, _cursorHotSpot, _cursorMode);
     }
 }

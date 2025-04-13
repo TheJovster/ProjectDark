@@ -106,10 +106,13 @@ public class PlayerController : MonoBehaviour
 
 	[Header("Misc")] 
 	[SerializeField] private GameObject _flashLight;
-
 	[SerializeField] private AudioClip _flashLightToggleSound;
-
+	[SerializeField] private float _flashLightCurrentBattery;
+	[SerializeField] private float _flashLightMaxBattery = 100;
+	[SerializeField] private float _flashLightDrainRate = 0.5f;
+	[SerializeField] private float _flashLightRechargeRate = 0.5f;
 	private bool _flashlightActive = false;
+	
 	private void OnEnable()
 	{
 		_input = new InputSystem_Actions();
@@ -152,14 +155,11 @@ public class PlayerController : MonoBehaviour
 				_stats.RegenStamina(_staminaRegenRate);
 			}
 			Move();
-			
 			// Get the raw input
 			_targetMouseDelta = _input.Player.Look.ReadValue<Vector2>();
-    
 			// Smoothly interpolate to target input
 			_currentMouseDelta = Vector2.SmoothDamp(_currentMouseDelta, _targetMouseDelta, 
 				ref _currentMouseDeltaVelocity, _mouseSmoothTime);
-			
 			LookUp();
 			RotatePlayer();
 			TryFireWeapon();
@@ -170,6 +170,7 @@ public class PlayerController : MonoBehaviour
 			SetAim();
 			ToggleFlashLight(
 				_input.Player.FlashlightToggle.WasPressedThisFrame());
+			FlashLightDrainAndRecharge();
 			TryToggleSemi();
 			if (_characterController.isGrounded && _verticalVelocity.y < 0)
 			{
@@ -197,8 +198,13 @@ public class PlayerController : MonoBehaviour
 		{
 			_verticalVelocity.y = 0;
 		}
-
-
+		
+		if (_flashLightCurrentBattery <= 0.1f && _flashlightActive)
+		{
+			_flashlightActive = false;
+			_flashLight.SetActive(false);
+			AudioManager.Instance.PlayEffectDoubleVolume(_flashLightToggleSound);
+		}
 		TogglePauseMenu();
 		SetScopeAimAt();
 	}
@@ -257,6 +263,24 @@ public class PlayerController : MonoBehaviour
 			{
 				_flashLight.SetActive(_flashlightActive);
 				AudioManager.Instance.PlayEffectDoubleVolume(_flashLightToggleSound);
+			}
+		}
+	}
+
+	private void FlashLightDrainAndRecharge()
+	{
+		if (_flashlightActive)
+		{
+			_flashLightCurrentBattery -= _flashLightDrainRate * Time.deltaTime;
+			HUDManager.Instance.SetFlashLightFill(_flashLightCurrentBattery, _flashLightMaxBattery);
+		}
+		else if(!_flashlightActive)
+		{
+			_flashLightCurrentBattery += _flashLightRechargeRate * Time.deltaTime;
+			HUDManager.Instance.SetFlashLightFill(_flashLightCurrentBattery, _flashLightMaxBattery);
+			if (_flashLightCurrentBattery >= _flashLightMaxBattery)
+			{
+				_flashLightCurrentBattery = _flashLightMaxBattery;
 			}
 		}
 	}

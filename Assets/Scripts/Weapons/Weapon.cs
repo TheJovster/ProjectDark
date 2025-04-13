@@ -146,7 +146,7 @@ public class Weapon : MonoBehaviour
         {
             _isSemi = !_isSemi;
             AudioManager.Instance.PlayEffect(_weaponToggleFireClips[Random.Range(0, _weaponToggleFireClips.Length)]);
-            HUDManager.Instance.SetFireModeIcon(_isSemi);
+            HUDManager.Instance.ToggleFireModeIcon(_isSemi);
         }
     }
 

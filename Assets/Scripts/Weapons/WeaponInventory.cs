@@ -76,7 +76,7 @@ public class WeaponInventory : MonoBehaviour
         _weaponIKHandler.ApplyWeaponIK(_currentWeapon.RightHandPosition, _currentWeapon.LeftHandPosition, _currentWeapon.AnimatorOverrideController);
         HUDManager.Instance.UpdateAmmoCount(_currentWeapon.GetCurrentAmmoInMag(), _currentWeapon.GetCurrentAmmoInInventory());
         HUDManager.Instance.UpdateWeaponName(_currentWeapon.WeapoonName);
-        HUDManager.Instance.SetFireModeIcon(_currentWeapon.IsSemi);
+        HUDManager.Instance.ToggleFireModeIcon(_currentWeapon.IsSemi);
     }
 
 }
