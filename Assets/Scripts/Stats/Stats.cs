@@ -17,6 +17,7 @@ public class Stats : MonoBehaviour
     [SerializeField] private bool _isPlayer;
     private AnimationHandler _animationHandler;
     private CapsuleCollider _capsuleCollider;
+    [SerializeField] private GameObject _minimapBlip;
     [SerializeField]private bool _isAlive = true;
 
     [Header("Audio")]
@@ -70,7 +71,7 @@ public class Stats : MonoBehaviour
     private void Death()
     {
         if (!_isAlive) return; // Already dead
-        
+        _minimapBlip.SetActive(false);
         _isAlive = false;
         if (!_isPlayer)
         {
