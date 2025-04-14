@@ -565,6 +565,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1614762887}
     - target: {fileID: 8848107490470315544, guid: d7193fd4c15178e4ba6d17e228523ca9, type: 3}
+      propertyPath: _playerHUD
+      value: 
+      objectReference: {fileID: 1614762887}
+    - target: {fileID: 8848107490470315544, guid: d7193fd4c15178e4ba6d17e228523ca9, type: 3}
       propertyPath: menuCamera
       value: 
       objectReference: {fileID: 1909920556}
@@ -573,6 +577,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 505800407}
     - target: {fileID: 8848107490470315544, guid: d7193fd4c15178e4ba6d17e228523ca9, type: 3}
+      propertyPath: _menuCamera
+      value: 
+      objectReference: {fileID: 1909920556}
+    - target: {fileID: 8848107490470315544, guid: d7193fd4c15178e4ba6d17e228523ca9, type: 3}
+      propertyPath: _pausePanel
+      value: 
+      objectReference: {fileID: 505800407}
+    - target: {fileID: 8848107490470315544, guid: d7193fd4c15178e4ba6d17e228523ca9, type: 3}
+      propertyPath: _playerPrefab
+      value: 
+      objectReference: {fileID: 9074778794591022342, guid: bd40ef2092763764ab9b464c417ccb8a, type: 3}
+    - target: {fileID: 8848107490470315544, guid: d7193fd4c15178e4ba6d17e228523ca9, type: 3}
       propertyPath: gameOverPanel
       value: 
       objectReference: {fileID: 1275492108}
@@ -580,6 +596,18 @@ PrefabInstance:
       propertyPath: mainMenuPanel
       value: 
       objectReference: {fileID: 1228835384}
+    - target: {fileID: 8848107490470315544, guid: d7193fd4c15178e4ba6d17e228523ca9, type: 3}
+      propertyPath: _gameOverPanel
+      value: 
+      objectReference: {fileID: 1275492108}
+    - target: {fileID: 8848107490470315544, guid: d7193fd4c15178e4ba6d17e228523ca9, type: 3}
+      propertyPath: _mainMenuPanel
+      value: 
+      objectReference: {fileID: 1228835384}
+    - target: {fileID: 8848107490470315544, guid: d7193fd4c15178e4ba6d17e228523ca9, type: 3}
+      propertyPath: _minimapCamera
+      value: 
+      objectReference: {fileID: 9085150038827695647, guid: 93f6cd8f506e5934f8641ce10443626c, type: 3}
     - target: {fileID: 8848107490470315544, guid: d7193fd4c15178e4ba6d17e228523ca9, type: 3}
       propertyPath: _healthBarImage
       value: 
@@ -596,6 +624,22 @@ PrefabInstance:
       propertyPath: loadingScreenPanel
       value: 
       objectReference: {fileID: 503106758}
+    - target: {fileID: 8848107490470315544, guid: d7193fd4c15178e4ba6d17e228523ca9, type: 3}
+      propertyPath: _loadingProgressBar
+      value: 
+      objectReference: {fileID: 1414558618}
+    - target: {fileID: 8848107490470315544, guid: d7193fd4c15178e4ba6d17e228523ca9, type: 3}
+      propertyPath: _loadingScreenPanel
+      value: 
+      objectReference: {fileID: 503106758}
+    - target: {fileID: 8848107490470315544, guid: d7193fd4c15178e4ba6d17e228523ca9, type: 3}
+      propertyPath: _levelPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8848107490470315544, guid: d7193fd4c15178e4ba6d17e228523ca9, type: 3}
+      propertyPath: '_levelPrefabs.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2665337147164467761, guid: 2ec4346a32ffe394299e993cdcd9d3d7, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
