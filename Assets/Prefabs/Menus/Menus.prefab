@@ -2861,6 +2861,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerHUD
       objectReference: {fileID: 0}
+    - target: {fileID: 5957747556793780305, guid: 0bcf7ef29fee2f84084fd5a16911ea3a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -192
+      objectReference: {fileID: 0}
+    - target: {fileID: 5957747556793780305, guid: 0bcf7ef29fee2f84084fd5a16911ea3a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -195
+      objectReference: {fileID: 0}
     - target: {fileID: 7360084687117863195, guid: 0bcf7ef29fee2f84084fd5a16911ea3a, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2939,10 +2947,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7360084687117863195, guid: 0bcf7ef29fee2f84084fd5a16911ea3a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8272234363788580096, guid: 0bcf7ef29fee2f84084fd5a16911ea3a, type: 3}
-      propertyPath: m_PresetInfoIsWorld
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour
@@ -9,10 +7,12 @@ public class GameManager : MonoBehaviour
     [SerializeField]private GameState currentGameState;
 
     [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject minimapCamera;
     [Header("Level Prefabs")]
     [SerializeField] private GameObject[] levelPrefabs;
     
     private GameObject playerInstance;
+    private GameObject minimapCameraInstance;
     private PlayerController _playerController;
     private GameObject currentLevelInstance;
     private Transform currentLevelPlayerSpawnPoint;
@@ -198,6 +198,10 @@ public class GameManager : MonoBehaviour
         currentLevelPlayerSpawnPoint = currentLevelInstance.GetComponent<LevelIdentifier>().PlayerSpawnLocation;
         playerInstance = Instantiate(playerPrefab, currentLevelPlayerSpawnPoint.position, Quaternion.identity);
         _playerController = playerInstance.GetComponent<PlayerController>();
+        minimapCameraInstance = Instantiate(minimapCamera, new Vector3(0f, 0f, 0f), Quaternion.identity);
+        minimapCameraInstance.transform.SetParent(currentLevelInstance.transform);
+        minimapCameraInstance.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+        minimapCameraInstance.GetComponent<MinimapFollowCamera>().SetPlayer(playerInstance);
         HUDManager.Instance.UpdateAmmoCount(_playerController.WeaponInventory.CurrentWeapon.GetCurrentAmmoInMag(), 
             _playerController.WeaponInventory.CurrentWeapon.GetCurrentAmmoInInventory());
         HUDManager.Instance.UpdateWeaponName(_playerController.WeaponInventory.CurrentWeapon.WeapoonName);
@@ -270,6 +274,12 @@ public class GameManager : MonoBehaviour
         {
             Destroy(playerInstance);
             playerInstance = null;
+        }
+
+        if (minimapCameraInstance)
+        {
+            Destroy(minimapCameraInstance);
+            minimapCameraInstance = null;
         }
     
         // Enable menu camera audio

@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7633474076322595067}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGameState: 0
   playerPrefab: {fileID: 9074778794591022342, guid: bd40ef2092763764ab9b464c417ccb8a, type: 3}
+  minimapCamera: {fileID: 9085150038827695647, guid: 93f6cd8f506e5934f8641ce10443626c, type: 3}
   levelPrefabs:
   - {fileID: 2665337147164467761, guid: 2ec4346a32ffe394299e993cdcd9d3d7, type: 3}
   - {fileID: 4320764189467301779, guid: 568ff64370258d04498239a5754c96d8, type: 3}
