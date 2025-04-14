@@ -581,10 +581,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1228835384}
     - target: {fileID: 8848107490470315544, guid: d7193fd4c15178e4ba6d17e228523ca9, type: 3}
-      propertyPath: minimapCamera
-      value: 
-      objectReference: {fileID: 9085150038827695647, guid: 93f6cd8f506e5934f8641ce10443626c, type: 3}
-    - target: {fileID: 8848107490470315544, guid: d7193fd4c15178e4ba6d17e228523ca9, type: 3}
       propertyPath: _healthBarImage
       value: 
       objectReference: {fileID: 1990727127}
