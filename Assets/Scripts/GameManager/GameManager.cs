@@ -1,38 +1,41 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    [SerializeField]private GameState currentGameState;
+    [SerializeField]private GameState _currentGameState;
 
-    [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private GameObject minimapCamera;
+    [SerializeField] private GameObject _playerPrefab;
+    [SerializeField] private GameObject _minimapCamera;
+    
     [Header("Level Prefabs")]
-    [SerializeField] private GameObject[] levelPrefabs;
+    [SerializeField] private GameObject[] _levelPrefabs;
     
-    private GameObject playerInstance;
-    private GameObject minimapCameraInstance;
+    private GameObject _playerInstance;
+    private GameObject _minimapCameraInstance;
     private PlayerController _playerController;
-    private GameObject currentLevelInstance;
-    private Transform currentLevelPlayerSpawnPoint;
+    private GameObject _currentLevelInstance;
+    private Transform _currentLevelPlayerSpawnPoint;
     
+    [FormerlySerializedAs("fader")]
     [Header("UI Elements")] 
-    [SerializeField] private FaderController fader;
-    [SerializeField] private GameObject mainMenuPanel;
-    [SerializeField] private GameObject loadingScreenPanel;
-    [SerializeField] private GameObject gameOverPanel;
-    [SerializeField] private GameObject pausePanel;
-    [SerializeField] private GameObject playerHUD;
-    [SerializeField] private Slider loadingProgressBar;
-    [SerializeField] private Camera menuCamera;
+    [SerializeField] private FaderController _fader;
+    [SerializeField] private GameObject _mainMenuPanel;
+    [SerializeField] private GameObject _loadingScreenPanel;
+    [SerializeField] private GameObject _gameOverPanel;
+    [SerializeField] private GameObject _pausePanel;
+    [SerializeField] private GameObject _playerHUD;
+    [SerializeField] private Slider _loadingProgressBar;
+    [SerializeField] private Camera _menuCamera;
 
     [Header("UI Elements - Player")] 
     [SerializeField] private Image _healthBarImage;
     [SerializeField] private Image _staminaBarImage;
     
     [Header("Loading Simulation")] //TODO: expand this so the loading is actual, not simulated;
-    [SerializeField, Range(1f, 120f)] private float loadingTime = 10.0f;
+    [SerializeField, Range(1f, 120f)] private float _loadingTime = 10.0f;
 
     [Header("Audio Clips")] 
     [SerializeField] private AudioClip _mainMenuMusic;
@@ -40,14 +43,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioClip _gameOverMusic;
     [SerializeField] private AudioClip[] _levelMusic;
     
-    private AudioListener menuCameraListener;
-    private bool isPlaying = false;
+    private AudioListener _menuCameraListener;
+    private bool _isPlaying = false;
     
     #region Properties
 
-    public GameState CurrentGameState => currentGameState;
-    public FaderController Fader => fader;
-    public bool IsPlaying => isPlaying;
+    public GameState CurrentGameState => _currentGameState;
+    public FaderController Fader => _fader;
+    public bool IsPlaying => _isPlaying;
     
     #endregion
     
@@ -75,7 +78,7 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        menuCameraListener = menuCamera.gameObject.GetComponent<AudioListener>();
+        _menuCameraListener = _menuCamera.gameObject.GetComponent<AudioListener>();
     }
 
     private void Start()
@@ -85,47 +88,47 @@ public class GameManager : MonoBehaviour
     
     public void SetGameState(GameState newGameState)
     {
-        currentGameState = newGameState;
+        _currentGameState = newGameState;
         UpdateUI();
     }
 
     private void UpdateUI()
     {
-        mainMenuPanel.SetActive(false);
-        loadingScreenPanel.SetActive(false);
-        gameOverPanel.SetActive(false);
-        pausePanel.SetActive(false);
-        playerHUD.SetActive(false);
+        _mainMenuPanel.SetActive(false);
+        _loadingScreenPanel.SetActive(false);
+        _gameOverPanel.SetActive(false);
+        _pausePanel.SetActive(false);
+        _playerHUD.SetActive(false);
 
-        switch (currentGameState)
+        switch (_currentGameState)
         {
             case GameState.MainMenu:
-                mainMenuPanel.SetActive(true);
+                _mainMenuPanel.SetActive(true);
                 AudioManager.Instance.PlaySoundtrack(_mainMenuMusic);
-                isPlaying = false;
+                _isPlaying = false;
                 ShowCursor();
                 break;
             case GameState.Loading:
-                loadingScreenPanel.SetActive(true);
+                _loadingScreenPanel.SetActive(true);
                 AudioManager.Instance.StopSoundtrack();
                 AudioManager.Instance.PlaySoundtrack(_loadingScreenMusic);
-                isPlaying = false;
+                _isPlaying = false;
                 HideCursor();
                 break;
             case GameState.Playing:
                 Time.timeScale = 1f;
-                isPlaying = true;
-                playerHUD.SetActive(true);
+                _isPlaying = true;
+                _playerHUD.SetActive(true);
                 HideCursor();
                 break;
             case GameState.GameOver:
-                gameOverPanel.SetActive(true);
-                isPlaying = false;
+                _gameOverPanel.SetActive(true);
+                _isPlaying = false;
                 ShowCursor();
                 break;
             case GameState.Paused: 
-                isPlaying = false;
-                pausePanel.SetActive(true);
+                _isPlaying = false;
+                _pausePanel.SetActive(true);
                 break;
             
         }
@@ -144,7 +147,7 @@ public class GameManager : MonoBehaviour
 
     public void LoadLevel(int levelIndex)
     {
-        if (levelIndex < 0 || levelIndex >= levelPrefabs.Length)
+        if (levelIndex < 0 || levelIndex >= _levelPrefabs.Length)
         {
             Debug.LogError($"Invalid level index: {levelIndex}");
             return;
@@ -155,53 +158,53 @@ public class GameManager : MonoBehaviour
      
     private IEnumerator LoadLevelAsync(int levelIndex)
     {
-        if (playerInstance != null &&
-            currentLevelInstance != null)
+        if (_playerInstance != null &&
+            _currentLevelInstance != null)
         {
             SaveSystem.Instance.SaveGame();
         }
         // If not already faded in, fade to black
-        if (fader && fader.CurrentAlpha < 0.99f)
+        if (_fader && _fader.CurrentAlpha < 0.99f)
         {
-            yield return fader.FadeIn();
+            yield return _fader.FadeIn();
         }
         // Set loading state
-        loadingProgressBar.value = 0.0f;
+        _loadingProgressBar.value = 0.0f;
         SetGameState(GameState.Loading);
 
-        if (fader && fader.CurrentAlpha >= 0.99f)
+        if (_fader && _fader.CurrentAlpha >= 0.99f)
         {
-            yield return fader.FadeOut();
+            yield return _fader.FadeOut();
         }
         // Clean up existing level/player
-        if (currentLevelInstance != null) 
+        if (_currentLevelInstance != null) 
         {
-            Destroy(currentLevelInstance);
-            currentLevelInstance = null;
+            Destroy(_currentLevelInstance);
+            _currentLevelInstance = null;
         }
         
-        if (playerInstance != null) 
+        if (_playerInstance != null) 
         {
-            Destroy(playerInstance);
-            playerInstance = null;
+            Destroy(_playerInstance);
+            _playerInstance = null;
         }
         
         // Simulate loading time with progress bar - I need to figure out how to do proper content loading without relying on addressables. 
-        float loadTime = loadingTime; //naming issue - fix later
+        float loadTime = _loadingTime; //naming issue - fix later
         float elapsedTime = 0f;
-        if (menuCamera && menuCamera.GetComponent<AudioListener>())
+        if (_menuCamera && _menuCamera.GetComponent<AudioListener>())
         {
-            menuCamera.GetComponent<AudioListener>().enabled = false;
+            _menuCamera.GetComponent<AudioListener>().enabled = false;
         }
         //sounds
-        currentLevelInstance = Instantiate(levelPrefabs[levelIndex]);
-        currentLevelPlayerSpawnPoint = currentLevelInstance.GetComponent<LevelIdentifier>().PlayerSpawnLocation;
-        playerInstance = Instantiate(playerPrefab, currentLevelPlayerSpawnPoint.position, Quaternion.identity);
-        _playerController = playerInstance.GetComponent<PlayerController>();
-        minimapCameraInstance = Instantiate(minimapCamera, new Vector3(0f, 0f, 0f), Quaternion.identity);
-        minimapCameraInstance.transform.SetParent(currentLevelInstance.transform);
-        minimapCameraInstance.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
-        minimapCameraInstance.GetComponent<MinimapFollowCamera>().SetPlayer(playerInstance);
+        _currentLevelInstance = Instantiate(_levelPrefabs[levelIndex]);
+        _currentLevelPlayerSpawnPoint = _currentLevelInstance.GetComponent<LevelIdentifier>().PlayerSpawnLocation;
+        _playerInstance = Instantiate(_playerPrefab, _currentLevelPlayerSpawnPoint.position, Quaternion.identity);
+        _playerController = _playerInstance.GetComponent<PlayerController>();
+        _minimapCameraInstance = Instantiate(_minimapCamera, new Vector3(0f, 0f, 0f), Quaternion.identity);
+        _minimapCameraInstance.transform.SetParent(_currentLevelInstance.transform);
+        _minimapCameraInstance.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
+        _minimapCameraInstance.GetComponent<MinimapFollowCamera>().SetPlayer(_playerInstance);
         HUDManager.Instance.UpdateAmmoCount(_playerController.WeaponInventory.CurrentWeapon.GetCurrentAmmoInMag(), 
             _playerController.WeaponInventory.CurrentWeapon.GetCurrentAmmoInInventory());
         HUDManager.Instance.UpdateWeaponName(_playerController.WeaponInventory.CurrentWeapon.WeapoonName);
@@ -213,31 +216,31 @@ public class GameManager : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float progress = elapsedTime / loadTime;
             
-            loadingProgressBar.value = progress;
+            _loadingProgressBar.value = progress;
             
             yield return null;
         }
         
-        loadingProgressBar.value = 1.0f;
+        _loadingProgressBar.value = 1.0f;
         
         yield return new WaitForSeconds(0.2f);
         
         // Fade back in to reveal the level
-        if (fader && fader.CurrentAlpha < 0.99f)
+        if (_fader && _fader.CurrentAlpha < 0.99f)
         {
-            yield return fader.FadeIn();
+            yield return _fader.FadeIn();
         }
         SetGameState(GameState.Playing);
         
-        if (currentLevelInstance != null &&
-            playerInstance != null)
+        if (_currentLevelInstance != null &&
+            _playerInstance != null)
         {
             SaveSystem.Instance.LoadGame();
         }
         AudioManager.Instance.PlayLevelMusic(_levelMusic[levelIndex]);
-        if (fader.CurrentAlpha >= 0.99f)
+        if (_fader.CurrentAlpha >= 0.99f)
         {
-            yield return fader.FadeOut();
+            yield return _fader.FadeOut();
         }
 
     }
@@ -260,36 +263,36 @@ public class GameManager : MonoBehaviour
     private IEnumerator ReturnToMainMenuRoutine()
     {
         // Fade to black
-        currentGameState = GameState.Playing;
-        yield return fader.FadeIn();
+        _currentGameState = GameState.Playing;
+        yield return _fader.FadeIn();
     
         // Destroy level and player
-        if (currentLevelInstance)
+        if (_currentLevelInstance)
         {
-            Destroy(currentLevelInstance);
-            currentLevelInstance = null;
+            Destroy(_currentLevelInstance);
+            _currentLevelInstance = null;
         }
     
-        if (playerInstance)
+        if (_playerInstance)
         {
-            Destroy(playerInstance);
-            playerInstance = null;
+            Destroy(_playerInstance);
+            _playerInstance = null;
         }
 
-        if (minimapCameraInstance)
+        if (_minimapCameraInstance)
         {
-            Destroy(minimapCameraInstance);
-            minimapCameraInstance = null;
+            Destroy(_minimapCameraInstance);
+            _minimapCameraInstance = null;
         }
     
         // Enable menu camera audio
-        menuCameraListener.enabled = true;
+        _menuCameraListener.enabled = true;
     
         // Set game state
         SetGameState(GameState.MainMenu);
     
         // Fade back in to show menu
-        yield return fader.FadeOut();
+        yield return _fader.FadeOut();
         yield return null;
     }
     
@@ -313,10 +316,10 @@ public class GameManager : MonoBehaviour
     
     public void RestartLevel()
     {
-        if (currentLevelInstance != null)
+        if (_currentLevelInstance != null)
         {
             // Find the current level's index
-            LevelIdentifier levelIdentifier = currentLevelInstance.GetComponent<LevelIdentifier>();
+            LevelIdentifier levelIdentifier = _currentLevelInstance.GetComponent<LevelIdentifier>();
             
             if (levelIdentifier != null && levelIdentifier.LevelIndex >= 0)
             {
