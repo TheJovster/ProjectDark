@@ -196,7 +196,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 63
+    m_Bits: 191
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -679,6 +679,37 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 960875a4148c65d47866d30240958c0a, type: 3}
   - {fileID: 8300000, guid: 5d28efd7f63809e45a8a6354d13b550f, type: 3}
   - {fileID: 8300000, guid: 17713bcefe977fb419c402b8f65e3f0c, type: 3}
+--- !u!1 &6298215925446487615
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2095248144506638424}
+  m_Layer: 3
+  m_Name: PopSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2095248144506638424
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6298215925446487615}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5, y: 0, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2409291968819785052}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6341305549256076939
 GameObject:
   m_ObjectHideFlags: 0
@@ -959,6 +990,7 @@ GameObject:
   - component: {fileID: 5953302303216707664}
   - component: {fileID: 5712259306644384151}
   - component: {fileID: 1747901097824699504}
+  - component: {fileID: 5646520404509790964}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -983,6 +1015,7 @@ Transform:
   - {fileID: 3662342328990936781}
   - {fileID: 3402294758918194315}
   - {fileID: 8481229507023495238}
+  - {fileID: 2095248144506638424}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &2594337947393268037
@@ -1081,6 +1114,7 @@ MonoBehaviour:
   _flashLightMaxBattery: 100
   _flashLightDrainRate: 2
   _flashLightRechargeRate: 2
+  _interactionController: {fileID: 5646520404509790964}
 --- !u!114 &5953302303216707664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1138,6 +1172,23 @@ MonoBehaviour:
   _deathSounds: []
   _hitSounds: []
   _voiceHitSounds: []
+--- !u!114 &5646520404509790964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9074778794591022342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 130442c0010dfe94cb3c26189e6df527, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactionDistance: 3
+  _interactableLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  _interactKey: 101
 --- !u!1 &9151387458525252202
 GameObject:
   m_ObjectHideFlags: 0

@@ -251,6 +251,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1375494563513868216, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
   m_PrefabInstance: {fileID: 6934876820594227245}
   m_PrefabAsset: {fileID: 0}
+--- !u!223 &1614762891 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 230431411819864409, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
+  m_PrefabInstance: {fileID: 6934876820594227245}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1692792762
 GameObject:
   m_ObjectHideFlags: 0
@@ -858,6 +863,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
+--- !u!224 &6934876820594227246 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 8550934828330615743, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
+  m_PrefabInstance: {fileID: 6934876820594227245}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7185451870080078863
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -972,6 +982,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 756204531}
     - target: {fileID: 9014401294727539366, guid: 5d0804d89f12aa04aae056b2b9b8044d, type: 3}
+      propertyPath: _hudCanvas
+      value: 
+      objectReference: {fileID: 1614762891}
+    - target: {fileID: 9014401294727539366, guid: 5d0804d89f12aa04aae056b2b9b8044d, type: 3}
       propertyPath: _aimReticle
       value: 
       objectReference: {fileID: 1170139270}
@@ -1000,6 +1014,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 445258976}
     - target: {fileID: 9014401294727539366, guid: 5d0804d89f12aa04aae056b2b9b8044d, type: 3}
+      propertyPath: _popupContainer
+      value: 
+      objectReference: {fileID: 6934876820594227246}
+    - target: {fileID: 9014401294727539366, guid: 5d0804d89f12aa04aae056b2b9b8044d, type: 3}
       propertyPath: _ammoInInventory
       value: 
       objectReference: {fileID: 1203764084}
@@ -1007,6 +1025,10 @@ PrefabInstance:
       propertyPath: _flashLightOnImage
       value: 
       objectReference: {fileID: 1611959073}
+    - target: {fileID: 9014401294727539366, guid: 5d0804d89f12aa04aae056b2b9b8044d, type: 3}
+      propertyPath: _defaultPopupPrefab
+      value: 
+      objectReference: {fileID: 8771958076689288674, guid: 357275e39efa8194b8ac29e258680982, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

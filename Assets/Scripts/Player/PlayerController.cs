@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
 	public bool IsSprinting => _isSprinting;
 	public CharacterController CharacterController => _characterController;
 	public WeaponInventory WeaponInventory => _weaponInventory;
+	public InputSystem_Actions Input => _input;
 
 	#endregion
 
@@ -112,6 +113,9 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private float _flashLightDrainRate = 0.5f;
 	[SerializeField] private float _flashLightRechargeRate = 0.5f;
 	private bool _flashlightActive = false;
+
+	[Header("Interaction")] [SerializeField]
+	private InteractionController _interactionController;
 	
 	private void OnEnable()
 	{
@@ -129,6 +133,10 @@ public class PlayerController : MonoBehaviour
 		_postProcessVolume = FindFirstObjectByType<Volume>();
 		_postProcessVolume.profile.TryGet<LensDistortion>(out _lensDistortion);
 		_flashLight.SetActive(false);
+		if (!_interactionController)
+		{
+			_interactionController = GetComponent<InteractionController>();
+		}
 	}
 
 	private void Start()
