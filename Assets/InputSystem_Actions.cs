@@ -179,6 +179,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Help"",
+                    ""type"": ""Button"",
+                    ""id"": ""ac71ccab-adce-4354-bc94-a907fe283faa"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -641,6 +650,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""ToggleFireMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fafa1bfd-7c1f-47f9-a6ae-73873a6c0e6f"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Help"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1245,6 +1265,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_FlashlightToggle = m_Player.FindAction("FlashlightToggle", throwIfNotFound: true);
         m_Player_ToggleFireMode = m_Player.FindAction("ToggleFireMode", throwIfNotFound: true);
+        m_Player_Help = m_Player.FindAction("Help", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1341,6 +1362,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_FlashlightToggle;
     private readonly InputAction m_Player_ToggleFireMode;
+    private readonly InputAction m_Player_Help;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
@@ -1362,6 +1384,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @FlashlightToggle => m_Wrapper.m_Player_FlashlightToggle;
         public InputAction @ToggleFireMode => m_Wrapper.m_Player_ToggleFireMode;
+        public InputAction @Help => m_Wrapper.m_Player_Help;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1422,6 +1445,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @ToggleFireMode.started += instance.OnToggleFireMode;
             @ToggleFireMode.performed += instance.OnToggleFireMode;
             @ToggleFireMode.canceled += instance.OnToggleFireMode;
+            @Help.started += instance.OnHelp;
+            @Help.performed += instance.OnHelp;
+            @Help.canceled += instance.OnHelp;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1477,6 +1503,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @ToggleFireMode.started -= instance.OnToggleFireMode;
             @ToggleFireMode.performed -= instance.OnToggleFireMode;
             @ToggleFireMode.canceled -= instance.OnToggleFireMode;
+            @Help.started -= instance.OnHelp;
+            @Help.performed -= instance.OnHelp;
+            @Help.canceled -= instance.OnHelp;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1676,6 +1705,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnAim(InputAction.CallbackContext context);
         void OnFlashlightToggle(InputAction.CallbackContext context);
         void OnToggleFireMode(InputAction.CallbackContext context);
+        void OnHelp(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

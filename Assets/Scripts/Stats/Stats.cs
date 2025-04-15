@@ -49,8 +49,10 @@ public class Stats : MonoBehaviour
     public void TakeDamage(float damageToTake)
     {
         _currentHealth -= damageToTake;
-        _enemyAudioSource.PlayOneShot(_hitSounds[GetRandomSoundIndex(_hitSounds.Length)]);
-        
+        if (!_isPlayer)
+        {
+            _enemyAudioSource.PlayOneShot(_hitSounds[GetRandomSoundIndex(_hitSounds.Length)]);
+        }
         if (_currentHealth <= 0)
         {
             _currentHealth = 0;

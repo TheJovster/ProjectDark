@@ -155,17 +155,17 @@ public class AIAgent : MonoBehaviour
     {
         if (_type == EnemyType.Melee)
         {
-            Debug.Log("Melee boi goes melee");
+            
         }
 
         if (_type == EnemyType.Ranged)
         {
-            Debug.Log("Shooty boi goes pew pew");
+           
         }
 
         if (_type == EnemyType.Special)
         {
-            Debug.Log("Boomy boi goes boom");
+            
         }
     }
 }

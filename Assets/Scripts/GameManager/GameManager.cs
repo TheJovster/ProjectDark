@@ -52,6 +52,8 @@ public class GameManager : MonoBehaviour
     public FaderController Fader => _fader;
     public bool IsPlaying => _isPlaying;
     
+    public Transform PlayerInstance => _playerInstance.transform;
+    
     #endregion
     
     public enum GameState

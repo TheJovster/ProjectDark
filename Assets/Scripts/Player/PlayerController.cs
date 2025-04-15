@@ -180,6 +180,10 @@ public class PlayerController : MonoBehaviour
 				_input.Player.FlashlightToggle.WasPressedThisFrame());
 			FlashLightDrainAndRecharge();
 			TryToggleSemi();
+			if (_input.Player.Help.WasPressedThisFrame())
+			{
+				_stats.TakeDamage(5);
+			}
 			if (_characterController.isGrounded && _verticalVelocity.y < 0)
 			{
 				_verticalVelocity.y = _gravityGrounded;
