@@ -386,7 +386,7 @@ MonoBehaviour:
   _currentState: 0
   _type: 0
   _minimumDistanceToAggressive: 10
-  _minimumAttackDistance: 1.5
+  _minimumAttackDistance: 2.25
   _waypoints:
   - {fileID: 2132058287201225493}
   - {fileID: 5727320710020054187}
