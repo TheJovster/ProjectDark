@@ -347,6 +347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _triggerTakeDamage: TakeDamage
   _triggerDeath: Die
+  _triggerAttack: Attack
 --- !u!136 &5538976631654792894
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -384,6 +385,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentState: 0
   _type: 0
+  _minimumDistanceToAggressive: 10
+  _minimumAttackDistance: 1.5
   _waypoints:
   - {fileID: 2132058287201225493}
   - {fileID: 5727320710020054187}

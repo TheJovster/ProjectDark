@@ -5,6 +5,7 @@ public class AnimationHandler : MonoBehaviour
 {
     [SerializeField] private string _triggerTakeDamage;
     [SerializeField] private string _triggerDeath;
+    [SerializeField] private string _triggerAttack = "Attack";
     
     
     private Animator _animator;
@@ -42,6 +43,11 @@ public class AnimationHandler : MonoBehaviour
     public void ResumeAnimation()
     {
         _animator.speed = 1.0f;
+    }
+
+    public void TriggerAttack()
+    {
+        _animator.SetTrigger(_triggerAttack);
     }
 
 }
