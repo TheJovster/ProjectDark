@@ -1790,11 +1790,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
       propertyPath: _adsPosition.y
-      value: 0.1
+      value: 0.115
       objectReference: {fileID: 0}
     - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
       propertyPath: _adsPosition.z
-      value: -0.1
+      value: -0.125
       objectReference: {fileID: 0}
     - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
       propertyPath: _hasSelectFire
