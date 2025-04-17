@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eae56b86657b0f40bcb7a2aa96cbc65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_fInitialProjectileVelocity: 360
+  m_fInitialProjectileVelocity: 1000
   m_fGravityValue: -9.81
   m_fDragCoeficient: 0.1
   m_fCollisionRadius: 0.01

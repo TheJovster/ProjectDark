@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Security.Cryptography.X509Certificates;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.AI;
 public class AIAgent : MonoBehaviour
@@ -33,6 +33,11 @@ public class AIAgent : MonoBehaviour
     //serializefield for testing, make purely private later
     [SerializeField]private int _currentWaypointIndex;
     [SerializeField]private int _nextWaypointIndex;
+
+    [Header("Combat")] 
+    [SerializeField] private float _attackRange = 2.0f;
+    [SerializeField] private float _attackDamage = 10.0f;
+    [SerializeField] private LayerMask _attackLayer;
     
     //components
     private AnimationHandler _animationHandler;
@@ -40,7 +45,7 @@ public class AIAgent : MonoBehaviour
     
     private void Awake()
     {
-        _animationHandler = GetComponent<AnimationHandler>();
+        _animationHandler = GetComponentInChildren<AnimationHandler>();
         _stats = GetComponent<Stats>();
         
         // Subscribe to death event
@@ -193,12 +198,89 @@ public class AIAgent : MonoBehaviour
 
         if (_type == EnemyType.Ranged)
         {
-           
+            Debug.Log("Melee boi is aggressive");
+            transform.LookAt(new Vector3(
+                GameManager.Instance.PlayerInstance.transform.position.x,
+                transform.position.y,
+                GameManager.Instance.PlayerInstance.transform.position.z));
+            _navMeshAgent.isStopped = false;
+            _navMeshAgent.destination = GameManager.Instance.PlayerInstance.transform.position;
+            _animationHandler.SetFloat_Speed("Speed", Mathf.Abs(_navMeshAgent.velocity.magnitude), 0.2f, Time.deltaTime);
+            if (Vector3.Distance(transform.position, GameManager.Instance.PlayerInstance.transform.position) >
+                _minimumDistanceToAggressive)
+            {
+                SetBehaviorState(BehaviorState.Idle);
+            }
+            if (Vector3.Distance(transform.position, GameManager.Instance.PlayerInstance.transform.position) <=
+                _minimumAttackDistance)
+            {
+                _navMeshAgent.isStopped = true;
+                _animationHandler.SetFloat_Speed("Speed", 0.0f, 0.2f, Time.deltaTime);
+                _animationHandler.TriggerAttack();
+            }
         }
 
         if (_type == EnemyType.Special)
         {
             
         }
+    }
+
+    public void AttackBehavior()
+    {
+        if (_type == EnemyType.Melee)
+        {
+            Vector3 direction = (transform.forward + new Vector3(0f, .5f, 0f)).normalized; // Normalize the direction
+            Vector3 origin = transform.position + new Vector3(0f, .5f, 0f);
+            RaycastHit hit;
+            Ray ray = new Ray(origin, direction);
+    
+            // Debug visualization
+            Debug.DrawRay(origin, direction * _attackRange, Color.red, 1.0f);
+    
+            bool didHit = Physics.SphereCast(
+                ray,
+                3.0f,
+                out hit,
+                _attackRange, 
+                _attackLayer
+            );
+    
+            Debug.Log($"SphereCast hit something: {didHit}");
+    
+            if (didHit)
+            {
+                Debug.Log($"Hit object: {hit.transform.name}, Tag: {hit.transform.tag}");
+        
+                if (hit.transform.CompareTag("Player"))
+                {
+                    Debug.Log("Player found, attempting to deal damage");
+                    Stats stats = hit.transform.GetComponent<Stats>();
+            
+                    if (stats != null)
+                    {
+                        stats.TakeDamage(_attackDamage);
+                        Debug.Log($"Dealt {_attackDamage} damage to player");
+                    }
+                    else
+                    {
+                        Debug.LogError("Player object doesn't have a Stats component!");
+                    }
+                }
+            }
+            //CURRENTLY NOT WORKING.
+            //Well it is. Kind of. There are issues.
+        }
+
+        if (_type == EnemyType.Ranged)
+        {
+            
+        }
+
+        if (_type == EnemyType.Special)
+        {
+            
+        }
+
     }
 }

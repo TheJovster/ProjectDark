@@ -277,6 +277,8 @@ public class PlayerController : MonoBehaviour
 				lookPosition = _weaponInventory.CurrentWeapon.AimReticleObject.position + direction * _aimRaycastDistance;
 			}
 			_weaponInventory.CurrentWeapon.SetMuzzlePointLookDirection(lookPosition);
+			Debug.DrawRay(_weaponInventory.CurrentWeapon.AimReticleObject.position, direction * _aimRaycastDistance, Color.red);
+
 		}
 		
 		

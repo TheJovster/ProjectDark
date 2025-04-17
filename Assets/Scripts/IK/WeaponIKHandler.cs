@@ -24,11 +24,21 @@ public class WeaponIKHandler : MonoBehaviour
     private float _transitionTime = 0.3f;
     private float _currentTransitionTime = 0f;
     
+    //Is Player?
+    [SerializeField] private bool _isPlayer = false;
+    
     private void Start()
     {
-        ApplyWeaponIK(_weaponInventory.CurrentWeapon.RightHandPosition,
-            _weaponInventory.CurrentWeapon.LeftHandPosition,
-            _weaponInventory.CurrentWeapon.AnimatorOverrideController);
+        if (_isPlayer)
+        {
+            ApplyWeaponIK(_weaponInventory.CurrentWeapon.RightHandPosition,
+                _weaponInventory.CurrentWeapon.LeftHandPosition,
+                _weaponInventory.CurrentWeapon.AnimatorOverrideController);
+        }
+        else
+        {
+            ApplyWeaponIK(_rightHandTarget, _leftHandTarget, null);
+        }
     }
     
     // Called by Unity's Animation system

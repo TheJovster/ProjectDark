@@ -6,9 +6,8 @@ public class AnimationHandler : MonoBehaviour
     [SerializeField] private string _triggerTakeDamage;
     [SerializeField] private string _triggerDeath;
     [SerializeField] private string _triggerAttack = "Attack";
-    
-    
     private Animator _animator;
+    private AIAgent _aiAgent;
 
     private void Update()
     {
@@ -17,7 +16,8 @@ public class AnimationHandler : MonoBehaviour
 
     private void Awake()
     {
-        _animator = GetComponentInChildren<Animator>();
+        _aiAgent = GetComponentInParent<AIAgent>();
+        _animator = GetComponent<Animator>();
     }
 
     public void Trigger_TakeDamage()
@@ -48,6 +48,11 @@ public class AnimationHandler : MonoBehaviour
     public void TriggerAttack()
     {
         _animator.SetTrigger(_triggerAttack);
+    }
+
+    public void Attack()
+    {
+        _aiAgent.AttackBehavior();
     }
 
 }
