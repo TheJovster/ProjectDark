@@ -1076,7 +1076,7 @@ MonoBehaviour:
   _sprintAcceleration: 12
   _aimDeceleration: 20
   _camera: {fileID: 7227263887555804188}
-  _cameraSensitivity: 30
+  _cameraSensitivity: 5
   _inverseCamera: 0
   _cameraMinAngle: -60
   _cameraMaxAngle: 60
