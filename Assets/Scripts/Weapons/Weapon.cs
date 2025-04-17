@@ -70,6 +70,8 @@ public class Weapon : MonoBehaviour
     //ads settings to be used in the player controller
     [SerializeField] private Vector3 _adsPosition;
     [SerializeField] private Transform _scope;
+    [SerializeField] private Transform _aimReticleObject;
+
 
     #region Properties
 
@@ -98,6 +100,8 @@ public class Weapon : MonoBehaviour
     public float LeftHandIKWeight => _leftHandIKWeight;
     public Vector3 ADSPosition => _adsPosition;
     public bool CanADS => _canADS;
+    
+    public Transform AimReticleObject => _aimReticleObject;
     
     #endregion
 

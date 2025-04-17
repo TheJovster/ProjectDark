@@ -102,6 +102,7 @@ public class PlayerController : MonoBehaviour
 
 	[Header("Aiming")] 
 	[SerializeField] private Transform _aimPoint;
+
 	[SerializeField] private float _aimRaycastDistance;
 	[SerializeField] private LayerMask _aimingLayer;
 
@@ -218,52 +219,66 @@ public class PlayerController : MonoBehaviour
 			AudioManager.Instance.PlayEffectDoubleVolume(_flashLightToggleSound);
 		}
 		TogglePauseMenu();
-		SetScopeAimAt();
-	}
-
-	private void SetScopeAimAt()
-	{
-		if (_isAiming && _weaponInventory.CurrentWeapon.GetScope())
-		{
-			_weaponInventory.CurrentWeapon.ScopeLookAtAimPoint(_aimPoint.position);
-		}
-
-		else if(!_isAiming && !_weaponInventory.CurrentWeapon.GetScope())
-		{
-			_weaponInventory.CurrentWeapon.ResetScope();
-		}
-		else if (!_weaponInventory.CurrentWeapon.GetScope())
-		{
-			return;
-		}
 	}
 
 	private void SetAim()
 	{
-		//Raycast
-		RaycastHit outHit;
-		Vector3 direction = _camera.transform.forward;
-		Vector3 lookPosition;
-		bool rayCast = Physics.Raycast
-		(
-			_camera.transform.position,
-			direction,
-			out outHit,
-			_aimRaycastDistance,
-			_aimingLayer
-		);
+		if (!_isAiming)
+		{
+			//Raycast
+			RaycastHit outHit;
+			Vector3 direction = _camera.transform.forward;
+			Vector3 lookPosition;
+			bool rayCast = Physics.Raycast
+			(
+				_camera.transform.position,
+				direction,
+				out outHit,
+				_aimRaycastDistance,
+				_aimingLayer
+			);
 
-		if (rayCast)
-		{
-			_aimPoint.position = outHit.point;
-			lookPosition = outHit.point;
+			if (rayCast)
+			{
+				_aimPoint.position = outHit.point;
+				lookPosition = outHit.point;
+			}
+			else
+			{
+				_aimPoint.position = _camera.transform.position + direction * _aimRaycastDistance;
+				lookPosition = _camera.transform.position + direction * _aimRaycastDistance;
+			}
+			_weaponInventory.CurrentWeapon.SetMuzzlePointLookDirection(lookPosition);
 		}
-		else
+		
+		else if (_isAiming)
 		{
-			_aimPoint.position = _camera.transform.position + direction * _aimRaycastDistance;
-			lookPosition = _camera.transform.position + direction * _aimRaycastDistance;
+			//Raycast
+			RaycastHit outHit;
+			Vector3 direction = _weaponInventory.CurrentWeapon.AimReticleObject.forward;
+			Vector3 lookPosition;
+			bool rayCast = Physics.Raycast
+			(
+				_weaponInventory.CurrentWeapon.AimReticleObject.position,
+				direction,
+				out outHit,
+				_aimRaycastDistance,
+				_aimingLayer
+			);
+
+			if (rayCast)
+			{
+				_aimPoint.position = outHit.point;
+				lookPosition = outHit.point;
+			}
+			else
+			{
+				_aimPoint.position = _weaponInventory.CurrentWeapon.AimReticleObject.position + direction * _aimRaycastDistance;
+				lookPosition = _weaponInventory.CurrentWeapon.AimReticleObject.position + direction * _aimRaycastDistance;
+			}
+			_weaponInventory.CurrentWeapon.SetMuzzlePointLookDirection(lookPosition);
 		}
-		_weaponInventory.CurrentWeapon.SetMuzzlePointLookDirection(lookPosition);
+		
 		
 	}
 
