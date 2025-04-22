@@ -40,6 +40,10 @@ public class AIAgent : MonoBehaviour
     [SerializeField] private float _attackRange = 2.0f;
     [SerializeField] private float _attackDamage = 10.0f;
     [SerializeField] private LayerMask _attackLayer;
+    [SerializeField] private BallisticProjectile _projectilePrefab;
+    [SerializeField] private Transform _muzzlePoint;
+    private float _timeSinceLastShot = 0.0f;
+    [SerializeField] private float _fireRate = 1.2f;
     
     //components
     private AnimationHandler _animationHandler;
@@ -130,10 +134,16 @@ public class AIAgent : MonoBehaviour
         // Make sure agent is stopped
         if (_navMeshAgent != null && _navMeshAgent.isActiveAndEnabled)
         {
-            _navMeshAgent.velocity = Vector3.zero;
-            _navMeshAgent.isStopped = true;
-            _navMeshAgent.enabled = false; // Disable NavMeshAgent to prevent further movement
+            DisableNavMeshAgent();
+             // Disable NavMeshAgent to prevent further movement
         }
+    }
+
+    public void DisableNavMeshAgent()
+    {
+        _navMeshAgent.velocity = Vector3.zero;
+        _navMeshAgent.isStopped = true;
+        _navMeshAgent.enabled = false;
     }
 
     private void EvaluateState()
@@ -150,7 +160,7 @@ public class AIAgent : MonoBehaviour
                 AggressiveBehavior();
                 break;
             case BehaviorState.Dead:
-                Dead();
+                DisableNavMeshAgent();
                 break;
         }
     }
@@ -277,7 +287,8 @@ public class AIAgent : MonoBehaviour
         }
 
         if (_type == EnemyType.Ranged)
-        {
+        { 
+            BallisticProjectile newProjectileInstance = Instantiate(_projectilePrefab, transform.position, Quaternion.identity);
             
         }
 

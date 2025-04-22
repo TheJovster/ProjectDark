@@ -2,8 +2,11 @@ using UnityEngine;
 using Biostart.Impact;
 using Biostart.Blood;
 
-    public class BallisticProjectile : MonoBehaviour
+public class BallisticProjectile : MonoBehaviour
 {
+    [Header("Collision Layer")]
+    [SerializeField] private LayerMask _targetLayer;
+    
     //gravity and drag
     [Header("Projectile Physics")]
     [SerializeField] private float m_fInitialProjectileVelocity = 30.0f; // I am assuming I will have to make this a lot faster later on
@@ -67,45 +70,35 @@ using Biostart.Blood;
         Vector3 direction = transform.position - m_vStartPosition;
         float distance = direction.magnitude;
 
-        if (Physics.SphereCast(m_vStartPosition, m_fCollisionRadius,  direction.normalized, out hit, distance))
+        if (Physics.SphereCast(m_vStartPosition, m_fCollisionRadius, direction.normalized, out hit, distance,
+                _targetLayer))
         {
-            HandleImpact(hit, direction.normalized);
+            HandleImpactOnTarget(hit, direction.normalized);
+        }
+        else if(Physics.SphereCast(m_vStartPosition, m_fCollisionRadius, direction.normalized, out hit, distance))
+        {
+            HandleImpactNotOnTarget(hit, direction.normalized);
         }
 
         m_vStartPosition = transform.position;
     }
-    
-    private void HandleImpact(RaycastHit hit, Vector3 incomingDirection)
+
+    private void HandleImpactOnTarget(RaycastHit hit, Vector3 incomingDirection)
     {
         if (HandleRicochet(hit, incomingDirection)) return;
-        
-        //stop movement
         m_bIsFlying = false;
-        
-        //impact effects should go here - TODO: Implement Interface
-        if (!hit.transform.CompareTag("Player") && !hit.transform.CompareTag("Enemy"))
-        {
-            AudioManager.Instance.PlayEffectHalfVolume(_impactSounds[Random.Range(0, _impactSounds.Length)]);
-            PlayImpactEffect(hit);
-            ProjectDecal(hit);
-        }
-
-        if (hit.transform.CompareTag(("Enemy")))
-        {
-            Debug.Log("Hit enemy");
-            ImpactEffect impact = hit.transform.GetComponent<ImpactEffect>();
-            if (impact)
-            {
-                impact.SpawnBloodEffect(hit.point, hit.normal);
-            }
-            BloodProjector bloodProjector = hit.transform.GetComponent<BloodProjector>();
-            if (bloodProjector)
-            {
-                bloodProjector.AttachBloodProjector(hit.transform.position, hit.transform.position.normalized, hit.collider);
-            }
-            hit.transform.GetComponent<Stats>().TakeDamage(m_fDamageToDeal);
-        }
+        //effects go here
+        hit.transform.GetComponent<Stats>().TakeDamage(m_fDamageToDeal);
         if (!m_bIsFlying) Destroy(gameObject);
+    }
+
+    private void HandleImpactNotOnTarget(RaycastHit hit, Vector3 incomingDirection)
+    {
+        //if (HandleRicochet(hit, incomingDirection)) return;
+        m_bIsFlying = false;
+        AudioManager.Instance.PlayEffectHalfVolume(_impactSounds[Random.Range(0, _impactSounds.Length)]);
+        PlayImpactEffect(hit);
+        ProjectDecal(hit);
     }
     
     private void PlayImpactEffect(RaycastHit hit)
@@ -127,6 +120,7 @@ using Biostart.Blood;
         GameObject decalInstance = Instantiate(m_DecalGameObject, position, rotation);
         Destroy(decalInstance, m_fDecalLifetime);
     }
+    
 
     private bool HandleRicochet(RaycastHit hit, Vector3 incomingDirection)
     {

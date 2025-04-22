@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4783426277661612724}
   - component: {fileID: 5607873592707384268}
   m_Layer: 0
-  m_Name: RevolverProjectile
+  m_Name: RevolverProjectile_Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 264
   m_fInitialProjectileVelocity: 1000
   m_fGravityValue: -9.81
   m_fDragCoeficient: 0.1
