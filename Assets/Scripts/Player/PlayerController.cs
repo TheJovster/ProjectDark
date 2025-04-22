@@ -73,12 +73,15 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private float _cameraMinAngle = -60.0f;
 	[SerializeField] private float _cameraMaxAngle = 60.0f;
 	private float _currentXRotation = 0.0f;
+	private Vector3 _originalCameraPosition;
+	[SerializeField] private Vector3 _crouchedCameraPosition;
 	
 	[Header("Camera and Mouse Smoothing")]
 	private Vector2 _currentMouseDelta = Vector2.zero;
 	private Vector2 _targetMouseDelta = Vector2.zero;
 	[SerializeField] private float _mouseSmoothTime = 0.03f; // Lower for more responsive, higher for smoother
 	private Vector2 _currentMouseDeltaVelocity = Vector2.zero;
+	private bool _isCrouching = false;
 
 	[Header("Jump Sounds")] [SerializeField]
 	private AudioClip[] _jumpSounds;
@@ -138,6 +141,8 @@ public class PlayerController : MonoBehaviour
 		{
 			_interactionController = GetComponent<InteractionController>();
 		}
+
+		_originalCameraPosition = _camera.transform.position;
 	}
 
 	private void Start()
@@ -170,6 +175,7 @@ public class PlayerController : MonoBehaviour
 			_currentMouseDelta = Vector2.SmoothDamp(_currentMouseDelta, _targetMouseDelta, 
 				ref _currentMouseDeltaVelocity, _mouseSmoothTime);
 			LookUp();
+			ToggleCrouch();
 			RotatePlayer();
 			TryFireWeapon();
 			TryReloadWeapon();
@@ -635,6 +641,23 @@ public class PlayerController : MonoBehaviour
 				_numberOfJumps--;
 			}
 		}
+	}
+
+	private void ToggleCrouch()
+	{
+		if (_input.Player.Crouch.WasCompletedThisFrame())
+		{
+			_isCrouching = !_isCrouching;
+			if (_isCrouching)
+			{
+				Debug.Log("Currently crouching:" + _isCrouching);
+			}
+			else
+			{
+				Debug.Log("Currently crouching:" + _isCrouching);
+			}
+		}
+
 	}
 	
 	private void UpdateFootsteps()
