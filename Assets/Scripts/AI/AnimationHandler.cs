@@ -1,10 +1,11 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class AnimationHandler : MonoBehaviour
 {
-    [SerializeField] private string _triggerTakeDamage;
-    [SerializeField] private string _triggerDeath;
+    [SerializeField] private string _triggerTakeDamage = "TakeDamage";
+    [SerializeField] private string _isDead = "IsDead";
     [SerializeField] private string _triggerAttack = "Attack";
     private Animator _animator;
     private AIAgent _aiAgent;
@@ -27,7 +28,7 @@ public class AnimationHandler : MonoBehaviour
 
     public void Trigger_Death()
     {
-        _animator.SetTrigger(_triggerDeath);
+        _animator.SetBool(_isDead, true);
     }
 
     public void SetFloat_Speed(string name, float value, float damping, float deltaTime)
@@ -53,6 +54,11 @@ public class AnimationHandler : MonoBehaviour
     public void Attack()
     {
         _aiAgent.AttackBehavior();
+    }
+
+    public void SetAggressive(string name, bool value)
+    {
+        _animator.SetBool(name, value);
     }
 
 }

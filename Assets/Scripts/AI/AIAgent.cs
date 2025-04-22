@@ -25,6 +25,8 @@ public class AIAgent : MonoBehaviour
     [SerializeField] private EnemyType _type;
     [SerializeField] private float _minimumDistanceToAggressive = 10.0f;
     [SerializeField] private float _minimumAttackDistance = 5.0f;
+    private bool _bIsAggressive = false;
+    private string _sIsAggressive = "IsAggressive";
     
     [Header("Waypoints")]
     [SerializeField] private Transform[] _waypoints;
@@ -198,18 +200,20 @@ public class AIAgent : MonoBehaviour
 
         if (_type == EnemyType.Ranged)
         {
-            Debug.Log("Melee boi is aggressive");
+            _bIsAggressive = true;
+            Debug.Log("Shotty boi is aggressive");
             transform.LookAt(new Vector3(
                 GameManager.Instance.PlayerInstance.transform.position.x,
                 transform.position.y,
                 GameManager.Instance.PlayerInstance.transform.position.z));
+            _animationHandler.SetAggressive(_sIsAggressive, _bIsAggressive);
             _navMeshAgent.isStopped = false;
             _navMeshAgent.destination = GameManager.Instance.PlayerInstance.transform.position;
             _animationHandler.SetFloat_Speed("Speed", Mathf.Abs(_navMeshAgent.velocity.magnitude), 0.2f, Time.deltaTime);
             if (Vector3.Distance(transform.position, GameManager.Instance.PlayerInstance.transform.position) >
                 _minimumDistanceToAggressive)
             {
-                SetBehaviorState(BehaviorState.Idle);
+                SetBehaviorState(BehaviorState.Patrol);
             }
             if (Vector3.Distance(transform.position, GameManager.Instance.PlayerInstance.transform.position) <=
                 _minimumAttackDistance)

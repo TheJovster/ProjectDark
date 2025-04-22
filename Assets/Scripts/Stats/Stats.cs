@@ -7,7 +7,8 @@ using Random = UnityEngine.Random;
 [Serializable]
 public class Stats : MonoBehaviour
 {
-    [SerializeField] private SkinnedMeshRenderer _skinnedMeshRenderers;
+    [SerializeField] private SkinnedMeshRenderer[] _skinnedMeshRenderers;
+    [SerializeField] private MeshRenderer[] _meshRenderers;
     [SerializeField] private GameObject _deathParticle;
     
     [SerializeField] private float _currentHealth;
@@ -80,7 +81,14 @@ public class Stats : MonoBehaviour
             _enemyAudioSource.PlayOneShot(_deathSounds[GetRandomSoundIndex(_deathSounds.Length)]);
             _animationHandler.Trigger_Death();
             GameObject newDeathParticle = Instantiate(_deathParticle, transform.position + new Vector3(0, 1f, 0f), Quaternion.identity);
-            _skinnedMeshRenderers.enabled = false;
+            foreach (SkinnedMeshRenderer skinnedMeshRenderer in _skinnedMeshRenderers)
+            {
+                skinnedMeshRenderer.enabled = false;
+            }
+            foreach (MeshRenderer meshRenderer in _meshRenderers)
+            {
+                meshRenderer.enabled = false;
+            }
             _capsuleCollider.enabled = false;
             Destroy(this.gameObject, 3f);
             Destroy(newDeathParticle, 3f);
