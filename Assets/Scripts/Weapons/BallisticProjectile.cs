@@ -70,14 +70,13 @@ public class BallisticProjectile : MonoBehaviour
         Vector3 direction = transform.position - m_vStartPosition;
         float distance = direction.magnitude;
 
-        if (Physics.SphereCast(m_vStartPosition, m_fCollisionRadius, direction.normalized, out hit, distance,
-                _targetLayer))
+        if (Physics.SphereCast(m_vStartPosition, m_fCollisionRadius, direction.normalized, out hit, distance, _targetLayer))
         {
             HandleImpactOnTarget(hit, direction.normalized);
         }
         else if(Physics.SphereCast(m_vStartPosition, m_fCollisionRadius, direction.normalized, out hit, distance))
         {
-            HandleImpactNotOnTarget(hit, direction.normalized);
+            HandleImpactNotOnTarget(hit);
         }
 
         m_vStartPosition = transform.position;
@@ -92,7 +91,7 @@ public class BallisticProjectile : MonoBehaviour
         if (!m_bIsFlying) Destroy(gameObject);
     }
 
-    private void HandleImpactNotOnTarget(RaycastHit hit, Vector3 incomingDirection)
+    private void HandleImpactNotOnTarget(RaycastHit hit)
     {
         //if (HandleRicochet(hit, incomingDirection)) return;
         m_bIsFlying = false;
