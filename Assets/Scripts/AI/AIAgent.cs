@@ -226,7 +226,8 @@ public class AIAgent : MonoBehaviour
         _navMeshAgent.isStopped = false;
         _navMeshAgent.destination = GameManager.Instance.PlayerInstance.transform.position;
         _animationHandler.SetFloat_Speed("Speed", Mathf.Abs(_navMeshAgent.velocity.magnitude), 0.2f, Time.deltaTime);
-        if (Vector3.Distance(transform.position, GameManager.Instance.PlayerInstance.transform.position) >
+        if (Vector3.Distance(transform.position, 
+                GameManager.Instance.PlayerInstance.transform.position) >
             _minimumDistanceToAggressive)
         {
             SetBehaviorState(BehaviorState.Patrol);
@@ -254,7 +255,6 @@ public class AIAgent : MonoBehaviour
                 break;
             case EnemyType.Ranged:
                 if (_timeSinceLastShot <= _fireRate || !_stats.IsAlive) return;
-
                 //audio effects
                 //visual effects
                 BallisticProjectile projectileInstance =

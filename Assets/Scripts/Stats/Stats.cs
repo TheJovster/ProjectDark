@@ -67,6 +67,8 @@ public class Stats : MonoBehaviour
         
         if (_isPlayer && _isAlive)
         {
+         //sound effect. 
+         //HUD effect.
             GameManager.Instance.SetHealthBarFill(_currentHealth, _maxHealth);
         }
     }

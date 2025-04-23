@@ -1,8 +1,6 @@
 using System;
 using UnityEngine;
 using UnityEngine.Serialization;
-
-// This script handles IK for weapon positioning
 [RequireComponent(typeof(Animator))]
 public class WeaponIKHandler : MonoBehaviour
 {

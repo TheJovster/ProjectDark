@@ -7,7 +7,6 @@ public class BallisticProjectile : MonoBehaviour
 {
     [Header("Collision Layer")]
     [SerializeField] private LayerMask _targetLayer;
-
     [SerializeField] private LayerMask _ignoreLayer;
     
     //gravity and drag
@@ -128,7 +127,6 @@ public class BallisticProjectile : MonoBehaviour
     private bool HandleRicochet(RaycastHit hit, Vector3 incomingDirection)
     {
         float currentRicochetChance = Random.Range(0.0f, 1.0f);
-
         if (currentRicochetChance <= m_fRicochetChance)
         {
             //ricochet logic
