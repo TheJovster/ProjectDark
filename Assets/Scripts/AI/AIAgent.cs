@@ -44,7 +44,8 @@ public class AIAgent : MonoBehaviour
     [SerializeField] private Transform _muzzlePoint;
     private float _timeSinceLastShot = 0.0f;
     [SerializeField] private float _fireRate = 1.2f;
-    
+
+    [SerializeField] private float _damage = 5.0f;
     //components
     private AnimationHandler _animationHandler;
     private NavMeshAgent _navMeshAgent;
@@ -75,6 +76,7 @@ public class AIAgent : MonoBehaviour
 
     private void Update()
     {
+        _timeSinceLastShot += Time.deltaTime;
         if (GameManager.Instance.CurrentGameState == GameManager.GameState.Playing)
         {
             _animationHandler.ResumeAnimation();
@@ -129,16 +131,6 @@ public class AIAgent : MonoBehaviour
         }
     }
 
-    private void Dead()
-    {
-        // Make sure agent is stopped
-        if (_navMeshAgent != null && _navMeshAgent.isActiveAndEnabled)
-        {
-            DisableNavMeshAgent();
-             // Disable NavMeshAgent to prevent further movement
-        }
-    }
-
     public void DisableNavMeshAgent()
     {
         _navMeshAgent.velocity = Vector3.zero;
@@ -184,118 +176,101 @@ public class AIAgent : MonoBehaviour
 
     public void AggressiveBehavior()
     {
-        if (_type == EnemyType.Melee)
+        switch (_type)
         {
-            Debug.Log("Melee boi is aggressive");
-            transform.LookAt(new Vector3(
-                GameManager.Instance.PlayerInstance.transform.position.x,
-                transform.position.y,
-                GameManager.Instance.PlayerInstance.transform.position.z));
-            _navMeshAgent.isStopped = false;
-            _navMeshAgent.destination = GameManager.Instance.PlayerInstance.transform.position;
-            _animationHandler.SetFloat_Speed("Speed", Mathf.Abs(_navMeshAgent.velocity.magnitude), 0.2f, Time.deltaTime);
-            if (Vector3.Distance(transform.position, GameManager.Instance.PlayerInstance.transform.position) >
-                _minimumDistanceToAggressive)
-            {
-                SetBehaviorState(BehaviorState.Idle);
-            }
-            if (Vector3.Distance(transform.position, GameManager.Instance.PlayerInstance.transform.position) <=
-                _minimumAttackDistance)
-            {
-                _navMeshAgent.isStopped = true;
-                _animationHandler.SetFloat_Speed("Speed", 0.0f, 0.2f, Time.deltaTime);
-                _animationHandler.TriggerAttack();
-            }
-        }
-
-        if (_type == EnemyType.Ranged)
-        {
-            _bIsAggressive = true;
-            Debug.Log("Shotty boi is aggressive");
-            transform.LookAt(new Vector3(
-                GameManager.Instance.PlayerInstance.transform.position.x,
-                transform.position.y,
-                GameManager.Instance.PlayerInstance.transform.position.z));
-            _animationHandler.SetAggressive(_sIsAggressive, _bIsAggressive);
-            _navMeshAgent.isStopped = false;
-            _navMeshAgent.destination = GameManager.Instance.PlayerInstance.transform.position;
-            _animationHandler.SetFloat_Speed("Speed", Mathf.Abs(_navMeshAgent.velocity.magnitude), 0.2f, Time.deltaTime);
-            if (Vector3.Distance(transform.position, GameManager.Instance.PlayerInstance.transform.position) >
-                _minimumDistanceToAggressive)
-            {
-                SetBehaviorState(BehaviorState.Patrol);
-            }
-            if (Vector3.Distance(transform.position, GameManager.Instance.PlayerInstance.transform.position) <=
-                _minimumAttackDistance)
-            {
-                _navMeshAgent.isStopped = true;
-                _animationHandler.SetFloat_Speed("Speed", 0.0f, 0.2f, Time.deltaTime);
-                _animationHandler.TriggerAttack();
-            }
-        }
-
-        if (_type == EnemyType.Special)
-        {
-            
+            case EnemyType.Melee:
+                AggressiveBehaviourMelee();
+                break;
+            case EnemyType.Ranged:
+                AggressiveBehaviourRanged();
+                break;
+            case EnemyType.Special:
+                AggressiveBehaviourSpecial();
+                break;
         }
     }
 
-    public void AttackBehavior()
+    private void AggressiveBehaviourMelee()
     {
-        if (_type == EnemyType.Melee)
+        Debug.Log("Melee boi is aggressive");
+        transform.LookAt(new Vector3(
+            GameManager.Instance.PlayerInstance.transform.position.x,
+            transform.position.y,
+            GameManager.Instance.PlayerInstance.transform.position.z));
+        _navMeshAgent.isStopped = false;
+        _navMeshAgent.destination = GameManager.Instance.PlayerInstance.transform.position;
+        _animationHandler.SetFloat_Speed("Speed", Mathf.Abs(_navMeshAgent.velocity.magnitude), 0.2f, Time.deltaTime);
+        if (Vector3.Distance(transform.position, GameManager.Instance.PlayerInstance.transform.position) >
+            _minimumDistanceToAggressive)
         {
-            Vector3 direction = (transform.forward + new Vector3(0f, .5f, 0f)).normalized; // Normalize the direction
-            Vector3 origin = transform.position + new Vector3(0f, .5f, 0f);
-            RaycastHit hit;
-            Ray ray = new Ray(origin, direction);
-    
-            // Debug visualization
-            Debug.DrawRay(origin, direction * _attackRange, Color.red, 1.0f);
-    
-            bool didHit = Physics.SphereCast(
-                ray,
-                3.0f,
-                out hit,
-                _attackRange, 
-                _attackLayer
-            );
-    
-            Debug.Log($"SphereCast hit something: {didHit}");
-    
-            if (didHit)
-            {
-                Debug.Log($"Hit object: {hit.transform.name}, Tag: {hit.transform.tag}");
+            SetBehaviorState(BehaviorState.Idle);
+        }
+        if (Vector3.Distance(transform.position, GameManager.Instance.PlayerInstance.transform.position) <=
+            _minimumAttackDistance)
+        {
+            _navMeshAgent.isStopped = true;
+            _animationHandler.SetFloat_Speed("Speed", 0.0f, 0.2f, Time.deltaTime);
+            _animationHandler.TriggerAttack();
+        }
+    }
+
+    private void AggressiveBehaviourRanged()
+    {
+        _bIsAggressive = true;
+        Debug.Log("Shotty boi is aggressive");
+        transform.LookAt(new Vector3(
+            GameManager.Instance.PlayerInstance.transform.position.x,
+            transform.position.y,
+            GameManager.Instance.PlayerInstance.transform.position.z));
+        _animationHandler.SetAggressive(_sIsAggressive, _bIsAggressive);
+        _navMeshAgent.isStopped = false;
+        _navMeshAgent.destination = GameManager.Instance.PlayerInstance.transform.position;
+        _animationHandler.SetFloat_Speed("Speed", Mathf.Abs(_navMeshAgent.velocity.magnitude), 0.2f, Time.deltaTime);
+        if (Vector3.Distance(transform.position, GameManager.Instance.PlayerInstance.transform.position) >
+            _minimumDistanceToAggressive)
+        {
+            SetBehaviorState(BehaviorState.Patrol);
+        }
+        if (Vector3.Distance(transform.position, GameManager.Instance.PlayerInstance.transform.position) <=
+            _minimumAttackDistance)
+        {
+            _navMeshAgent.isStopped = true;
+            _animationHandler.SetFloat_Speed("Speed", 0.0f, 0.2f, Time.deltaTime);
+            _animationHandler.TriggerAttack();
+            AttackBehavior(_type);
+        }
+    }
+
+    private void AggressiveBehaviourSpecial()
+    {
+        Debug.Log("Special boi is aggressive and explodey");
+    }
+
+    public void AttackBehavior(EnemyType type)
+    {
+        switch (type)
+        {
+            case EnemyType.Melee:
+                break;
+            case EnemyType.Ranged:
+                if (_timeSinceLastShot <= _fireRate || !_stats.IsAlive) return;
+
+                //audio effects
+                //visual effects
+                BallisticProjectile projectileInstance =
+                Instantiate(_projectilePrefab, _muzzlePoint.position, _muzzlePoint.rotation);
+                projectileInstance.SetDamageToDeal(_damage);
+                _muzzlePoint.LookAt(new Vector3(GameManager.Instance.PlayerInstance.transform.position.x, _muzzlePoint.position.y, GameManager.Instance.PlayerInstance.transform.position.z));
+                //muzzle point can not be set to look at
+                //need a function that smoothly aims at the player.
+                //animations look goofy
+                projectileInstance.Fire(_muzzlePoint.forward);
+                Destroy(projectileInstance, 5.0f);
+                _timeSinceLastShot = 0;
+                break;
+            case EnemyType.Special:
+                break;
+        }
         
-                if (hit.transform.CompareTag("Player"))
-                {
-                    Debug.Log("Player found, attempting to deal damage");
-                    Stats stats = hit.transform.GetComponent<Stats>();
-            
-                    if (stats != null)
-                    {
-                        stats.TakeDamage(_attackDamage);
-                        Debug.Log($"Dealt {_attackDamage} damage to player");
-                    }
-                    else
-                    {
-                        Debug.LogError("Player object doesn't have a Stats component!");
-                    }
-                }
-            }
-            //CURRENTLY NOT WORKING.
-            //Well it is. Kind of. There are issues.
-        }
-
-        if (_type == EnemyType.Ranged)
-        { 
-            BallisticProjectile newProjectileInstance = Instantiate(_projectilePrefab, transform.position, Quaternion.identity);
-            
-        }
-
-        if (_type == EnemyType.Special)
-        {
-            
-        }
-
     }
 }

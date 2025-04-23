@@ -50,12 +50,6 @@ public class AnimationHandler : MonoBehaviour
     {
         _animator.SetTrigger(_triggerAttack);
     }
-
-    public void Attack()
-    {
-        _aiAgent.AttackBehavior();
-    }
-
     public void SetAggressive(string name, bool value)
     {
         _animator.SetBool(name, value);

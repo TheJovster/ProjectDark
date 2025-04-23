@@ -47,7 +47,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targetLayer:
     serializedVersion: 2
-    m_Bits: 264
+    m_Bits: 8
+  _ignoreLayer:
+    serializedVersion: 2
+    m_Bits: 256
   m_fInitialProjectileVelocity: 1000
   m_fGravityValue: -9.81
   m_fDragCoeficient: 0.1

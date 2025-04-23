@@ -1,11 +1,14 @@
 using UnityEngine;
 using Biostart.Impact;
 using Biostart.Blood;
+using Unity.VisualScripting.Dependencies.NCalc;
 
 public class BallisticProjectile : MonoBehaviour
 {
     [Header("Collision Layer")]
     [SerializeField] private LayerMask _targetLayer;
+
+    [SerializeField] private LayerMask _ignoreLayer;
     
     //gravity and drag
     [Header("Projectile Physics")]
@@ -69,7 +72,8 @@ public class BallisticProjectile : MonoBehaviour
         RaycastHit hit;
         Vector3 direction = transform.position - m_vStartPosition;
         float distance = direction.magnitude;
-
+        if(Physics.SphereCast(m_vStartPosition, m_fCollisionRadius, direction, out hit, distance, _ignoreLayer)) return;
+        
         if (Physics.SphereCast(m_vStartPosition, m_fCollisionRadius, direction.normalized, out hit, distance, _targetLayer))
         {
             HandleImpactOnTarget(hit, direction.normalized);
