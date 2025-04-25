@@ -49,6 +49,7 @@ public class Stats : MonoBehaviour
 
     public void TakeDamage(float damageToTake)
     {
+        if(!_isAlive) return;
         _currentHealth -= damageToTake;
         if (!_isPlayer)
         {

@@ -51,7 +51,7 @@ MonoBehaviour:
   _ignoreLayer:
     serializedVersion: 2
     m_Bits: 256
-  m_fInitialProjectileVelocity: 1000
+  m_fInitialProjectileVelocity: 240
   m_fGravityValue: -9.81
   m_fDragCoeficient: 0.1
   m_fCollisionRadius: 0.01

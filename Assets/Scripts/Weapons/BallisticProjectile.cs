@@ -1,7 +1,4 @@
 using UnityEngine;
-using Biostart.Impact;
-using Biostart.Blood;
-using Unity.VisualScripting.Dependencies.NCalc;
 
 public class BallisticProjectile : MonoBehaviour
 {
@@ -33,6 +30,10 @@ public class BallisticProjectile : MonoBehaviour
     [SerializeField] private GameObject m_DecalGameObject;
     [SerializeField] private float m_fDecalLifetime;
     private int m_iRicochetCount = 0;
+
+    [Header("Projectile Lifetime")] 
+    [SerializeField] private float _projectileMaxLifetime = 5.0f;
+    private float _projectileLifeTime = 0.0f;
     
     [Header("SFX")]
     [SerializeField] private AudioClip[] _impactSounds;
@@ -43,7 +44,13 @@ public class BallisticProjectile : MonoBehaviour
     {
         m_bIsFlying = true;
     }
-    
+
+    private void Update()
+    {
+        _projectileLifeTime += Time.deltaTime;
+        if(_projectileLifeTime >= _projectileMaxLifetime) Destroy(this.gameObject);
+    }
+
     private void FixedUpdate()
     {
         if (m_bIsFlying)
@@ -68,6 +75,7 @@ public class BallisticProjectile : MonoBehaviour
 
     private void CheckCollision()
     {
+        if(!m_bIsFlying) return;
         RaycastHit hit;
         Vector3 direction = transform.position - m_vStartPosition;
         float distance = direction.magnitude;
@@ -90,8 +98,8 @@ public class BallisticProjectile : MonoBehaviour
         if (HandleRicochet(hit, incomingDirection)) return;
         m_bIsFlying = false;
         //effects go here
-        hit.transform.GetComponent<Stats>().TakeDamage(m_fDamageToDeal);
-        if (!m_bIsFlying) Destroy(gameObject);
+        hit.transform?.GetComponent<Stats>().TakeDamage(m_fDamageToDeal);
+        if (!m_bIsFlying) Destroy(this.gameObject);
     }
 
     private void HandleImpactNotOnTarget(RaycastHit hit)

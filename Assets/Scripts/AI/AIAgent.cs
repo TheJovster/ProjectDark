@@ -1,7 +1,7 @@
 using System.Collections;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.AI;
+
 public class AIAgent : MonoBehaviour
 {
     public enum BehaviorState
@@ -44,8 +44,15 @@ public class AIAgent : MonoBehaviour
     [SerializeField] private Transform _muzzlePoint;
     private float _timeSinceLastShot = 0.0f;
     [SerializeField] private float _fireRate = 1.2f;
-
     [SerializeField] private float _damage = 5.0f;
+    [SerializeField] private float _rotationSpeed = 5f;
+    [SerializeField] private float _aimingThreshold = 10f; 
+    
+    [Header("Combat - VFX")] 
+    [SerializeField] private ParticleSystem _muzzleFlash;
+    [Header("Combat - SFX")] 
+    [SerializeField] private AudioClip[] _audioClips;
+    
     //components
     private AnimationHandler _animationHandler;
     private NavMeshAgent _navMeshAgent;
@@ -218,10 +225,11 @@ public class AIAgent : MonoBehaviour
     {
         _bIsAggressive = true;
         Debug.Log("Shotty boi is aggressive");
-        transform.LookAt(new Vector3(
+        /*transform.LookAt(new Vector3(
             GameManager.Instance.PlayerInstance.transform.position.x,
             transform.position.y,
-            GameManager.Instance.PlayerInstance.transform.position.z));
+            GameManager.Instance.PlayerInstance.transform.position.z));*/
+        LookAtAimTarget();
         _animationHandler.SetAggressive(_sIsAggressive, _bIsAggressive);
         _navMeshAgent.isStopped = false;
         _navMeshAgent.destination = GameManager.Instance.PlayerInstance.transform.position;
@@ -232,13 +240,15 @@ public class AIAgent : MonoBehaviour
         {
             SetBehaviorState(BehaviorState.Patrol);
         }
-        if (Vector3.Distance(transform.position, GameManager.Instance.PlayerInstance.transform.position) <=
-            _minimumAttackDistance)
+        if (Vector3.Distance(transform.position, GameManager.Instance.PlayerInstance.transform.position) <= _minimumAttackDistance)
         {
             _navMeshAgent.isStopped = true;
             _animationHandler.SetFloat_Speed("Speed", 0.0f, 0.2f, Time.deltaTime);
-            _animationHandler.TriggerAttack();
-            AttackBehavior(_type);
+            if (IsAimingAtPlayer())
+            {
+                _animationHandler.TriggerAttack();
+                AttackBehavior(_type);
+            }
         }
     }
 
@@ -255,8 +265,8 @@ public class AIAgent : MonoBehaviour
                 break;
             case EnemyType.Ranged:
                 if (_timeSinceLastShot <= _fireRate || !_stats.IsAlive) return;
-                //audio effects
-                //visual effects
+                AudioManager.Instance.PlayEffectHalfVolume(_audioClips[Random.Range(0, _audioClips.Length)]);
+                _muzzleFlash.Play();
                 BallisticProjectile projectileInstance =
                 Instantiate(_projectilePrefab, _muzzlePoint.position, _muzzlePoint.rotation);
                 projectileInstance.SetDamageToDeal(_damage);
@@ -272,5 +282,31 @@ public class AIAgent : MonoBehaviour
                 break;
         }
         
+    }
+    
+    
+    //rotation of the character and "aiming"
+
+    private void LookAtAimTarget()
+    {
+        Vector3 direction = GameManager.Instance.PlayerInstance.transform.position - transform.position;
+        direction.y = 0;
+
+        if (direction != Vector3.zero)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * _rotationSpeed);
+        }
+    }
+
+    private bool IsAimingAtPlayer()
+    {
+        Vector3 direction = GameManager.Instance.PlayerInstance.transform.position - transform.position;
+        direction.y = 0.0f;
+
+        float angle = Vector3.Angle(transform.forward, direction);
+
+        return angle <= _aimingThreshold;
+
     }
 }

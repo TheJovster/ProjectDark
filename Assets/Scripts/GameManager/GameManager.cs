@@ -211,6 +211,10 @@ public class GameManager : MonoBehaviour
             _playerController.WeaponInventory.CurrentWeapon.GetCurrentAmmoInInventory());
         HUDManager.Instance.UpdateWeaponName(_playerController.WeaponInventory.CurrentWeapon.WeapoonName);
         HUDManager.Instance.ToggleFireModeIcon(_playerController.WeaponInventory.CurrentWeapon.IsSemi);
+        SetHealthBarFill(_playerInstance.GetComponent<Stats>().CurrentHealth,
+            _playerInstance.GetComponent<Stats>().MaxHealth);
+        SetStaminaBarFill(_playerInstance.GetComponent<Stats>().CurrentStamina, 
+            _playerInstance.GetComponent<Stats>().MaxStamina);
         //enemies 
         
         while (elapsedTime < loadTime)
@@ -265,7 +269,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator ReturnToMainMenuRoutine()
     {
         // Fade to black
-        _currentGameState = GameState.Playing;
+        _currentGameState = GameState.Loading;
         yield return _fader.FadeIn();
     
         // Destroy level and player

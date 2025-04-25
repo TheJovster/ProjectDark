@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine.Rendering;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -56,6 +57,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private float _fallMultiplier = 2.5f;
 	[SerializeField] private float _staminaDrainRate = 5.0f;
 	[SerializeField] private float _staminaRegenRate = 4.0f;
+	[SerializeField] private float _backwardMovementModifier = 0.6f;
+	[SerializeField] private float _sidewaysMovementModifier = 0.75f;
 	
 	// For momentum and acceleration
 	private Vector3 _currentVelocity; 
@@ -325,9 +328,6 @@ public class PlayerController : MonoBehaviour
     	_xInput = _input.Player.Move.ReadValue<Vector2>().x;
     	_yInput = _input.Player.Move.ReadValue<Vector2>().y;
 	
-    	// Apply directional speed modifiers
-    	float sideStrafeFactor = 0.75f;  // 75% speed when moving sideways
-    	float backwardsFactor = 0.6f;    // 60% speed when moving backwards
     	
     	// Store base direction for determining movement type
     	Vector3 forwardMovement = transform.forward * _yInput;
@@ -337,13 +337,13 @@ public class PlayerController : MonoBehaviour
     	if (_xInput != 0 && Mathf.Abs(_xInput) > Mathf.Abs(_yInput))
     	{
     	    // Primarily strafing side to side
-    	    rightMovement *= sideStrafeFactor;
+    	    rightMovement *= _sidewaysMovementModifier;
     	}
     	
     	if (_yInput < 0)
     	{
     	    // Moving backwards
-    	    forwardMovement *= backwardsFactor;
+    	    forwardMovement *= _backwardMovementModifier;
     	}
 	
     	Vector3 targetMoveDirection = forwardMovement + rightMovement;
@@ -363,12 +363,12 @@ public class PlayerController : MonoBehaviour
     	    if (movementAngle > 135f && _yInput < 0)
     	    {
     	        // Moving predominantly backwards (135-180 degrees from forward)
-    	        speedModifier = backwardsFactor;
+    	        speedModifier = _backwardMovementModifier;
     	    }
     	    else if (movementAngle > 45f && movementAngle < 135f)
     	    {
     	        // Moving predominantly sideways (45-135 degrees from forward)
-    	        speedModifier = sideStrafeFactor;
+    	        speedModifier = _sidewaysMovementModifier;
     	        
     	        // Optional: slightly slower when strafing backward vs forward
     	        if (_yInput < 0)

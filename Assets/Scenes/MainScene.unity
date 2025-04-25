@@ -730,6 +730,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 373023907481593275, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1726343777}
+    - target: {fileID: 373023907481593275, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1033423511}
+    - target: {fileID: 1942878423358651179, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1726343777}
+    - target: {fileID: 1942878423358651179, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1033423511}
     - target: {fileID: 3772351426436312263, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -739,14 +755,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1726343777}
     - target: {fileID: 4005984180859096810, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4005984180859096810, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4005984180859096810, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1726343777}
@@ -754,22 +762,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1033423511}
-    - target: {fileID: 4005984180859096810, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4005984180859096810, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayMenuButtonClick
-      objectReference: {fileID: 0}
-    - target: {fileID: 4005984180859096810, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: RestartLevel
-      objectReference: {fileID: 0}
-    - target: {fileID: 4005984180859096810, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: GameManager, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 4118746606669739960, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -794,10 +786,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1033423511}
-    - target: {fileID: 6515328513985402140, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6662974688227910942, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -894,10 +882,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1033423511}
-    - target: {fileID: 8587005766682272997, guid: 3453e6c2d8506604fa7bb00f47f3d14b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
