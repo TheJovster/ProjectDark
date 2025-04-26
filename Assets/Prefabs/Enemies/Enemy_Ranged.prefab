@@ -309,7 +309,6 @@ GameObject:
   - component: {fileID: 5248895534742148078}
   - component: {fileID: 5538976631654792894}
   - component: {fileID: 6961670854118715947}
-  - component: {fileID: 2999427385718204609}
   - component: {fileID: 6503512805476745158}
   m_Layer: 8
   m_Name: Enemy_Ranged
@@ -435,27 +434,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c699494471a02c64388e2d05aa7de845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentState: 0
   _type: 1
-  _minimumDistanceToAggressive: 30
-  _minimumAttackDistance: 15
   _waypoints:
   - {fileID: 2132058287201225493}
   - {fileID: 5727320710020054187}
   - {fileID: 662762607448114095}
   - {fileID: 872595197266360561}
-  _waitTimeAtWaypoint: 3
-  _currentWaypointIndex: 0
-  _nextWaypointIndex: 0
-  _attackRange: 4
-  _attackDamage: 10
-  _attackLayer:
-    serializedVersion: 2
-    m_Bits: 8
+  _aggressiveRange: 16
+  _attackRange: 8
   _projectilePrefab: {fileID: 5607873592707384268, guid: 299776251f2b772469b89ad508fa1c2f, type: 3}
   _muzzlePoint: {fileID: 2777605448534323388}
-  _fireRate: 1.2
-  _damage: 5
   _muzzleFlash: {fileID: 1624126146089452889}
   _audioClips:
   - {fileID: 8300000, guid: 623e6c966c283c946aa354b7c2a524c8, type: 3}
@@ -463,26 +451,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 52fa61b8db2d4c04391920b586b3868c, type: 3}
   - {fileID: 8300000, guid: a990a3d743f33b14a9636b842513cbae, type: 3}
   - {fileID: 8300000, guid: 14ab6141d21cff94d9d8b2169d11c949, type: 3}
---- !u!114 &2999427385718204609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9124340185647703713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01e530bc4c3e2ea4580e29cb9358b11f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bloodEffectPrefabs:
-  - {fileID: 893913727056456344, guid: 89207601446ace84aba6d7aba7eb7c8b, type: 3}
-  bloodEffectPrefabsDestroy: 5
-  otherBloodEffectsData: []
-  destroy: 0
-  disabled: 0
-  disabledObjects: []
-  normalOffset: 0.01
+  _damage: 5
+  _fireRate: 1.2
+  _rotationSpeed: 5
+  _aimingThreshold: 10
 --- !u!82 &6503512805476745158
 AudioSource:
   m_ObjectHideFlags: 0
