@@ -17,6 +17,7 @@ public class Stats : MonoBehaviour
     [SerializeField] private float _maxStamina;
     [SerializeField] private bool _isPlayer;
     private AnimationHandler _animationHandler;
+    private NavMeshAgent _navMeshAgent;
     private CapsuleCollider _capsuleCollider;
     [SerializeField] private GameObject _minimapBlip;
     [SerializeField]private bool _isAlive = true;
@@ -44,6 +45,7 @@ public class Stats : MonoBehaviour
         {
             _animationHandler = GetComponentInChildren<AnimationHandler>();
             _capsuleCollider = GetComponent<CapsuleCollider>();
+            _navMeshAgent = GetComponent<NavMeshAgent>();
         }
     }
 
@@ -92,6 +94,8 @@ public class Stats : MonoBehaviour
             {
                 meshRenderer.enabled = false;
             }
+            
+            _navMeshAgent.enabled = false;
             _capsuleCollider.enabled = false;
             Destroy(this.gameObject, 3f);
             Destroy(newDeathParticle, 3f);
