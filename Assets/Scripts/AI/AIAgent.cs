@@ -21,7 +21,7 @@ public class AIAgent : MonoBehaviour
     }
 
     [Header("AI Configuration")]
-    [SerializeField] private AIAgent.EnemyType _type;
+    [SerializeField] private EnemyType _type;
     [SerializeField] private Transform[] _waypoints;
     [SerializeField] private float _aggressiveRange = 10f;
     [SerializeField] private float _attackRange = 5f;
@@ -44,7 +44,7 @@ public class AIAgent : MonoBehaviour
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _animationHandler = GetComponentInChildren<AnimationHandler>();
         _stats = GetComponent<Stats>();
-        
+       
         InitializeBehaviorTree();
     }
 
@@ -58,7 +58,7 @@ public class AIAgent : MonoBehaviour
     {
         _behaviorTree = new BehaviorTreeManager();
         
-        var rootNode = AIAgentBehaviorTreeBuilder.BuildBehaviorTree(
+        Node rootNode = AIAgentBehaviorTreeBuilder.BuildBehaviorTree(
             this,
             _navMeshAgent,
             _animationHandler,

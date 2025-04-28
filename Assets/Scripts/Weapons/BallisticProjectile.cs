@@ -98,7 +98,7 @@ public class BallisticProjectile : MonoBehaviour
         if (HandleRicochet(hit, incomingDirection)) return;
         m_bIsFlying = false;
         //effects go here
-        hit.transform?.GetComponent<Stats>().TakeDamage(m_fDamageToDeal);
+        hit.transform.GetComponent<Stats>()?.TakeDamage(m_fDamageToDeal);
         if (!m_bIsFlying) Destroy(this.gameObject);
     }
 

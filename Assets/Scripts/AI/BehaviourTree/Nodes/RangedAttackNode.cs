@@ -59,7 +59,7 @@ namespace ProjectDark.BehaviorTree
             if (_timeSinceLastShot < _fireRate) return _status = NodeStatus.Running;
 
             _animator.TriggerAttack();
-            AudioManager.Instance.PlayEffectHalfVolume(_audioClips[UnityEngine.Random.Range(0, _audioClips.Length)]);
+            AudioManager.Instance.PlayEffectDoubleVolume(_audioClips[UnityEngine.Random.Range(0, _audioClips.Length)]);
             _muzzleFlash.Play();
             
             BallisticProjectile projectile = GameObject.Instantiate(_projectilePrefab, _muzzlePoint.position, _muzzlePoint.rotation);

@@ -2,9 +2,8 @@ using UnityEngine;
 using UnityEngine.AI;
 
 namespace ProjectDark.BehaviorTree
-{
-	public static class AIAgentBehaviorTreeBuilder
-{
+{ 
+    public static class AIAgentBehaviorTreeBuilder {
     public static Node BuildBehaviorTree(AIAgent agent, 
         NavMeshAgent navAgent, 
         AnimationHandler animator, 

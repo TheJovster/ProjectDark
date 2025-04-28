@@ -245,9 +245,6 @@ GameObject:
   - component: {fileID: 5248895534742148078}
   - component: {fileID: 5538976631654792894}
   - component: {fileID: 6961670854118715947}
-  - component: {fileID: 8059801824708346340}
-  - component: {fileID: 1420146488175146723}
-  - component: {fileID: 2999427385718204609}
   - component: {fileID: 6503512805476745158}
   m_Layer: 8
   m_Name: Enemy_Melee
@@ -312,11 +309,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skinnedMeshRenderers:
-  - {fileID: 0}
+  - {fileID: 5502387143324765192}
   _meshRenderers: []
   _deathParticle: {fileID: 893913727056456344, guid: a0669073dcce8054fae2dbb63a7215e6, type: 3}
   _currentHealth: 0
-  _maxHealth: 30
+  _maxHealth: 45
   _currentStamina: 0
   _maxStamina: 100
   _isPlayer: 0
@@ -369,87 +366,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c699494471a02c64388e2d05aa7de845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentState: 0
   _type: 0
-  _minimumDistanceToAggressive: 10
-  _minimumAttackDistance: 2.25
   _waypoints:
   - {fileID: 2132058287201225493}
   - {fileID: 5727320710020054187}
   - {fileID: 662762607448114095}
   - {fileID: 872595197266360561}
-  _waitTimeAtWaypoint: 3
-  _currentWaypointIndex: 0
-  _nextWaypointIndex: 0
+  _aggressiveRange: 10
   _attackRange: 4
-  _attackDamage: 10
-  _attackLayer:
-    serializedVersion: 2
-    m_Bits: 8
   _projectilePrefab: {fileID: 0}
   _muzzlePoint: {fileID: 0}
+  _muzzleFlash: {fileID: 0}
+  _audioClips: []
+  _damage: 5
   _fireRate: 1.2
---- !u!114 &8059801824708346340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9124340185647703713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe21da65262a4ab499ba25313da02993, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  decalPrefabs:
-  - {fileID: 1315955394258604, guid: c485c7f52a9c60f419b3d354774e464f, type: 3}
-  - {fileID: 1315955394258604, guid: b38af6b93eed4e243901c5afe6b606b0, type: 3}
-  - {fileID: 1315955394258604, guid: 0eb933806366f2e40bd3032e36ae71fb, type: 3}
-  - {fileID: 1315955394258604, guid: 63974b91db0af15489137e67aab4e08f, type: 3}
-  randomRotation: 1
-  minScale: 1
-  maxScale: 1.5
-  destroyDelay: 20
-  targetTags:
-  - Environment
-  spawnChance: 0.7
-  decalOffset: 0.005
---- !u!114 &1420146488175146723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9124340185647703713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e132ae7dab5908e4ebc78875032e25c6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bloodProjectorPrefab: {fileID: 81780311032234737, guid: 20494e9a5a3996f4a87a98000e90a0b8, type: 3}
-  zOffset: 0.1
-  destroyTime: 25
-  randomRotationRange: 360
---- !u!114 &2999427385718204609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9124340185647703713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01e530bc4c3e2ea4580e29cb9358b11f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bloodEffectPrefabs:
-  - {fileID: 893913727056456344, guid: 89207601446ace84aba6d7aba7eb7c8b, type: 3}
-  bloodEffectPrefabsDestroy: 5
-  otherBloodEffectsData: []
-  destroy: 0
-  disabled: 0
-  disabledObjects: []
-  normalOffset: 0.01
+  _rotationSpeed: 5
+  _aimingThreshold: 10
 --- !u!82 &6503512805476745158
 AudioSource:
   m_ObjectHideFlags: 0
@@ -955,6 +887,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6621709916046696312}
   m_SourcePrefab: {fileID: 100100000, guid: e91fc491052840f48a62c61a286ccf07, type: 3}
+--- !u!137 &5502387143324765192 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 137801283352551948, guid: e91fc491052840f48a62c61a286ccf07, type: 3}
+  m_PrefabInstance: {fileID: 5599652729667382788}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5594723281119207714 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4931669671350054, guid: e91fc491052840f48a62c61a286ccf07, type: 3}
