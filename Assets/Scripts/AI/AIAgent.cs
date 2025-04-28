@@ -50,7 +50,15 @@ public class AIAgent : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.Instance.CurrentGameState != GameManager.GameState.Playing) return;
+        if (GameManager.Instance.CurrentGameState != GameManager.GameState.Playing)
+        {
+            _animationHandler.StopAnimator();
+            return;
+        }
+        else if(GameManager.Instance.CurrentGameState == GameManager.GameState.Playing)
+        {
+            _animationHandler.ResumeAnimation();
+        }
         _behaviorTree?.Tick();
     }
 

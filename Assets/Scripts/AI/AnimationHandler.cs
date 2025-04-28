@@ -55,4 +55,14 @@ public class AnimationHandler : MonoBehaviour
         _animator.SetBool(name, value);
     }
 
+    public void StopAnimator()
+    {
+        _animator.speed = 0.0f;
+    }
+
+    public void ResumeAnimator()
+    {
+        _animator.speed = 1.0f;
+    }
+
 }

@@ -37,6 +37,9 @@ namespace ProjectDark.BehaviorTree
 
         public override NodeStatus Execute()
         {
+            if(GameManager.Instance.CurrentGameState != GameManager.GameState.Playing) 
+                return _status = NodeStatus.Failure;
+            
             _agent.isStopped = true;
             _animator.SetFloat_Speed("Speed", 0f, 0.2f, Time.deltaTime);
             _animator.SetAggressive("IsAggressive", true);

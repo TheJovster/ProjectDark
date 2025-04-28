@@ -24,6 +24,8 @@ namespace ProjectDark.BehaviorTree
         public override NodeStatus Execute()
         {
             // Safety checks
+            if(GameManager.Instance.CurrentGameState != GameManager.GameState.Playing) 
+                return _status = NodeStatus.Failure;
             if (_agent == null || !_agent.enabled || !_agent.isOnNavMesh) 
                 return _status = NodeStatus.Failure;
             

@@ -18,6 +18,9 @@ namespace ProjectDark.BehaviorTree
 
 		public override NodeStatus Execute()
 		{
+			if(GameManager.Instance.CurrentGameState != GameManager.GameState.Playing) 
+				return _status = NodeStatus.Failure;
+			
 			_agent.isStopped = false;
 			_agent.SetDestination(GameManager.Instance.PlayerInstance.transform.position);
 			_animator.SetFloat_Speed("Speed", _agent.velocity.magnitude, 0.2f, Time.deltaTime);
