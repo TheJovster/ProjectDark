@@ -136,22 +136,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SwitchWeaponUp"",
-                    ""type"": ""Button"",
-                    ""id"": ""675ca3e0-4cd3-49b5-8fcd-028fc061c65f"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""SwitchWeaponDown"",
-                    ""type"": ""Button"",
+                    ""name"": ""SwitchWeapon"",
+                    ""type"": ""Value"",
                     ""id"": ""1fdb0379-3707-44cf-9d33-74599beff538"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Aim"",
@@ -567,45 +558,12 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""0fe0329b-751c-452d-b19a-504f012f098d"",
-                    ""path"": ""<Keyboard>/2"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""SwitchWeaponUp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2acaebed-f345-4e97-a827-5674e377939b"",
-                    ""path"": ""<Gamepad>/dpad/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""SwitchWeaponUp"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""613da384-fb8a-41b8-985b-a7469312a635"",
-                    ""path"": ""<Keyboard>/1"",
+                    ""path"": ""<Mouse>/scroll"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""SwitchWeaponDown"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1bb662a4-670a-44c2-b54f-05eea06dd749"",
-                    ""path"": ""<Gamepad>/dpad/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""SwitchWeaponDown"",
+                    ""action"": ""SwitchWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1260,8 +1218,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Melee = m_Player.FindAction("Melee", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
-        m_Player_SwitchWeaponUp = m_Player.FindAction("SwitchWeaponUp", throwIfNotFound: true);
-        m_Player_SwitchWeaponDown = m_Player.FindAction("SwitchWeaponDown", throwIfNotFound: true);
+        m_Player_SwitchWeapon = m_Player.FindAction("SwitchWeapon", throwIfNotFound: true);
         m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
         m_Player_FlashlightToggle = m_Player.FindAction("FlashlightToggle", throwIfNotFound: true);
         m_Player_ToggleFireMode = m_Player.FindAction("ToggleFireMode", throwIfNotFound: true);
@@ -1357,8 +1314,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Melee;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_Reload;
-    private readonly InputAction m_Player_SwitchWeaponUp;
-    private readonly InputAction m_Player_SwitchWeaponDown;
+    private readonly InputAction m_Player_SwitchWeapon;
     private readonly InputAction m_Player_Aim;
     private readonly InputAction m_Player_FlashlightToggle;
     private readonly InputAction m_Player_ToggleFireMode;
@@ -1379,8 +1335,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @Melee => m_Wrapper.m_Player_Melee;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
-        public InputAction @SwitchWeaponUp => m_Wrapper.m_Player_SwitchWeaponUp;
-        public InputAction @SwitchWeaponDown => m_Wrapper.m_Player_SwitchWeaponDown;
+        public InputAction @SwitchWeapon => m_Wrapper.m_Player_SwitchWeapon;
         public InputAction @Aim => m_Wrapper.m_Player_Aim;
         public InputAction @FlashlightToggle => m_Wrapper.m_Player_FlashlightToggle;
         public InputAction @ToggleFireMode => m_Wrapper.m_Player_ToggleFireMode;
@@ -1430,12 +1385,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Reload.started += instance.OnReload;
             @Reload.performed += instance.OnReload;
             @Reload.canceled += instance.OnReload;
-            @SwitchWeaponUp.started += instance.OnSwitchWeaponUp;
-            @SwitchWeaponUp.performed += instance.OnSwitchWeaponUp;
-            @SwitchWeaponUp.canceled += instance.OnSwitchWeaponUp;
-            @SwitchWeaponDown.started += instance.OnSwitchWeaponDown;
-            @SwitchWeaponDown.performed += instance.OnSwitchWeaponDown;
-            @SwitchWeaponDown.canceled += instance.OnSwitchWeaponDown;
+            @SwitchWeapon.started += instance.OnSwitchWeapon;
+            @SwitchWeapon.performed += instance.OnSwitchWeapon;
+            @SwitchWeapon.canceled += instance.OnSwitchWeapon;
             @Aim.started += instance.OnAim;
             @Aim.performed += instance.OnAim;
             @Aim.canceled += instance.OnAim;
@@ -1488,12 +1440,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Reload.started -= instance.OnReload;
             @Reload.performed -= instance.OnReload;
             @Reload.canceled -= instance.OnReload;
-            @SwitchWeaponUp.started -= instance.OnSwitchWeaponUp;
-            @SwitchWeaponUp.performed -= instance.OnSwitchWeaponUp;
-            @SwitchWeaponUp.canceled -= instance.OnSwitchWeaponUp;
-            @SwitchWeaponDown.started -= instance.OnSwitchWeaponDown;
-            @SwitchWeaponDown.performed -= instance.OnSwitchWeaponDown;
-            @SwitchWeaponDown.canceled -= instance.OnSwitchWeaponDown;
+            @SwitchWeapon.started -= instance.OnSwitchWeapon;
+            @SwitchWeapon.performed -= instance.OnSwitchWeapon;
+            @SwitchWeapon.canceled -= instance.OnSwitchWeapon;
             @Aim.started -= instance.OnAim;
             @Aim.performed -= instance.OnAim;
             @Aim.canceled -= instance.OnAim;
@@ -1700,8 +1649,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnMelee(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
-        void OnSwitchWeaponUp(InputAction.CallbackContext context);
-        void OnSwitchWeaponDown(InputAction.CallbackContext context);
+        void OnSwitchWeapon(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnFlashlightToggle(InputAction.CallbackContext context);
         void OnToggleFireMode(InputAction.CallbackContext context);

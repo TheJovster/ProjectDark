@@ -144,7 +144,6 @@ public class PlayerController : MonoBehaviour
 		{
 			_interactionController = GetComponent<InteractionController>();
 		}
-
 		_originalCameraPosition = _camera.transform.position;
 	}
 
@@ -620,11 +619,11 @@ public class PlayerController : MonoBehaviour
 
 	private void TrySwitchWeapon()
 	{
-		if (_input.Player.SwitchWeaponUp.WasPressedThisFrame())
+		if (_input.Player.SwitchWeapon.ReadValue<Vector2>().y > 0.1f)
 		{
 			_weaponInventory.IncrementWeaponIndex(); //this approach is overly simplistic - I am going to refactor this
 		}
-		if (_input.Player.SwitchWeaponDown.WasPressedThisFrame())
+		if (_input.Player.SwitchWeapon.ReadValue<Vector2>().y < -0.1f)
 		{
 			_weaponInventory.DecrementWeaponIndex();
 		}

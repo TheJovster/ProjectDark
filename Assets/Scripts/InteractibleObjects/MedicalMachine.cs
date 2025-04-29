@@ -20,6 +20,8 @@ public class MedicalMachine : MonoBehaviour
 
     public void Heal()
     {
+        if (GameManager.Instance.PlayerInstance.GetComponent<Stats>().CurrentHealth >=
+            GameManager.Instance.PlayerInstance.GetComponent<Stats>().MaxHealth) return;
         if(_totalHealCapacity <= 0)
         {
             _interactableObject.SetInteractionPrompt(_noHeal.First());
