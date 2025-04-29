@@ -24,25 +24,36 @@ public class InteractableObject : MonoBehaviour, IInteractable
     
 	public void OnInteractStart()
 	{
+		/*
 		Debug.Log($"Started interaction with {gameObject.name}");
+		*/
 		_onInteractStart?.Invoke();
 	}
 
 	public void OnInteractEnd()
 	{
+		/*
 		Debug.Log($"Ended interaction with {gameObject.name}");
+		*/
 		_onInteractEnd?.Invoke();
 	}
 
 	public void OnInteractTrigger()
 	{
+		/*
 		Debug.Log($"Triggered interaction with {gameObject.name}");
+		*/
 		_onInteractTrigger?.Invoke();
 	}
 
 	public GameObject GetPopupPrefab()
 	{
 		return _popupPrefab;
+	}
+
+	public void SetInteractionPrompt(string newInteractionPrompt)
+	{
+		_interactionPrompt = newInteractionPrompt;
 	}
     
 	// Added getter for interaction prompt
