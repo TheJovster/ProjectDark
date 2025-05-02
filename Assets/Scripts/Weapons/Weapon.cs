@@ -165,6 +165,7 @@ public class Weapon : MonoBehaviour
 
     public void Fire()
     {
+        if (!_canFire) return;
         if (_weaponName == "XM994") //this is a lot of ducttape - will fix this with a local animator.
         {
             _barrels.Rotate(Vector3.forward * (720.0f * Time.deltaTime));
@@ -265,6 +266,11 @@ public class Weapon : MonoBehaviour
     public void DisableAnimator()
     {
         _weaponAnimator.enabled = false;
+    }
+
+    public void SetCanFire()
+    {
+        _canFire = !_canFire;
     }
     
     //animation events
