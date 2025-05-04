@@ -268,9 +268,10 @@ public class Weapon : MonoBehaviour
         _weaponAnimator.enabled = false;
     }
 
-    public void SetCanFire()
+    public void SetCanFire(bool value)
     {
-        _canFire = !_canFire;
+        _canFire = value;
+        Debug.Log("Can fire:" + _canFire);
     }
     
     //animation events

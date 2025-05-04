@@ -1145,7 +1145,7 @@ MonoBehaviour:
   _handsAnimator: {fileID: 7320085246036438682}
   _weaponLoweredPosition: -1.25
   _weaponRaisedPosition: -0.25
-  _weaponMoveSpeed: 1.2
+  _weaponSwitchMoveSpeed: 1
 --- !u!114 &5712259306644384151
 MonoBehaviour:
   m_ObjectHideFlags: 0

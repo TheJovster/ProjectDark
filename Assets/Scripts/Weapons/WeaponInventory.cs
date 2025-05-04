@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class WeaponInventory : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class WeaponInventory : MonoBehaviour
     private bool _isWeaponSwitching = false;
     [SerializeField]private float _weaponLoweredPosition = -0.3f; 
     [SerializeField]private float _weaponRaisedPosition = 0f;     
-    [SerializeField]private float _weaponMoveSpeed = 2f;          
+    [SerializeField]private float _weaponSwitchMoveSpeed = 2f;          
         
     #region Properties
     public Weapon CurrentWeapon => _currentWeapon;
@@ -85,50 +86,57 @@ public class WeaponInventory : MonoBehaviour
     private IEnumerator SwitchWeaponRoutine(int oldIndex, int newIndex)
     {
         _isWeaponSwitching = true;
-        
+        _currentWeapon.SetCanFire(false);
         Vector3 startPosition = _weaponContainer.localPosition;
         Vector3 loweredPosition = new Vector3(startPosition.x, _weaponLoweredPosition, startPosition.z);
-    
-        // Lower current weapon
-        float elapsedTime = 0f;
-        while (elapsedTime < 1f)
-        {
-            _weaponContainer.localPosition = Vector3.Lerp(startPosition, loweredPosition, elapsedTime * _weaponMoveSpeed);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-    
-        // Ensure weapon is fully lowered
-        _weaponContainer.localPosition = loweredPosition;
-    
-        // Switch weapons
-        _weapons[oldIndex].gameObject.SetActive(false);
-        _weapons[newIndex].gameObject.SetActive(true);
-        _currentWeapon = _weapons[newIndex];
-        _handsAnimator.runtimeAnimatorController = _currentWeapon.AnimatorOverrideController;
-        _weaponIKHandler.ApplyWeaponIK(_currentWeapon.RightHandPosition, _currentWeapon.LeftHandPosition, _currentWeapon.AnimatorOverrideController);
-        _currentWeapon.SetCanFire();
-
-        // Update HUD
-        HUDManager.Instance.UpdateAmmoCount(_currentWeapon.GetCurrentAmmoInMag(), _currentWeapon.GetCurrentAmmoInInventory());
-        HUDManager.Instance.UpdateWeaponName(_currentWeapon.WeapoonName);
-        HUDManager.Instance.ToggleFireModeIcon(_currentWeapon.IsSemi);
-        
-        // Raise new weapon
         Vector3 raisedPosition = new Vector3(startPosition.x, _weaponRaisedPosition, startPosition.z);
-        elapsedTime = 0f;
-        while (elapsedTime < 1f)
+        
+        // Animation progress tracker
+        float progress = 0f;
+        float halfwayPoint = 0.5f;
+        
+        // Animate down and up in one continuous motion
+        while (progress < 1f)
         {
-            _weaponContainer.localPosition = Vector3.Lerp(loweredPosition, raisedPosition, elapsedTime * _weaponMoveSpeed);
-            elapsedTime += Time.deltaTime;
+            // Update progress
+            progress += Time.deltaTime * _weaponSwitchMoveSpeed;
+            
+            // First half of animation (lowering weapon)
+            if (progress < halfwayPoint)
+            {
+                float normalizedProgress = progress / halfwayPoint;
+                _weaponContainer.localPosition = Vector3.Lerp(startPosition, loweredPosition, normalizedProgress);
+            }
+            // Midpoint - perform the weapon switch when the weapon is at its lowest point
+            else if (progress >= halfwayPoint && progress <= halfwayPoint + Time.deltaTime * _weaponSwitchMoveSpeed)
+            {
+                // Switch weapons once we cross the halfway point
+                _weapons[oldIndex].gameObject.SetActive(false);
+                _weapons[newIndex].gameObject.SetActive(true);
+                _currentWeapon = _weapons[newIndex];
+                _handsAnimator.runtimeAnimatorController = _currentWeapon.AnimatorOverrideController;
+                _weaponIKHandler.ApplyWeaponIK(_currentWeapon.RightHandPosition, _currentWeapon.LeftHandPosition, _currentWeapon.AnimatorOverrideController);
+                _currentWeapon.SetCanFire(false);
+                
+                // Update HUD
+                HUDManager.Instance.UpdateAmmoCount(_currentWeapon.GetCurrentAmmoInMag(), _currentWeapon.GetCurrentAmmoInInventory());
+                HUDManager.Instance.UpdateWeaponName(_currentWeapon.WeapoonName);
+                HUDManager.Instance.ToggleFireModeIcon(_currentWeapon.IsSemi);
+            }
+            // Second half of animation (raising weapon)
+            else
+            {
+                float normalizedProgress = (progress - halfwayPoint) / halfwayPoint;
+                _weaponContainer.localPosition = Vector3.Lerp(loweredPosition, raisedPosition, normalizedProgress);
+            }
+            
             yield return null;
         }
     
-        // Ensure weapon is fully raised
+        // Ensure weapon is fully raised at the end
         _weaponContainer.localPosition = raisedPosition;
-        
+    
         _isWeaponSwitching = false;
-        _currentWeapon.SetCanFire();
+        _currentWeapon.SetCanFire(true);
     }
-
 }
