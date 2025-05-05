@@ -79,6 +79,7 @@ public class HeadBob : MonoBehaviour
     
     private void Update()
     {
+        if(!GameManager.Instance.IsPlaying) return;
         if (!_enableHeadBob && !_forceActiveBob && !_enableLandingBob) return;
         
         if (_movementAction != null && _movementAction.action != null)

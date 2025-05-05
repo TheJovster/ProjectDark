@@ -84,6 +84,46 @@ public class WeaponInventory : MonoBehaviour
         StartCoroutine(SwitchWeaponRoutine(oldIndex, newIndex));
     }
 
+    public void SwitchToRevolver()
+    {
+        if (_currentWeaponIndex == 0) return;
+        int oldIndex = _currentWeaponIndex;
+        _currentWeaponIndex = 0;
+        int newIndex = _currentWeaponIndex;
+        StartCoroutine(SwitchWeaponRoutine(oldIndex, newIndex));
+
+    }
+
+    public void SwitchToPistol()
+    {
+        if (_currentWeaponIndex == 1) return;
+        int oldIndex = _currentWeaponIndex;
+        _currentWeaponIndex = 1;
+        int newIndex = _currentWeaponIndex;
+        StartCoroutine(SwitchWeaponRoutine(oldIndex, newIndex));
+
+    }
+
+    public void SwitchToAssaultRifle()
+    {
+        if (_currentWeaponIndex == 2) return;
+        int oldIndex = _currentWeaponIndex;
+        _currentWeaponIndex = 2;
+        int newIndex = _currentWeaponIndex;
+        StartCoroutine(SwitchWeaponRoutine(oldIndex, newIndex));
+
+    }
+
+    public void SwitchToMinigun()
+    {
+        if (_currentWeaponIndex == 3) return;
+        int oldIndex = _currentWeaponIndex;
+        _currentWeaponIndex = 3;
+        int newIndex = _currentWeaponIndex;
+        StartCoroutine(SwitchWeaponRoutine(oldIndex, newIndex));
+
+    }
+
     private IEnumerator SwitchWeaponRoutine(int oldIndex, int newIndex)
     {
         _isWeaponSwitching = true;
@@ -116,7 +156,6 @@ public class WeaponInventory : MonoBehaviour
                 _currentWeapon = _weapons[newIndex];
                 _handsAnimator.runtimeAnimatorController = _currentWeapon.AnimatorOverrideController;
                 _weaponIKHandler.ApplyWeaponIK(_currentWeapon.RightHandPosition, _currentWeapon.LeftHandPosition, _currentWeapon.AnimatorOverrideController);
-                _currentWeapon.SetCanFire(false);
                 
                 // Update HUD
                 HUDManager.Instance.UpdateAmmoCount(_currentWeapon.GetCurrentAmmoInMag(), _currentWeapon.GetCurrentAmmoInInventory());
@@ -135,7 +174,6 @@ public class WeaponInventory : MonoBehaviour
     
         // Ensure weapon is fully raised at the end
         _weaponContainer.localPosition = raisedPosition;
-    
         _isWeaponSwitching = false;
     }
 }

@@ -385,8 +385,8 @@ Transform:
   m_Children:
   - {fileID: 5113072675361837181}
   - {fileID: 2555094020838352287}
-  - {fileID: 5154394816046736189}
   - {fileID: 4394371874284434296}
+  - {fileID: 5154394816046736189}
   - {fileID: 3459872319068041517}
   m_Father: {fileID: 6715248846768907479}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1161,7 +1161,7 @@ MonoBehaviour:
   _revolverAmmoAmount: 60
   _pistolAmmoAmount: 120
   _shotgunAmmoAmount: 0
-  _assaultRifleAmmoAmount: 1000
+  _assaultRifleAmmoAmount: 100
 --- !u!114 &1747901097824699504
 MonoBehaviour:
   m_ObjectHideFlags: 0

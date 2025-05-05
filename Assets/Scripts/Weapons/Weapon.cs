@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine.Serialization;
 using UnityEngine.UI.Extensions;
 
@@ -29,6 +30,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Transform _barrels;
     [SerializeField] private WeaponIKHandler _IKHandler;
     [SerializeField] private AnimatorOverrideController _animatorOverrideController;
+    private bool _isReloading;
 
     [Header("IK Settings")] [SerializeField, Range(0f, 1f)]
     private float _rightHandIKWeight = 1.0f;
@@ -53,6 +55,7 @@ public class Weapon : MonoBehaviour
     private float _timeSinceLastShot = 0.0f;
     [SerializeField] private int _weaponDamage = 10;
     [SerializeField] private bool _canADS = true;
+    [SerializeField] private Transform _magazine;
 
     [Header("Audio and VFX")] [Tooltip("Set this to 5")] 
     [SerializeField] private AudioClip[] _weaponAudioClips;
@@ -102,6 +105,8 @@ public class Weapon : MonoBehaviour
     public bool CanADS => _canADS;
     
     public Transform AimReticleObject => _aimReticleObject;
+    
+    public bool IsReloading => _isReloading;
     
     #endregion
 
@@ -153,19 +158,9 @@ public class Weapon : MonoBehaviour
             HUDManager.Instance.ToggleFireModeIcon(_isSemi);
         }
     }
-
-    public Transform GetScope()
-    {
-        if (_scope != null)
-        {
-            return _scope;
-        }
-        else return null;
-    }
-
+    
     public void Fire()
     {
-        if (!_canFire) return;
         if (_weaponName == "XM994") //this is a lot of ducttape - will fix this with a local animator.
         {
             _barrels.Rotate(Vector3.forward * (720.0f * Time.deltaTime));
@@ -205,22 +200,29 @@ public class Weapon : MonoBehaviour
         _muzzleFlash.Stop();
     }
 
+    public void StartReload()
+    {
+        _muzzleFlash.Stop();
+        _isReloading = true;
+        _IKHandler._ikWeight = 0;
+    }
+
+    public void EndReload()
+    {
+        _isReloading = false;
+        _IKHandler._ikWeight = 0;
+    }
+    
     public void Reload() //I guess I can just have this as an anim event;
     {
         _muzzleFlash.Stop();
+        if (_ammoInventory.ReturnCurrentAmmoAmount(_weaponType) <= 0) return;
         int amountToReduce = _weaponInventory.CurrentWeapon.GetMaxAmmoInMag() -
                              _weaponInventory.CurrentWeapon.GetCurrentAmmoInMag();
-        if (_ammoInventory.ReturnCurrentAmmoAmount(_weaponInventory.CurrentWeapon.CurrentWeaponType) <= 0)
-        {
-            return;
-        }
-
         _currentAmmoInMag = _maxAmmoInMag;
         _ammoInventory.ReduceAmmoAmount(_weaponInventory.CurrentWeapon.CurrentWeaponType, amountToReduce);
         HUDManager.Instance.UpdateAmmoCount(_weaponInventory.CurrentWeapon.GetCurrentAmmoInMag(),
             _weaponInventory.CurrentWeapon.GetCurrentAmmoInInventory());
-
-        //edgecases
     }
 
     //getter functions
@@ -271,7 +273,6 @@ public class Weapon : MonoBehaviour
     public void SetCanFire(bool value)
     {
         _canFire = value;
-        Debug.Log("Can fire:" + _canFire);
     }
     
     //animation events

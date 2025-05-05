@@ -182,6 +182,10 @@ public class PlayerController : MonoBehaviour
 			TryFireWeapon();
 			TryReloadWeapon();
 			TrySwitchWeapon();
+			TrySwitchToRevolver();
+			TrySwitchToPistol();
+			TrySwitchToAssaultRifle();
+			TrySwitchToMinigun();
 			CheckForAdsHeld();
 			SetADS();
 			SetAim();
@@ -627,6 +631,38 @@ public class PlayerController : MonoBehaviour
 		if (_input.Player.SwitchWeapon.ReadValue<Vector2>().y < -0.1f)
 		{
 			_weaponInventory.DecrementWeaponIndex();
+		}
+	}
+
+	private void TrySwitchToRevolver()
+	{
+		if (_input.Player.Weapon1.WasPressedThisFrame())
+		{
+			_weaponInventory.SwitchToRevolver();
+		}
+	}
+	
+	private void TrySwitchToPistol()
+	{
+		if (_input.Player.Weapon2.WasPressedThisFrame())
+		{
+			_weaponInventory.SwitchToPistol();
+		}
+	}
+	
+	private void TrySwitchToAssaultRifle()
+	{
+		if (_input.Player.Weapon3.WasPressedThisFrame())
+		{
+			_weaponInventory.SwitchToAssaultRifle();
+		}
+	}
+	
+	private void TrySwitchToMinigun()
+	{
+		if (_input.Player.Weapon4.WasPressedThisFrame())
+		{
+			_weaponInventory.SwitchToMinigun();
 		}
 	}
 
