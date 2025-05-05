@@ -22,6 +22,7 @@ public class WeaponInventory : MonoBehaviour
     #region Properties
     public Weapon CurrentWeapon => _currentWeapon;
     public PlayerController PlayerController => _playerController;
+    public bool IsWeaponSwitching => _isWeaponSwitching;
     #endregion
 
     private void Awake()
@@ -86,7 +87,6 @@ public class WeaponInventory : MonoBehaviour
     private IEnumerator SwitchWeaponRoutine(int oldIndex, int newIndex)
     {
         _isWeaponSwitching = true;
-        _currentWeapon.SetCanFire(false);
         Vector3 startPosition = _weaponContainer.localPosition;
         Vector3 loweredPosition = new Vector3(startPosition.x, _weaponLoweredPosition, startPosition.z);
         Vector3 raisedPosition = new Vector3(startPosition.x, _weaponRaisedPosition, startPosition.z);
@@ -137,6 +137,5 @@ public class WeaponInventory : MonoBehaviour
         _weaponContainer.localPosition = raisedPosition;
     
         _isWeaponSwitching = false;
-        _currentWeapon.SetCanFire(true);
     }
 }

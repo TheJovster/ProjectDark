@@ -587,6 +587,7 @@ public class PlayerController : MonoBehaviour
 
 	private void TryFireWeapon()
 	{
+		if (_weaponInventory.IsWeaponSwitching) return;
 		if (_weaponInventory.CurrentWeapon.IsSemi && _input.Player.Shoot.WasPressedThisFrame())
 		{
 			_weaponInventory.CurrentWeapon.Fire();
