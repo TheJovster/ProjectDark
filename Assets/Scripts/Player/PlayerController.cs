@@ -190,7 +190,8 @@ public class PlayerController : MonoBehaviour
 			SetADS();
 			SetAim();
 			ToggleFlashLight(
-				_input.Player.FlashlightToggle.WasPressedThisFrame());
+				_input.Player.FlashlightToggle.WasPressedThisFrame()
+				);
 			FlashLightDrainAndRecharge();
 			TryToggleSemi();
 			if (_input.Player.Help.WasPressedThisFrame())
