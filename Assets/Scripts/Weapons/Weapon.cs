@@ -215,10 +215,10 @@ public class Weapon : MonoBehaviour
     
     public void Reload() //I guess I can just have this as an anim event;
     {
-        _muzzleFlash.Stop();
+        _muzzleFlash.Stop();//makes sure the muzzle flash isn't firing
         if (_ammoInventory.ReturnCurrentAmmoAmount(_weaponType) <= 0) return;
         int amountToReduce = _weaponInventory.CurrentWeapon.GetMaxAmmoInMag() -
-                             _weaponInventory.CurrentWeapon.GetCurrentAmmoInMag();
+                             _weaponInventory.CurrentWeapon.GetCurrentAmmoInMag(); //works most of the time need more edgecases
         _currentAmmoInMag = _maxAmmoInMag;
         _ammoInventory.ReduceAmmoAmount(_weaponInventory.CurrentWeapon.CurrentWeaponType, amountToReduce);
         HUDManager.Instance.UpdateAmmoCount(_weaponInventory.CurrentWeapon.GetCurrentAmmoInMag(),
