@@ -1,10 +1,7 @@
 using UnityEngine;
 using System.Collections;
-using TMPro;
-using Unity.VisualScripting;
-using UnityEngine.Serialization;
-using UnityEngine.UI.Extensions;
-
+using System.Collections.Generic;
+using System.Linq;
 
 public class Weapon : MonoBehaviour
 {
@@ -15,10 +12,9 @@ public class Weapon : MonoBehaviour
         Shotgun,
         AssaultRifle,
     }
-
+    
     [Header("Weapon Properties")] [SerializeField]
     private string _weaponName;
-
     [SerializeField] private WeaponType _weaponType;
     [SerializeField] private Transform _muzzlePoint;
     [SerializeField] private Animator _weaponAnimator;
@@ -75,6 +71,10 @@ public class Weapon : MonoBehaviour
     [SerializeField] private Transform _scope;
     [SerializeField] private Transform _aimReticleObject;
 
+    [Header("Extre")] 
+    [SerializeField] private Animator _handsAnimator;
+    private HashSet<string> _reloadHashSet = new HashSet<string>();
+
 
     #region Properties
 
@@ -119,6 +119,8 @@ public class Weapon : MonoBehaviour
         {
             _muzzleFlash = GetComponentInChildren<ParticleSystem>();
         }
+
+        _reloadHashSet.Add("Reload");
     }
 
     private void Start()
@@ -161,7 +163,7 @@ public class Weapon : MonoBehaviour
     
     public void Fire()
     {
-        if (_weaponName == "XM994") //this is a lot of ducttape - will fix this with a local animator.
+        if (_weaponName == "XM994" && _currentAmmoInMag > 0) //this is a lot of ducttape - will fix this with a local animator.
         {
             _barrels.Rotate(Vector3.forward * (720.0f * Time.deltaTime));
         }
@@ -204,13 +206,12 @@ public class Weapon : MonoBehaviour
     {
         _muzzleFlash.Stop();
         _isReloading = true;
-        _IKHandler._ikWeight = 0;
+        _handsAnimator.SetTrigger(_reloadHashSet.First());
     }
 
     public void EndReload()
     {
         _isReloading = false;
-        _IKHandler._ikWeight = 0;
     }
     
     public void Reload() //I guess I can just have this as an anim event;

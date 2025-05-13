@@ -168,10 +168,8 @@ public class WeaponInventory : MonoBehaviour
                 float normalizedProgress = (progress - halfwayPoint) / halfwayPoint;
                 _weaponContainer.localPosition = Vector3.Lerp(loweredPosition, raisedPosition, normalizedProgress);
             }
-            
             yield return null;
         }
-    
         // Ensure weapon is fully raised at the end
         _weaponContainer.localPosition = raisedPosition;
         _isWeaponSwitching = false;

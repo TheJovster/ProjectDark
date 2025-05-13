@@ -1454,6 +1454,10 @@ PrefabInstance:
       value: -0.1
       objectReference: {fileID: 0}
     - target: {fileID: 2055352537291397193, guid: 68d473487eb53ae44bee88162ad7dc0e, type: 3}
+      propertyPath: _handsAnimator
+      value: 
+      objectReference: {fileID: 7320085246036438682}
+    - target: {fileID: 2055352537291397193, guid: 68d473487eb53ae44bee88162ad7dc0e, type: 3}
       propertyPath: _recoilKickback
       value: 0.3
       objectReference: {fileID: 0}
@@ -1967,6 +1971,10 @@ PrefabInstance:
       propertyPath: _adsPosition.z
       value: -0.125
       objectReference: {fileID: 0}
+    - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
+      propertyPath: _handsAnimator
+      value: 
+      objectReference: {fileID: 7320085246036438682}
     - target: {fileID: 3478572493195021534, guid: 1d1dc81b9d8a5df44899d97af901a99b, type: 3}
       propertyPath: _hasSelectFire
       value: 1
@@ -2609,6 +2617,10 @@ PrefabInstance:
       propertyPath: _weaponDamage
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
+      propertyPath: _handsAnimator
+      value: 
+      objectReference: {fileID: 7320085246036438682}
     - target: {fileID: 8139672024244417169, guid: 8d281749364e70041a06b8800b9b28fb, type: 3}
       propertyPath: _recoilKickback
       value: 0.3
@@ -3560,6 +3572,10 @@ PrefabInstance:
       propertyPath: _adsPosition.z
       value: -0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 2055352537291397193, guid: d42b5913bdc96a84e832209d081c2e2e, type: 3}
+      propertyPath: _handsAnimator
+      value: 
+      objectReference: {fileID: 7320085246036438682}
     - target: {fileID: 2055352537291397193, guid: d42b5913bdc96a84e832209d081c2e2e, type: 3}
       propertyPath: _recoilKickback
       value: 0.3

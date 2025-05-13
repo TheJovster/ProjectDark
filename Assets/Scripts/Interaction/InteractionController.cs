@@ -37,7 +37,7 @@ public class InteractionController : MonoBehaviour
         RaycastHit hit;
         
         // Debug ray
-        Debug.DrawRay(ray.origin, ray.direction * _interactionDistance, Color.yellow);
+        // Debug.DrawRay(ray.origin, ray.direction * _interactionDistance, Color.yellow);
 
         if (Physics.Raycast(ray, out hit, _interactionDistance, _interactableLayers))
         {
